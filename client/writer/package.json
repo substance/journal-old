@@ -1,0 +1,21 @@
+{
+  "name": "substance-writer",
+  "description": "Substance Writer.",
+  "dependencies": {
+    "express": "^4.11.1",
+    "ejs": "*",
+    "lodash": "3.3.1",
+    "substance": "git+https://github.com/substance/substance#master"
+  },
+  "devDependencies": {},
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "readme": "# archivist-composer\n\nA composer for interviews, used by archivist project\n\n## Install\n\n1. Clone the `archivist-composer` repository\n\n  ```bash\n  $ git clone https://github.com/substance/archivist-composer.git\n  ```\n\n2. Fetch dependencies\n\n  ```bash\n  $ cd archivist-composer\n  $ substance --update\n  $ npm install\n  ```\n\n3. Run the server\n\n  ```bash\n  ~/projects/archivist-composer $ substance\n  Substance running on port 4001\n  http://127.0.0.1:4001/\n  ```\n",
+  "readmeFilename": "README.md",
+  "_id": "substance-writer@0.1.0",
+  "_shasum": "6da533d02da4ad790166056b8ca26a41b2be026a",
+  "_resolved": "git+https://github.com/substance/writer#41ed3a45f0fa8f9c695c5ede5ab54e291d78eaeb",
+  "_from": "substance-writer@git+https://github.com/substance/writer#master"
+}

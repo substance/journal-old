@@ -1,0 +1,17 @@
+{
+  "name": "substance-press",
+  "description": "A Substance for running your own journal",
+  "dependencies": {
+    "ejs": "*",
+    "express": "*",
+    "express-session": "^1.11.1",
+    "lodash": "3.3.1",
+    "passport": "*",
+    "passport-local": "^1.0.0",
+    "substance": "substance/substance#master",
+    "browserify": "*",
+    "browserify-middleware": "*"
+  },
+  "devDependencies": {},
+  "version": "1.0.0"
+}
