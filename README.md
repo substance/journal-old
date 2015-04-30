@@ -31,3 +31,29 @@ Run simple journals based on Substance. This for now is just a place for brainst
 - Decentralized search index / routing?
 
 For example: there are 20 different substance journals hosted by different people, they also run different versions. can there be a public index about 
+
+## Roadmap
+
+### 0.1.0
+
+- Basic editing (text, headings)
+- Remarks (make Notes during editing)
+- User management
+  - no public signup
+  - invite new people from the control panel (using email)
+  - everybody is an admin
+- SQLLite only (but with little abstraction so we can connect Postgres et. al in future versions)
+
+### 0.2.0
+
+- Support for Images
+- Reader comments (how do they authenticate? maybe it makes sense to user twitter/facebook auth here)
+
+### 0.3.0
+
+- Full Text Search on text fragment level using Elastic Search
+- Integration of [Lens Browser](https://medium.com/@_mql/self-host-a-scientific-journal-with-elife-lens-f420afb678aa) interface
+
+### 0.4.0 Advanced metadata
+
+- Definition of subjects
