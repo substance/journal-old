@@ -56,4 +56,5 @@ For example: there are 20 different substance journals hosted by different peopl
 
 ### 0.4.0
 
-- Definition of subjects
+- Subject tagging based on selections in the doc
+- Expose subjects in the browser interface
