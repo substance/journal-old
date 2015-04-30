@@ -54,7 +54,7 @@ For example: there are 20 different substance journals hosted by different peopl
 
 ### 0.3.0
 
-- Full Text Search on text fragment level using Elastic Search
+- Full Text Search on text fragment level using Elastic Search or Lunr.js (https://github.com/olivernn/lunr.js)
 - Integration of [Lens Browser](https://medium.com/@_mql/self-host-a-scientific-journal-with-elife-lens-f420afb678aa) interface
 
 ### 0.4.0
