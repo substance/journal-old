@@ -54,6 +54,6 @@ For example: there are 20 different substance journals hosted by different peopl
 - Full Text Search on text fragment level using Elastic Search
 - Integration of [Lens Browser](https://medium.com/@_mql/self-host-a-scientific-journal-with-elife-lens-f420afb678aa) interface
 
-### 0.4.0 Advanced metadata
+### 0.4.0
 
 - Definition of subjects
