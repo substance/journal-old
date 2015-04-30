@@ -1,17 +1,22 @@
 {
-  "name": "substance-press",
-  "description": "A Substance for running your own journal",
+  "name": "substance-journal",
+  "description": "Run your own journal, on open source software",
   "dependencies": {
+    "async": "0.9.x",
+    "bcrypt": "0.7.x",
+    "browserify": "*",
+    "browserify-middleware": "*",
     "ejs": "*",
     "express": "*",
     "express-session": "^1.11.1",
     "lodash": "3.3.1",
-    "passport": "*",
+    "passport": "0.2.1",
     "passport-local": "^1.0.0",
-    "substance": "substance/substance#master",
-    "browserify": "*",
-    "browserify-middleware": "*"
+    "pg": "4.3.0",
+    "sequelize": "^2.1.0",
+    "sqlite3": "^3.0.5",
+    "substance": "substance/substance#master"
   },
   "devDependencies": {},
-  "version": "1.0.0"
+  "version": "0.1.0"
 }

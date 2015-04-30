@@ -6,6 +6,7 @@ var fs = require('fs');
 var ejs = require('ejs');
 var path = require("path");
 
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -179,7 +180,6 @@ if (process.env.NODE_ENV !== "production") {
   //   res.send(cssFile);
   // });
 }
-
 
 
 // Expose the writer
