@@ -2,6 +2,33 @@
 
 Run simple journals based on Substance. This for now is just a place for brainstorming on how a full-fledged Substance document hub could look like.
 
+
+# Install
+
+Clone the repository.
+
+```bash
+$ git clone https://github.com/substance/journal.git
+```
+
+Navigate to the source directory.
+
+```bash
+$ cd journal
+```
+
+Seed the SQLite database.
+
+```bash
+$ npm run seed
+```
+
+Start your journal.
+
+```bash
+$ npm run start
+```
+
 # Features
 
 - Write and publish articles on an integrated web-platform

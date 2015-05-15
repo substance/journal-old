@@ -3,8 +3,8 @@
 var db = require("./db");
 var async = require("async");
 var _ = require("substance/helpers");
-
 var SCHEMA = require("../data/schema");
+
 
 // Step 1: Flush the DB
 // -------------------
@@ -38,13 +38,17 @@ var flushDB = function(cb) {
 var createSchema = function(cb) {
   console.log('(2) creating the schema... ');
   
-  var createTable = function(tableName, cb) {
-    console.log('create', tableName);
+  var createTable = function(modelName, cb) {
+    console.log('create', modelName);
+    var fields = SCHEMA[modelName]
+    var fieldSpecs = _.map(fields, function (type, field) {
+        return field + ' ' + type;
+    }).join(', ');
   };
-  
-  var tableNames = Object.keys(SCHEMA);
-  console.log('tableNames', tableNames);
-  async.each(tableNames, createTable, cb);
+
+  var modelNames = Object.keys(SCHEMA);
+  console.log('tableNames', modelNames);
+  async.each(modelNames, createTable, cb);
   cb(null);
 };
 
@@ -92,14 +96,11 @@ var createSchema = function(cb) {
 //   util.async.sequential(functions, cb);
 // };
 
-
 // Start the seeding process
-
 async.series([
   flushDB,
   createSchema
 ]);
-
 
 // var pg = require('pg');
 // var connectionString = config.postgres_conn;
