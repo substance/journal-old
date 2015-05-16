@@ -17,6 +17,12 @@ Navigate to the source directory.
 $ cd journal
 ```
 
+Install via npm
+
+```bash
+$ npm install
+```
+
 Seed the SQLite database.
 
 ```bash
