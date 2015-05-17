@@ -25,7 +25,7 @@ module.exports = function(knex) {
   // ------------
   // 
 
-  Document.create = function(data, cb) {
+  Document.create = function(data, username, cb) {
     var jsonStr = JSON.stringify(data, null, "  ");
     knex.table('documents').insert({data: jsonStr})
       .then(function() { cb(null) })
