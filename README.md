@@ -82,6 +82,7 @@ For example: there are 20 different substance journals hosted by different peopl
 ### 0.2.0
 
 - Support for Images
+- Control about publishing changes (See Issue #2)
 - Reader comments (how do they authenticate? maybe it makes sense to user twitter/facebook auth here)
 - Commenting requires additional user interface, and works best in a two-column mode, so we probably will show a collaborate button to switch from reading to collaborating mode.
 
