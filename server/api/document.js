@@ -34,8 +34,6 @@ module.exports = function(app) {
       Document.create(user.id, util.out(res, next));
     });
 
-
-
   // Update an existing document
   // -----------
   // 
