@@ -7,7 +7,3 @@ db.seed(function(err) {
   // Destroy db connection
   db.knex.destroy();
 });
-
-
-
-
