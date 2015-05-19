@@ -107,6 +107,11 @@ var writerContext = {
 var JournalWriter = React.createClass({
   displayName: "JournalWriter",
 
+  contextTypes: {
+    backend: React.PropTypes.object.isRequired //,
+    // notifications: React.PropTypes.object.isRequired
+  },
+
   childContextTypes: {
     componentFactory: React.PropTypes.object,
     htmlImporter: React.PropTypes.object,
@@ -118,6 +123,7 @@ var JournalWriter = React.createClass({
   },
 
   componentDidMount: function() {
+    var backend = this.context.backend;
     backend.getDocument(this.props.documentId || "example_document", function(err, doc) {
       this.setState({
         doc: doc

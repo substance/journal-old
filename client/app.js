@@ -28,10 +28,24 @@ var appContext = {
   notifications: notifications,
 };
 
-// Components
+
+// React Components
+// ---------------
+// 
+
 var Menu = require("./shared/menu");
 
+// Available contexts
 var Dashboard = require("./dashboard");
+var Admin = require("./admin");
+var Writer = require("./writer");
+
+var CONTEXTS = {
+  "dashboard": Dashboard,
+  "admin": Admin,
+  "writer": Writer
+};
+
 
 // Top Level Application
 // ---------------
@@ -65,31 +79,35 @@ var App = React.createClass({
 
   handleContextSwitch: function(context) {
     this.replaceState({
-      context: "dashboard"
-    })
+      context: context,
+      // HACK: this should only be set in the writer context
+      documentId: this.props.documentId
+    });
+  },
+
+  // Extract props from the app state to parametrize the active child view
+  extractProps: function() {
+    var props = JSON.parse(JSON.stringify(this.state));
+    delete props.context;
+    return props;
+  },
+
+  getContextElement: function() {
+    var ContextClass = CONTEXTS[this.state.context];
+    var props = this.extractProps();
+    return $$(ContextClass, props);
   },
 
   render: function() {
-    var appContextEl = $$('div', {className: "my-context"});
+    var appContextEl;
 
-    return $$('div', {className: ""},
+    return $$('div', {className: "app-component"},
       $$(Menu, {
+        context: this.state.context,
         handleContextSwitch: this.handleContextSwitch
       }),
-      appContextEl
+      this.getContextElement()
     );
-
-    // if (this.state.doc) {
-    //   return $$(Writer, {
-    //     config: {
-    //       extensions: writerExtensions
-    //     },
-    //     doc: this.state.doc,
-    //     id: "writer"
-    //   });
-    // } else {
-    //   return $$('div', null, 'Loading document...');
-    // }
   }
 });
 

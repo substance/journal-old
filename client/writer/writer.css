@@ -71,7 +71,6 @@
   color: #fff;
 }
 
-
 /* Writer Component
 -----------------------------------------------------*/
 
@@ -82,7 +81,7 @@
   overflow: hidden;
   /*bottom: 25px;*/
   bottom: 25px;
-  top: 0px;
+  top: 30px;
 }
 
 .main-container {
@@ -140,7 +139,6 @@
 .writer-component .context-toggles .dialog.tagentity {
   background: rgba(11, 157, 217, 1);
 }
-
 
 .writer-component .context-toggles .dialog .close-dialog {
   padding: 5px 10px;

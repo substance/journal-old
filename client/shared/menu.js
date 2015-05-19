@@ -1,4 +1,11 @@
 var $$ = React.createElement;
+var _ = require("substance/helpers");
+
+var menuItems = [
+  {"name": "dashboard", "label": "Dashboard"},
+  {"name": "admin", "label": "Admin"},
+  {"name": "writer", "label": "Example Document"}
+];
 
 // The Menu
 // ----------------
@@ -10,6 +17,11 @@ var Menu = React.createClass({
 
   displayName: "Menu",
 
+  handleMenuSelection: function(e) {
+    var context = e.currentTarget.dataset.id;
+    this.props.handleContextSwitch(context);
+  },
+
   getInitialState: function() {
     return {
       
@@ -18,10 +30,16 @@ var Menu = React.createClass({
 
   render: function() {
     return $$("div", {className: "menu-component"},
+
       $$('div', {className: "app-contexts"},
-        $$('a', {className: "app-context", "data-id": "dashboard", href: "#"}, "Dashboard"),
-        $$('a', {className: "app-context", "data-id": "admin", href: "#"}, "Admin"),
-        $$('a', {className: "app-context", "data-id": "writer", href: "#"}, "Example Doc")
+        _.map(menuItems, function(menuItem) {
+          return $$('a', {
+            className: "app-context"+(this.props.context === menuItem.name ? " active" : ""),
+            "data-id": menuItem.name,
+            href: "#",
+            onClick: this.handleMenuSelection
+          }, menuItem.label);
+        }, this)
       )
     );
   }

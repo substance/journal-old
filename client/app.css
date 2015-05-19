@@ -92,17 +92,28 @@ a:hover {
 }
 
 
-
-
 /* Menu
 ---------------------------------
 */
 
 .menu-component {
   background: #333;
-  height: 40px;
+  height: 30px;
 }
 
-.menu-component .app-contexts {
+.menu-component .app-contexts .app-context {
+  display: block;
+  float: left;
+  line-height: 30px;
+  padding: 0px 10px;
+  color: #aaa;
+}
 
+.menu-component .app-contexts .app-context.active:hover {
+  color: #fff;
+}
+
+.menu-component .app-contexts .app-context.active {
+  color: #fff;
+  background: #000;
 }

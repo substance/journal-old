@@ -22,7 +22,6 @@ var browserify = require("browserify-middleware");
 app.set('view engine', 'ejs');
 app.set('db', db);
 
-
 app.use(express.static(path.join(__dirname, "public")));
 
 // app.use(session({
@@ -33,7 +32,6 @@ app.use(express.static(path.join(__dirname, "public")));
 //   },
 //   secret: 'keyboard cat'
 // }));
-
 
 // Serve app in dev mode
 // --------
