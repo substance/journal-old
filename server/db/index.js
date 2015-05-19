@@ -39,7 +39,7 @@ var seed = function(cb) {
 
     async.series([
       function(cb) {
-        models.Document.create(EXAMPLE_DOC, cb);        
+        models.Document.create(EXAMPLE_DOC, null ,cb);        
       },
       function(cb) {
         models.Document.findAll(function(err, docs) {
