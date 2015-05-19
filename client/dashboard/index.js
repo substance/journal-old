@@ -18,7 +18,7 @@ var Dashboard = React.createClass({
 
   render: function() {
     return $$("div", {className: "dashboard-component"},
-      "I AM THE DASHBOARD!"
+      "I AM THE DASHBOARD! LIST OF ALL DOCS COMES HERE."
     );
   }
 });
