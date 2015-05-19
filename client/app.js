@@ -57,10 +57,13 @@ var App = React.createClass({
   childContextTypes: {
     backend: React.PropTypes.object,
     notifications: React.PropTypes.object,
+    app: React.PropTypes.object
   },
 
   getChildContext: function() {
-    return appContext;
+    return _.extend({
+      app: this
+    }, appContext);
   },
 
   // componentDidMount: function() {

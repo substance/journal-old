@@ -91,7 +91,6 @@ a:hover {
 #container {
 }
 
-
 /* Menu
 ---------------------------------
 */
@@ -116,4 +115,47 @@ a:hover {
 .menu-component .app-contexts .app-context.active {
   color: #fff;
   background: #000;
+}
+
+/* user-status-component */
+
+.user-status-component {
+  float: right;
+}
+
+.user-status-component .user-info {
+  line-height: 30px;
+  color: #999;
+  padding-right: 40px;
+  float: left;
+}
+
+.user-status-component .user-actions {
+  line-height: 30px;
+  float: left;
+}
+
+.user-status-component .user-action {
+  font-size: 12px;
+  font-weight: 600;
+  color: #aaa;
+  display: block;
+  padding: 0 10px;
+  float: left;
+}
+
+.user-status-component .user-action:hover {
+  color: #fff;
+}
+
+/* .login-box-component */
+
+.login-box-component {
+  float: right;
+  padding: 5px;
+}
+
+.login-box-component input[type=text],
+.login-box-component input[type=password] {
+  margin-right: 5px;
 }

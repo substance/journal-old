@@ -12,7 +12,7 @@ var port = process.env.PORT || 5000;
 
 var db = require("./server/db");
 var Document = db.models.Document;
-
+var glob = require('glob');
 var browserify = require("browserify-middleware");
 
 // app.use(express.cookieParser());
@@ -35,8 +35,28 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Serve app in dev mode
 // --------
+// 
+// Use this
+// app.get('/tests.js', function (req, res, next) {
+//   glob("test/**/*.test.js", {}, function (er, testfiles) {
+//     if (er || !testfiles || testfiles.length === 0) {
+//       console.error('No tests found.');
+//       res.send('500');
+//     } else {
+//       console.log('Found test files:', testfiles);
+//       browserify({ debug: true })
+//         .add(testfiles.map(function(file) {
+//           return path.join(__dirname, '..', file);
+//         }))
+//         .bundle()
+//         .pipe(res)
+//         .on('error', next);
+//     }
+//   });
+// });
 
 if (process.env.NODE_ENV !== "production") {
+
   app.get('/app.js', browserify('./client/app.js', {cache: false}));
 
   app.get('/app.css', function(req, res) {
