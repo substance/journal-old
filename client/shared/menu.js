@@ -95,7 +95,6 @@ var Menu = React.createClass({
   },
 
   render: function() {
-    console.log('render Menu');
     return $$("div", {className: "menu-component"},
 
       $$('div', {className: "app-contexts"},

@@ -159,3 +159,44 @@ a:hover {
 .login-box-component input[type=password] {
   margin-right: 5px;
 }
+
+
+/* Dashboard
+---------------------------------
+*/
+
+
+.dashboard-component {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 20px;
+  overflow: auto;
+}
+
+.dashboard-component .header {
+  padding-bottom: 30px;
+}
+
+.dashboard-component .documents .document {
+  padding-bottom: 30px;
+}
+
+.dashboard-component .documents .document .title {
+  padding: 10px 0;
+  font-size: 18px;
+}
+
+.dashboard-component .documents .document .title a {
+  font-weight: 600;
+}
+
+.dashboard-component .documents .document .abstract {
+  font-style: italic;
+  color: rgba(0,0,0,0.6);
+  padding-bottom: 10px;
+  line-height: 20px;
+  font-size: 14px;
+}
