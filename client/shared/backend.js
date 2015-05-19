@@ -1,6 +1,6 @@
 var Substance = require("substance");
-var Article = require('./article');
-var EXAMPLE_DOC = require("../data/sample_doc");
+var Article = require('../article');
+var EXAMPLE_DOC = require("../../data/sample_doc");
 var _ = require("substance/helpers");
 
 var Backend = function(opts) {

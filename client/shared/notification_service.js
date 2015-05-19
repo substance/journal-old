@@ -2,7 +2,6 @@
 
 var Substance = require("substance");
 
-
 // Notification service
 // ----------------
 //

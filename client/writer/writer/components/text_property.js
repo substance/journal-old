@@ -19,7 +19,7 @@ var TextPropertyComponent = React.createClass(Substance.extend({}, TextProperty.
     return { highlights: [] };
   },
 
-  // Only necessary when
+  // Really?
   shouldComponentUpdate: function() {
     this.renderManually();
     this.updateHighlights();

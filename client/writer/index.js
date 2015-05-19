@@ -1,30 +1,30 @@
 'use strict';
 
-// Writer Application
+// Journal Writer
 // ---------------
 // 
-// Main entry point of the writer application. In this file all configurations
-// are made.
+// Configures a simple writer for the substance journal, using the generic SubstanceWriter implementation
 
 var Substance = require("substance");
 var _ = require("substance/helpers");
 var $$ = React.createElement;
 
-// Core Writer Stuff lives in the writer module
+// Core Writer Stuff lives in the writer folder
 // ---------------
 // 
 
-var Writer = require("./writer");
+var SubstanceWriter = require("./writer");
 
 // Article
 // ---------------
 // 
 // This can be replaced with your custom article implementation
 
-var Article = require("./article");
+var Article = require("../article");
 
-// Writer Modules (configuration)
-var writerExtensions = require("./writer_extensions");
+// Writer Extensions (plugins)
+var writerExtensions = require("./extensions");
+
 
 // Component Factory
 // ---------------
@@ -46,24 +46,24 @@ _.each(writerExtensions, function(extension) {
   });
 });
 
-// Specify a backend
-// ---------------
-// 
+// // Specify a backend
+// // ---------------
+// // 
 
-var Backend = require("./backend");
+// var Backend = require("./backend");
 
-// window.devMode = true;
+// // window.devMode = true;
 
-// Create instance of metadata service
-var backend = new Backend();
+// // Create instance of metadata service
+// var backend = new Backend();
 
-// Specify a Notification service
-// ---------------
-// 
-// This is used for user notifications, displayed in the status bar
+// // Specify a Notification service
+// // ---------------
+// // 
+// // This is used for user notifications, displayed in the status bar
 
-var NotificationService = require("./notification_service");
-var notifications = new NotificationService();
+// var NotificationService = require("./notification_service");
+// var notifications = new NotificationService();
 
 
 // HTML Importer Configuration
@@ -93,10 +93,8 @@ var htmlExporter = new Substance.Document.HtmlExporter({
   // configuration
 });
 
-var globalContext = {
+var writerContext = {
   componentFactory: componentFactory,
-  backend: backend,
-  notifications: notifications,
   htmlImporter: htmlImporter,
   htmlExporter: htmlExporter
 };
@@ -106,19 +104,17 @@ var globalContext = {
 // 
 // Adjust for your own needs
 
-var WriterApp = React.createClass({
-  displayName: "WriterApp",
+var JournalWriter = React.createClass({
+  displayName: "JournalWriter",
 
   childContextTypes: {
     componentFactory: React.PropTypes.object,
-    backend: React.PropTypes.object,
-    notifications: React.PropTypes.object,
     htmlImporter: React.PropTypes.object,
     htmlExporter: React.PropTypes.object
   },
 
   getChildContext: function() {
-    return globalContext;
+    return writerContext;
   },
 
   componentDidMount: function() {
@@ -137,7 +133,7 @@ var WriterApp = React.createClass({
 
   render: function() {
     if (this.state.doc) {
-      return $$(Writer, {
+      return $$(SubstanceWriter, {
         config: {
           extensions: writerExtensions
         },
@@ -150,15 +146,5 @@ var WriterApp = React.createClass({
   }
 });
 
-var app = {
-  start: function() {
-    React.render(
-      $$(WriterApp, {
-        documentId: window.location.hash.slice(1)
-      }),
-      document.getElementById('container')
-    );
-  }
-};
 
-module.exports = app;
+module.exports = JournalWriter;
