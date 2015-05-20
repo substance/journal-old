@@ -9,6 +9,7 @@
     "config": "1.13.x",
     "ejs": "*",
     "express": "*",
+    "express-jwt": "^3.0.1",
     "express-session": "^1.11.1",
     "knex": "^0.8.5",
     "lodash": "3.3.1",
