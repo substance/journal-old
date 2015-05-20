@@ -13,6 +13,7 @@ var port = process.env.PORT || 5000;
 
 var db = require("./server/db");
 var Document = db.models.Document;
+var api = require("./server/api/user");
 
 var browserify = require("browserify-middleware");
 
@@ -25,11 +26,13 @@ app.set('db', db);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/api', jwt({ 
-  secret: 'journal-secret'
-}).unless({
-  path: ['/api/login']
-}))
+app.use('/api', api);
+
+// app.use('/api', jwt({ 
+//   secret: 'journal-secret'
+// }).unless({
+//   path: ['/api/login']
+// }))
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
@@ -79,7 +82,7 @@ app.route('/')
   });
 
 
-http.createServer(app).listen(port, function(){
+app.listen(port, function(){
   console.log("Lens running on port " + port);
   console.log("http://127.0.0.1:"+port+"/");
 });

@@ -1,46 +1,62 @@
-var util = require("./util");
+var util = require("./util"),
+    express = require('express'),
+    userAPI = express.Router(),
+    db = require("../db/index"),
+    User = db.models.User;
 
 // User API
 // ===================
 //
-// REST API for creating, updating and deleting documents
+// REST API for creating, updating and deleting users
 
-module.exports = function(app) {
-  var db = app.db;
-
-  var User = db.models.User;
-
-  // Create a new authorization (aka login)
-  // -----------
-  // 
-  // Takes email and password and returns a token if login was successful
-  // That token must be sent to the API along with each future request
-  // 
-  // 
-  // POST /documents
-  // 
-  // Input:
-  // 
-  // {
-  //   "email": "x@y.com",
-  //   "password": "abcd"
-  // }
-  // 
-  // Response:
-  // 
-  // Status: 200 OK
-  // 
-  // {
-  //   "token": "mysessiontoken"
-  // }
-
-  app.post('/login',
-    function(req, res, next) {
-      var email = req.body.email;
-      var password = req.body.password;
-      User.authenticate(email, password, util.out(res, next));
-    });
+var authentication = function(req, res, next) {
+  var email = 'req.body.email';
+  var password = 'req.body.password';
+  User.authenticate(email, password, util.out(res, next));
 };
+
+userAPI.route('/login')
+  .get(authentication)
+
+module.exports = userAPI;
+
+
+// module.exports = function(app) {
+//   var db = app.db;
+
+//   var User = db.models.User;
+
+//   // Create a new authorization (aka login)
+//   // -----------
+//   // 
+//   // Takes email and password and returns a token if login was successful
+//   // That token must be sent to the API along with each future request
+//   // 
+//   // 
+//   // POST /documents
+//   // 
+//   // Input:
+//   // 
+//   // {
+//   //   "email": "x@y.com",
+//   //   "password": "abcd"
+//   // }
+//   // 
+//   // Response:
+//   // 
+//   // Status: 200 OK
+//   // 
+//   // {
+//   //   "token": "mysessiontoken"
+//   // }
+
+//   app.post('/api/login',
+//     function(req, res, next) {
+//       var email = req.body.email;
+//       var password = req.body.password;
+//       User.authenticate(email, password, util.out(res, next));
+//     });
+// };
 
 
 

@@ -20,7 +20,8 @@ var knex = require('knex')(config.database);
 // --------------
 
 var models = {
-  Document: require("./document")(knex)
+  Document: require("./document")(knex),
+  User: require("./user")(knex)
 };
 
 // Seed script
