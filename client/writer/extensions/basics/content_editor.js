@@ -35,7 +35,7 @@ var ContentEditor = React.createClass({
   getInitialState: function() {
     var editor = new Surface.ContainerEditor(this.props.doc.get('content'));
     // HACK: this is also Archivist specific
-    editor.defaultTextType = 'text';
+    editor.defaultTextType = 'paragraph';
     var options = {
       logger: this.context.notifications
       // scrollable: 

@@ -46,9 +46,11 @@ _.each(writerExtensions, function(extension) {
   });
 });
 
-// // Specify a backend
-// // ---------------
-// // 
+console.log('componentFactory', componentFactory);
+
+// Specify a backend
+// ---------------
+// 
 
 // var Backend = require("./backend");
 

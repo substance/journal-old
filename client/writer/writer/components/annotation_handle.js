@@ -16,7 +16,6 @@ var AnnotationHandle = View.extend({
     this.element = $element[0];
     return this.element;
   }
-
 });
 
 module.exports = AnnotationHandle;

@@ -1,5 +1,6 @@
-var TextComponent = require("./text_component");
+var ParagraphComponent = require("./paragraph_component");
 
 module.exports = {
-  "text": TextComponent
+  "paragraph": ParagraphComponent,
+  "heading": ParagraphComponent
 };

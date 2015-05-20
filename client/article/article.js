@@ -7,7 +7,8 @@ var Document = Substance.Document;
 // --------------
 
 var DocumentNode = require("./nodes/document_node");
-var TextNode = require("./nodes/text_node");
+var Paragraph = require("./nodes/paragraph");
+var Heading = require("./nodes/heading");
 var Emphasis = require("./nodes/emphasis");
 var Strong = require("./nodes/strong");
 var Remark = require("./nodes/remark");
@@ -15,7 +16,8 @@ var Remark = require("./nodes/remark");
 var schema = new Document.Schema("substance-article", "1.0.0");
 schema.addNodes([
   DocumentNode,
-  TextNode,
+  Paragraph,
+  Heading,
   Emphasis,
   Strong,
   Remark

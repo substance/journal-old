@@ -2,7 +2,6 @@
 
 var Writer = require("./writer");
 
-var TextComponent = require("./components/text_component");
 var SaveTool = require("./tools/save_tool");
 var UndoTool = require("./tools/undo_tool");
 var RedoTool = require("./tools/redo_tool");

@@ -2,13 +2,13 @@ var $$ = React.createElement;
 var TextProperty = require('./text_property')
 var _ = require('substance/helpers');
 
-// TextComponent
+// ParagraphComponent
 // ----------------
 //
 
-var TextComponent = React.createClass({
+var ParagraphComponent = React.createClass({
 
-  displayName: "TextComponent",
+  displayName: "ParagraphComponent",
 
   // array von containerannotations
   shouldComponentUpdate: function(nextProps, nextState) {
@@ -49,4 +49,4 @@ var TextComponent = React.createClass({
   }
 });
 
-module.exports = TextComponent;
+module.exports = ParagraphComponent;

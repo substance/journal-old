@@ -66,17 +66,9 @@ var App = React.createClass({
     }, appContext);
   },
 
-  // componentDidMount: function() {
-  //   backend.getDocument(this.props.documentId || "example_document", function(err, doc) {
-  //     this.setState({
-  //       doc: doc
-  //     });
-  //   }.bind(this));
-  // },
-
   getInitialState: function() {
     return {
-      context: "dashboard"
+      context: "writer"
     };
   },
 
