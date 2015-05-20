@@ -333,11 +333,23 @@
   background: #666;
 }
 
+
+/* Text Tool has individual styles */
+
+.content-tools-component .tools .text-tool-component {
+  float: left;
+  height: 30px;
+  margin: 5px;
+  font-size: 12px;
+  line-height: 30px;
+}
+
+
 /* Generic Panel styles
 -----------------------------------------------------*/
 
 .content-panel-component .container-node.content {
-  /*position: relative;*/
+
 }
 
 .content-panel-component .panel-content-inner {
@@ -354,13 +366,17 @@
 
 .content-panel-component .container-node.content .nodes {
   padding: 40px;
-
   padding-right: 60px;
-  /*position: relative;*/
+  position: relative;
 }
 
-.content-panel-component .container-node.content .nodes > .content-node.text {
+.content-panel-component .container-node.content .nodes > .content-node.paragraph {
   padding-bottom: 20px;
+}
+
+.content-panel-component .container-node.content .nodes > .content-node.heading {
+  padding-bottom: 20px;
+  font-weight: 600;
 }
 
 
@@ -390,7 +406,6 @@
 .content-panel-component .panel-content::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0);
 }
-
 
 
 /* Scrollbar component

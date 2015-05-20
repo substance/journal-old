@@ -25,7 +25,6 @@ var Article = require("../article");
 // Writer Extensions (plugins)
 var writerExtensions = require("./extensions");
 
-
 // Component Factory
 // ---------------
 // 
@@ -45,27 +44,6 @@ _.each(writerExtensions, function(extension) {
     componentFactory.add(name, ComponentClass);
   });
 });
-
-console.log('componentFactory', componentFactory);
-
-// Specify a backend
-// ---------------
-// 
-
-// var Backend = require("./backend");
-
-// // window.devMode = true;
-
-// // Create instance of metadata service
-// var backend = new Backend();
-
-// // Specify a Notification service
-// // ---------------
-// // 
-// // This is used for user notifications, displayed in the status bar
-
-// var NotificationService = require("./notification_service");
-// var notifications = new NotificationService();
 
 
 // HTML Importer Configuration

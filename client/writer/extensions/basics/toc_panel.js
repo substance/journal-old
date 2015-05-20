@@ -4,7 +4,7 @@ var Surface = Substance.Surface;
 var _ = require("substance/helpers");
 var PanelMixin = require("../../writer").PanelMixin;
 
-// Subjects Panel extension
+// TOC Panel extension
 // ----------------
 
 var TOCPanelMixin = _.extend({}, PanelMixin, {
@@ -58,16 +58,7 @@ var TOCPanelMixin = _.extend({}, PanelMixin, {
     var state = this.state;
     var props = this.props;
     var self = this;
-
-    // var headingNodes = this.props.remarks.map(function(remark) {
-    //   return $$(Remark, {
-    //     remark: remark,
-    //     key: remark.id,
-    //     active: remark === props.activeRemark,
-    //   });
-    // });
   
-    console.log('YAY');
     return $$("div", {className: "panel toc-panel-component"}, "TABLE OF CONTENT COMES HERE");
   }
 });

@@ -179,9 +179,9 @@ var WriterMixin = _.extend({}, WriterController.prototype, Substance.EventEmitte
     // Undo/Redo: cmd+z, cmd+shift+z
     if (e.keyCode === 90 && (e.metaKey||e.ctrlKey)) {
       if (e.shiftKey) {
-        this.writerCtrl.redo();
+        this.redo();
       } else {
-        this.writerCtrl.undo();
+        this.undo();
       }
       handled = true;
     }
