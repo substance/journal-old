@@ -41,9 +41,6 @@ var seed = function(cb) {
         models.Document.create(EXAMPLE_DOC, null ,cb);        
       },
       function(cb) {
-        models.User.create({name: 'Daniel'}, null, cb);        
-      },
-      function(cb) {
         models.Document.findAll(function(err, docs) {
           console.log('alldocs', docs);
           cb(null);

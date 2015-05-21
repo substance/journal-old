@@ -10,13 +10,43 @@ var util = require("./util"),
 // REST API for creating, updating and deleting users
 
 var authentication = function(req, res, next) {
-  var email = 'req.body.email';
-  var password = 'req.body.password';
-  User.authenticate(email, password, util.out(res, next));
+  var email = req.body.email;
+  var password = req.body.password;
+  var secret = req.app.get('tokenSecret');
+  
+  User.authenticate(email, password, secret, util.out(res, next));
 };
 
+var listUsers = function(req, res, next) {
+	User.findAll(function (err, users) {
+		if (err) next(err);
+		else res.json(_.map(users, sanitizeUser));
+	});
+}
+
+function sanitizeUser (user) {
+  return _.omit(user, 'hash', 'data');
+}
+
 userAPI.route('/login')
-  .get(authentication)
+  .post(authentication)
+
+userAPI.route('/users')
+  .get(listUsers)
+
+// Register user
+// -----------
+
+var registerUser = function(req, res, next) {
+	var email = req.body.email;
+	var password = req.body.password;
+	var data = req.body.data;
+
+	User.create(email, password, data, util.out(res, next));
+}
+
+userAPI.route('/register')
+  .post(registerUser)
 
 module.exports = userAPI;
 

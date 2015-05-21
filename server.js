@@ -6,7 +6,9 @@ var fs = require('fs');
 var ejs = require('ejs');
 var path = require("path");
 var session = require('express-session');
+var bodyParser = require('body-parser');
 var jwt = require('express-jwt');
+var config = require('config');
 
 var app = express();
 var port = process.env.PORT || 5000;
@@ -17,37 +19,40 @@ var api = require("./server/api/user");
 
 var browserify = require("browserify-middleware");
 
-// app.use(express.cookieParser());
-// app.use(express.bodyParser());
-// app.use(express.methodOverride());
-
 app.set('view engine', 'ejs');
 app.set('db', db);
 
+// setting up secret variable for tokens
+app.set('tokenSecret', config.secret);
+
+// use body parser so we can get info from POST and/or URL parameters
+app.use(bodyParser.json({limit: '3mb'}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// use static server
 app.use(express.static(path.join(__dirname, "public")));
 
+// check token validity
+app.use('/api', jwt({ 
+  secret: app.get('tokenSecret')
+}).unless({
+  path: ['/api/login', '/api/register']
+}))
+
+// set apis route
 app.use('/api', api);
 
-// app.use('/api', jwt({ 
-//   secret: 'journal-secret'
-// }).unless({
-//   path: ['/api/login']
-// }))
-
+// error handler
 app.use(function (err, req, res, next) {
+
+  // send 401 error if token is invalid
+
   if (err.name === 'UnauthorizedError') {
-    res.status(401).send('invalid token...');
+    res.status(401).json({
+      message: 'Invalid token.'
+    });
   }
 });
-
-// app.use(session({
-//   resave: false,
-//   saveUninitialized: true,
-//   genid: function(req) {
-//     return Substance.uuid() // use UUIDs for session IDs
-//   },
-//   secret: 'keyboard cat'
-// }));
 
 // Serve app in dev mode
 // --------
