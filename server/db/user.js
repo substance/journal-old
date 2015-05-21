@@ -20,9 +20,7 @@ User.createSchema = function(cb) {
       t.string('email').primary();
       t.string('password');
       t.string('token');
-      t.date('created_at');
-      t.date('updated_at');
-      t.boolean('published');
+      t.timestamps();
       t.json('data');
       t.primary(['email', 'column2']);
     })
@@ -68,6 +66,8 @@ User.comparePasswords = function(candidatePassword, password, cb) {
 
 // Create a new user
 // ------------
+//
+//
 
 User.create = function(email, password, data, cb) {
   var jsonData = JSON.stringify(data, null, "  ");
@@ -102,7 +102,9 @@ User.create = function(email, password, data, cb) {
 
 User.findAll = function(cb) {
   knex.select().table('users')
-    .then(function(result) { cb(null, result)})
+    .then(function(result) { 
+      cb(null, result);
+    })
     .catch(cb);
 };
 
@@ -143,8 +145,15 @@ User.authenticate = function(email, password, secret, cb) {
               message: 'Authentication failed. Password is wrong.'
             })
           } else {
-            var token = jwt.sign(user, secret, {
-              expiresInMinutes: 1440 // expires in 24 hours
+            var profile = {
+              email: user[0].email,
+              created_at: user[0].created_at,
+              updated_at: user[0].updated_at,
+              data: user[0].data
+            };
+            var token = jwt.sign(profile, secret, {
+              issuer: user[0].email,
+              expiresInMinutes: 60*24 // expires in 24 hours
             });
             cb(null, {
               success: true,
@@ -157,40 +166,3 @@ User.authenticate = function(email, password, secret, cb) {
     })
     .catch(cb);
 };
-
-  //return User;
-//};
-
-// User.findOne({
-//     name: req.body.name
-//   }, function(err, user) {
-
-//     if (err) throw err;
-
-//     if (!user) {
-//       res.json({ success: false, message: 'Authentication failed. User not found.' });
-//     } else if (user) {
-
-//       // check if password matches
-//       if (user.password != req.body.password) {
-//         res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-//       } else {
-
-//         // if user is found and password is right
-//         // create a token
-//         var token = jwt.sign(user, app.get('superSecret'), {
-//           expiresInMinutes: 1440 // expires in 24 hours
-//         });
-
-//         // return the information including token as JSON
-//         res.json({
-//           success: true,
-//           message: 'Enjoy your token!',
-//           token: token
-//         });
-//       }   
-
-//     }
-
-//   });
-// });
