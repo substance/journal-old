@@ -49,29 +49,33 @@ var TextTool = React.createClass({
 
   handleMouseDown: function(e) {
     e.preventDefault();
+
+    var textType = TEXT_TYPES[e.currentTarget.dataset.type];
     if (!this.state.active) {
+      console.log('NAAAAAY');
       return;
     }
 
-    // var doc = this.getDocument();
-    console.log('change text foo');
-    // doc.redo();
+    var surface = this.state.surface;
+    var editor = surface.getEditor();
+    editor.switchType(this.state.sel, textType.data);
   },
 
   getInitialState: function() {
     return {
-      active: true,
+      active: false,
       expanded: false
     };
   },
 
   disableTool: function() {
-    this.replaceState({
+    this.setState({
       active: false
     });
   },
 
-  toggleAvailableTextTypes: function() {
+  toggleAvailableTextTypes: function(e) {
+    e.preventDefault();
     this.setState({
       expanded: !this.state.expanded
     });
@@ -85,17 +89,22 @@ var TextTool = React.createClass({
     return textType;
   },
 
-  updateToolState: function(sel) {
+  updateToolState: function(sel, surface) {
     if (sel.isPropertySelection()) {
       var doc = this.getDocument();
       var path = sel.getPath();
 
       var textType = this.getTextType(doc.get(path[0]));
       this.setState({
-        currentTextType: textType
+        surface: surface,
+        sel: sel,
+        currentTextType: textType,
+        active: true
       });
     } else {
       this.setState({
+        surface: surface,
+        sel: sel,
         active: false
       });
     }
@@ -114,17 +123,24 @@ var TextTool = React.createClass({
       href: "#",
       className: "current-text-type",
       dangerouslySetInnerHTML: {__html: currentTextType + ' <i class="fa fa-sort-down"></i>'},
-      onClick: this.toggleAvailableTextTypes
+      onMouseDown: this.toggleAvailableTextTypes,
+      onClick: this.handleClick
     });
 
     var availableTextTypes = $$('div');
     if (this.state.expanded) {
        availableTextTypes = _.map(TEXT_TYPES, function(textType, textTypeId) {
-        return $$('a', {href: "#", className: 'text-type', "data-type": textTypeId}, textType.label);
-      });
+        return $$('a', {
+          href: "#",
+          className: 'text-type',
+          "data-type": textTypeId,
+          onMouseDown: this.handleMouseDown,
+          onClick: this.handleClick
+        }, textType.label);
+      }.bind(this));
     }
 
-    return $$("div", { className: classNames.join(' '), href: "#", onMouseDown: this.handleMouseDown, onClick: this.handleClick },
+    return $$("div", { className: classNames.join(' ')},
       currentTextTypeEl,
       $$('div', {className: "available-text-types"},
         availableTextTypes

@@ -25,6 +25,7 @@ Heading.static.fromHtml = function(el, converter) {
     content: ''
   };
   heading.content = converter.annotatedText(el, [heading.id, 'content']);
+
   heading.level = 1;
   return heading;
 };

@@ -90,7 +90,7 @@ WriterController.Prototype = function() {
     // var modules = this.getModules();
     this.extensionManager.handleSelectionChange(sel);
     // Notify all registered tools about the selection change (if enabled)
-    this.toolManager.updateTools(sel);
+    this.toolManager.updateTools(sel, this.getSurface());
   };
 
   this._requestAutoSave = function() {
