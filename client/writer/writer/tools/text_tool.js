@@ -1,4 +1,18 @@
 var $$ = React.createElement;
+var _ = require("substance/helpers");
+
+// var LABELS = {
+//   "paragraph": "Paragraph",
+//   "heading": "Heading"
+// };
+
+
+var TEXT_TYPES = {
+  "paragraph": {label: "Paragraph", data: {type: "paragraph"}},
+  "heading1": {label: "Heading 1", data: {type: "heading", level: 1}},
+  "heading2": {label: "Heading 2", data: {type: "heading", level: 2}},
+  "heading3": {label: "Heading 3", data: {type: "heading", level: 3}}
+};
 
 // Text Tool
 // ----------------
@@ -17,10 +31,16 @@ var TextTool = React.createClass({
   },
 
   componentDidMount: function() {
-    var doc = this.getDocument();
+    // var doc = this.getDocument();
     // doc.connect(this, {
     //   'document:changed': this.handleDocumentChange
     // });
+  },
+
+  componentWillMount: function() {
+    var app = this.context.app;
+    var toolManager = app.toolManager;
+    toolManager.registerTool(this, "text");
   },
 
   handleClick: function(e) {
@@ -32,28 +52,84 @@ var TextTool = React.createClass({
     if (!this.state.active) {
       return;
     }
-    var doc = this.getDocument();
-    doc.redo();
+
+    // var doc = this.getDocument();
+    console.log('change text foo');
+    // doc.redo();
   },
 
   getInitialState: function() {
     return {
-      active: false
+      active: true,
+      expanded: false
     };
+  },
+
+  disableTool: function() {
+    this.replaceState({
+      active: false
+    });
+  },
+
+  toggleAvailableTextTypes: function() {
+    this.setState({
+      expanded: !this.state.expanded
+    });
+  },
+
+  getTextType: function(node) {
+    var textType = node.type;
+    if (textType === "heading") {
+      textType += node.level;
+    }
+    return textType;
+  },
+
+  updateToolState: function(sel) {
+    if (sel.isPropertySelection()) {
+      var doc = this.getDocument();
+      var path = sel.getPath();
+
+      var textType = this.getTextType(doc.get(path[0]));
+      this.setState({
+        currentTextType: textType
+      });
+    } else {
+      this.setState({
+        active: false
+      });
+    }
   },
 
   render: function() {
     var classNames = ['text-tool-component', 'tool'];
     if (this.state.active) classNames.push('active');
 
-    return $$("div", {
-      className: classNames.join(' '),
+    var currentTextType = "None";
+    if (this.state.currentTextType) {
+      currentTextType = TEXT_TYPES[this.state.currentTextType].label;
+    }
+    
+    var currentTextTypeEl = $$('a', {
       href: "#",
-      title: 'Redo',
-      onMouseDown: this.handleMouseDown,
-      onClick: this.handleClick,
-      dangerouslySetInnerHTML: {__html: 'Paragraph <i class="fa fa-sort-down"></i>'},
+      className: "current-text-type",
+      dangerouslySetInnerHTML: {__html: currentTextType + ' <i class="fa fa-sort-down"></i>'},
+      onClick: this.toggleAvailableTextTypes
     });
+
+    var availableTextTypes = $$('div');
+    if (this.state.expanded) {
+       availableTextTypes = _.map(TEXT_TYPES, function(textType, textTypeId) {
+        return $$('a', {href: "#", className: 'text-type', "data-type": textTypeId}, textType.label);
+      });
+    }
+
+    return $$("div", { className: classNames.join(' '), href: "#", onMouseDown: this.handleMouseDown, onClick: this.handleClick },
+      currentTextTypeEl,
+      $$('div', {className: "available-text-types"},
+        availableTextTypes
+      )
+    );
   }
 });
 

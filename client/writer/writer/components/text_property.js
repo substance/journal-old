@@ -113,30 +113,6 @@ var TextPropertyComponent = React.createClass(Substance.extend({}, TextProperty.
   },
 
   textPropertyDidChange: function(change, info) {
-    // HACK: currently without incremental rendering we need to reset the selection after changes.
-    // With high rapid incoming keyboard events the CE acts on temporarily invalid selections
-    // making the surface fail to detect the correct text input.
-    // Using the source element given by surface when handling inserts, we can skip rendering,
-    // as this is done by CE already.
-    // However can't skip it completely as we need to fixup rendered annotations.
-    // The trick here is to debounce the rerendering, so that we stay out of the way of CE during
-    // the rapid input phase, and fixup the rendering a bit delayed.
-    if (info.source === this.getDOMNode()) {
-      // Note: to see the effect of this you can for example edit a paragraph
-      // which is spanned by a container annotation. With this deactivated
-      // the text will not be renders as annotated text.
-      // Reason is, we just let CE update the element. Of course, it does not
-      // consider the annotations. When the input storm is over, we take the
-      // time to render the element properly.
-      if (!this._debouncedRerender) {
-        var INTERVAL = 200; //ms
-        this._debouncedRerender = Substance.debounce(Substance.bind(this._rerenderAndRecoverSelection, this), INTERVAL);
-      }
-      this._debouncedRerender();
-      return;
-    }
-    // TODO: maybe we want to find an incremental solution
-    // However, this is surprisingly fast so that almost no flickering can be observed.
     this.renderManually();
   },
 
@@ -155,7 +131,6 @@ var TextPropertyComponent = React.createClass(Substance.extend({}, TextProperty.
   getElement: function() {
     return this.getDOMNode();
   }
-
 }));
 
 TextPropertyComponent.Highlight = function(path, startOffset, endOffset, options) {

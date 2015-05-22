@@ -21,7 +21,7 @@ var TextComponentMixin = {
     this._prevTextHighlights = textHighlights;
 
     return shouldUpdate;
-  },
+  }
 
 
 };

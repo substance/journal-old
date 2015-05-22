@@ -1,7 +1,6 @@
 var Substance = require("substance");
 var Document = Substance.Document;
 
-console.log('YAY', Substance);
 
 var Paragraph = Document.TextNode.extend({
   name: "paragraph"

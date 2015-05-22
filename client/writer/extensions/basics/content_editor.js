@@ -5,7 +5,7 @@ var _ = require("substance/helpers");
 var TextProperty = require("../../writer").TextProperty;
 var TitleEditor = require("./title_editor");
 
-var ENABLED_TOOLS = ["strong", "emphasis", "remark"];
+var ENABLED_TOOLS = ["strong", "emphasis", "remark", "text"];
 
 // Container Node
 // ----------------

@@ -272,14 +272,18 @@
 .content-tools-component {
   height: 40px;
   border-bottom: 1px solid #ddd;
+  position: absolute;
+  z-index: 40000;
+  left: 0px;
+  right: 0px;
+  top: 0px;
 }
 
 .content-tools-component .tools {
-  overflow: hidden;
   height: 40px;
 }
 
-.content-tools-component .tools a {
+.content-tools-component .tools a.tool {
   display: block;
   float: left;
   height: 30px;
@@ -340,8 +344,25 @@
   float: left;
   height: 30px;
   margin: 5px;
+  margin-left: 0px;
+  padding-left: 5px;
   font-size: 12px;
   line-height: 30px;
+  position: relative;
+  width: 140px;
+}
+
+.content-tools-component .tools .text-tool-component .available-text-types {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  width: 140px;
+}
+
+.content-tools-component .tools .text-tool-component .available-text-types .text-type {
+  display: block;
+  padding: 5px;
+  background: white;
 }
 
 
