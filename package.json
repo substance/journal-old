@@ -13,7 +13,7 @@
     "knex": "^0.8.5",
     "lodash": "3.3.1",
     "sqlite3": "^3.0.5",
-    "substance": "substance/substance#master"
+    "substance": "substance/substance#synchronous"
   },
   "devDependencies": {
     "gulp": "^3.8.11"
