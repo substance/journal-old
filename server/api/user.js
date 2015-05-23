@@ -66,13 +66,13 @@ var registerUser = function(req, res, next) {
 }
 
 userAPI.route('/register')
-  .post(registerUser)
+  .post(registerUser);
 
 
 // Authenticate user
 // -----------
 
-var authentication = function(req, res, next) {
+var authenticate = function(req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
   var secret = req.app.get('tokenSecret');
@@ -82,7 +82,7 @@ var authentication = function(req, res, next) {
 };
 
 userAPI.route('/login')
-  .post(authentication)
+  .post(authenticate);
 
 
 module.exports = userAPI;

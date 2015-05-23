@@ -2,9 +2,7 @@ var knex = require('./connect');
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
 var jwt = require('jsonwebtoken');
-
 var User = exports;
-
 
 // How many rounds or iterations the key setup phase uses
 var SALT_ROUNDS = 10;
@@ -12,7 +10,7 @@ var SALT_ROUNDS = 10;
 // Create user schema
 // ------------
 // 
-// Drops table if exists
+// Warning: Drops table if exists
 
 User.createSchema = function(cb) {
   knex.schema.dropTableIfExists('users')
@@ -22,6 +20,8 @@ User.createSchema = function(cb) {
       t.string('token');
       t.timestamps();
       t.json('data');
+
+      // TODO: is this valid code? (column2)
       t.primary(['email', 'column2']);
     })
     .then(function() {
@@ -30,7 +30,6 @@ User.createSchema = function(cb) {
     })
     .catch(cb);
 };
-
 
 // Bcrypt password
 // ------------
@@ -82,28 +81,31 @@ User.create = function(email, password, data, cb) {
         if (_.isEmpty(user)) {
           cb(null, {
             success: false,
-            message: 'Something goes wrong. Try again.'
-          })
+            message: 'Something went wrong. Please try again.'
+          });
         } else if (user) {
           cb(null, {
             success: true,
             message: 'New user has been registered. Welcome!'
-          })
+          });
         }
       })
       .catch(cb);
   })
 };
 
-// Return all available docs
+// Return all available users
 // ------------
 // 
-// TODO: only return published docs
 
 User.findAll = function(cb) {
   knex.select().table('users')
-    .then(function(result) { 
-      cb(null, result);
+    .then(function(users) { 
+      _.each(users, function(user) {
+        user.created_at = new Date(user.created_at);
+        user.updated_at = new Date(user.updated_at);
+      });
+      cb(null, users);
     })
     .catch(cb);
 };
@@ -119,7 +121,7 @@ User.get = function(email, cb) {
 };
 
 
-// Return all available docs
+// Authenticate user based on email and password
 // ------------
 // 
 

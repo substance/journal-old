@@ -45,16 +45,29 @@ var seed = function(cb) {
           console.log('alldocs', docs);
           cb(null);
         });
-      }
+      },
+      function(cb) {
+        models.User.create("admin@substance.io", "1234", {}, cb);
+      },
+      function(cb) {
+        models.User.findAll(function(err, users) {
+          console.log('all users', users);
+          cb(null);
+        });
+      },
+
+      
     ], function(err, results) {
       if (err) {
         console.error(err);
+
         return cb(err);
       }
       cb(null);
     });
   });
 };
+
 
 // // export connection
 module.exports = {
