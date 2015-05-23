@@ -8,7 +8,7 @@ var _ = require("substance/helpers");
 var Backend = function(opts) {
   this.session = null;
 
-  this.authenticate(null, null, function() {});
+  // this.authenticate(null, null, function() {});
 };
 
 Backend.Prototype = function() {
@@ -27,7 +27,28 @@ Backend.Prototype = function() {
   };
 
   this.authenticate = function(username, password, cb) {
-    // Daniel: insert server communication here
+
+    // Daniel: insert server communication here 
+
+    $.ajax({
+      type: "POST",
+      url: "/api/authenticate",
+      contentType: "application/json",
+      data: {
+        email: username,
+        password: password
+      },
+      success: function(data) {
+        console.log('YAY', data);
+      }.bind(this),
+      error: function(err) {
+        console.error(err);
+        cb(err.responseText);
+      }
+    });
+
+    // Danile: Please move this into success handler of ajax request
+
     this.session = {
       token: "abcd",
       user: {
