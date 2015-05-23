@@ -7,7 +7,6 @@ var util = require("./util");
 
 module.exports = function(app) {
   var db = app.db;
-
   var Document = db.models.Document;
 
   app.get('/api/documents',

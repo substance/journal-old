@@ -8,8 +8,8 @@ var util = require("./util"),
 
 // Helpers functions
 // ------------
-
-// validates given email
+// 
+// Validates a given email address
 
 var validateEmail = function(email) {
   var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -28,6 +28,9 @@ var sanitizeUser = function(user) {
 //
 // REST API for creating, updating and deleting users
 
+// List Users
+// -----------
+
 var listUsers = function(req, res, next) {
   console.log(req.user)
 	User.findAll(function (err, users) {
@@ -40,10 +43,31 @@ userAPI.route('/users')
   .get(listUsers)
 
 
-// Register user
+// Create user
 // -----------
+// 
+// Takes user data 
+// That token must be sent to the API along with each future request
+// 
+// 
+// POST /api/users
+// 
+// Input:
+// 
+// {
+//   "email": "x@y.com",
+//   "password": "abcd"
+// }
+// 
+// Response:
+// 
+// Status: 200 OK
+// 
+// {
+//   "token": "mysessiontoken"
+// }
 
-var registerUser = function(req, res, next) {
+var createUser = function(req, res, next) {
 	var email = req.body.email;
 	var password = req.body.password;
 	var data = req.body.data;
@@ -65,15 +89,11 @@ var registerUser = function(req, res, next) {
 	User.create(email, password, data, util.out(res, next));
 }
 
-
-userAPI.route('/register')
-  .post(registerUser);
+userAPI.route('/users')
+  .post(createUser);
 
 
 // Authenticate user
-// -----------
-
-// Create a new authorization (aka login)
 // -----------
 // 
 // Takes email and password and returns a token if login was successful

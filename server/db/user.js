@@ -22,7 +22,7 @@ User.createSchema = function(cb) {
       t.json('data');
 
       // TODO: is this valid code? (column2)
-      t.primary(['email', 'column2']);
+      // t.primary(['email', 'column2']);
     })
     .then(function() {
       console.log('done creating User schema.');
