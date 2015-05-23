@@ -1,4 +1,4 @@
-var config = require('config');
+var knex = require('./connect');
 var async = require("async");
 
 var EXAMPLE_DOC = {
@@ -14,13 +14,12 @@ var EXAMPLE_DOC = {
 // 
 // Uses config/default.json
 
-var knex = require('knex')(config.database);
-
 // Expose models
 // --------------
 
 var models = {
-  Document: require("./document")(knex)
+  Document: require("./document")(knex),
+  User: require("./user")
 };
 
 // Seed script

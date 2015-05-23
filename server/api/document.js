@@ -10,6 +10,12 @@ module.exports = function(app) {
 
   var Document = db.models.Document;
 
+  app.get('/api/documents',
+    function(req, res, next) {
+      var user = req.user;
+      Document.findAll(util.out(res, next));
+    });
+
   // Create an empty document
   // -----------
   // 

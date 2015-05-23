@@ -4,5 +4,6 @@
     "connection": {
       "filename": "./substance.sqlite"
     }
-  }
+  },
+  "secret": "journal-secret"
 }

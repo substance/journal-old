@@ -1,46 +1,129 @@
-var util = require("./util");
+var util = require("./util"),
+    _ = require('lodash'),
+    express = require('express'),
+    userAPI = express.Router(),
+    db = require("../db/index"),
+    User = db.models.User;
+
+// Helpers functions
+// ------------
+
+
+// validates given email
+
+var validateEmail = function(email) {
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    return re.test(email);
+}
+
+
+// removes password from user object
+
+var sanitizeUser = function(user) {
+  return _.omit(user, 'password');
+}
 
 // User API
 // ===================
 //
-// REST API for creating, updating and deleting documents
+// REST API for creating, updating and deleting users
 
-module.exports = function(app) {
-  var db = app.db;
+var listUsers = function(req, res, next) {
+  console.log(req.user)
+	User.findAll(function (err, users) {
+		if (err) next(err);
+    res.json(_.map(users, sanitizeUser));
+	});
+}
 
-  var User = db.models.User;
+userAPI.route('/users')
+  .get(listUsers)
 
-  // Create a new authorization (aka login)
-  // -----------
-  // 
-  // Takes email and password and returns a token if login was successful
-  // That token must be sent to the API along with each future request
-  // 
-  // 
-  // POST /documents
-  // 
-  // Input:
-  // 
-  // {
-  //   "email": "x@y.com",
-  //   "password": "abcd"
-  // }
-  // 
-  // Response:
-  // 
-  // Status: 200 OK
-  // 
-  // {
-  //   "token": "mysessiontoken"
-  // }
 
-  app.post('/login',
-    function(req, res, next) {
-      var email = req.body.email;
-      var password = req.body.password;
-      User.authenticate(email, password, util.out(res, next));
+// Register user
+// -----------
+
+var registerUser = function(req, res, next) {
+	var email = req.body.email;
+	var password = req.body.password;
+	var data = req.body.data;
+
+  if(!validateEmail(email)) {
+    res.status(400).json({
+      success: false,
+      message: 'This is not email. Please provide real email address.'
     });
+  }
+
+  if(password.length <= 5) {
+    res.status(400).json({
+      success: false,
+      message: 'Too weak password. Please use at least 6 symbols.'
+    });
+  }
+
+	User.create(email, password, data, util.out(res, next));
+}
+
+userAPI.route('/register')
+  .post(registerUser)
+
+
+// Authenticate user
+// -----------
+
+var authentication = function(req, res, next) {
+  var email = req.body.email;
+  var password = req.body.password;
+  var secret = req.app.get('tokenSecret');
+
+  // checks if given email is valid  
+  User.authenticate(email, password, secret, util.out(res, next));
 };
+
+userAPI.route('/login')
+  .post(authentication)
+
+
+module.exports = userAPI;
+
+
+// module.exports = function(app) {
+//   var db = app.db;
+
+//   var User = db.models.User;
+
+//   // Create a new authorization (aka login)
+//   // -----------
+//   // 
+//   // Takes email and password and returns a token if login was successful
+//   // That token must be sent to the API along with each future request
+//   // 
+//   // 
+//   // POST /documents
+//   // 
+//   // Input:
+//   // 
+//   // {
+//   //   "email": "x@y.com",
+//   //   "password": "abcd"
+//   // }
+//   // 
+//   // Response:
+//   // 
+//   // Status: 200 OK
+//   // 
+//   // {
+//   //   "token": "mysessiontoken"
+//   // }
+
+//   app.post('/api/login',
+//     function(req, res, next) {
+//       var email = req.body.email;
+//       var password = req.body.password;
+//       User.authenticate(email, password, util.out(res, next));
+//     });
+// };
 
 
 
