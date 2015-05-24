@@ -27,37 +27,35 @@ Backend.Prototype = function() {
   };
 
   this.authenticate = function(username, password, cb) {
-
-    // Daniel: insert server communication here 
+    var self = this;
 
     $.ajax({
       type: "POST",
       url: "/api/authenticate",
-      contentType: "application/json",
-      data: {
-        email: username,
-        password: password
+      contentType: "application/json; charset=UTF-8",
+      data: JSON.stringify({
+        "email": username,
+        "password": password
+      }),
+      dataType: "json",
+      success: function(data, textStatus) {
+        self.session = {
+          token: data.token,
+
+          // Michael, you can do atob(data.split('.')[1]) to get real user data from server
+          user: {
+            email: "x@y.com",
+            name: "Michael Aufreiter"
+          }
+        };
+
+        cb(null, self.session);
       },
-      success: function(data) {
-        console.log('YAY', data);
-      }.bind(this),
       error: function(err) {
         console.error(err);
         cb(err.responseText);
       }
     });
-
-    // Danile: Please move this into success handler of ajax request
-
-    this.session = {
-      token: "abcd",
-      user: {
-        email: "x@y.com",
-        name: "Michael Aufreiter"
-      }
-    };
-
-    cb(null, this.session);
   };
 
   this.logout = function(cb) {

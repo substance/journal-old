@@ -5,6 +5,6 @@ var config = require('config');
 // 
 // Uses config/default.json
 
-var knex = require('knex')(config.database);
+var Knex = require('knex');
 
-module.exports = knex;
+module.exports = new Knex(config.database);

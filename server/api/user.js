@@ -5,7 +5,6 @@ var util = require("./util"),
     db = require("../db/index"),
     User = db.models.User;
 
-
 // Helpers functions
 // ------------
 // 
@@ -32,15 +31,11 @@ var sanitizeUser = function(user) {
 // -----------
 
 var listUsers = function(req, res, next) {
-  console.log(req.user)
 	User.findAll(function (err, users) {
 		if (err) next(err);
     res.json(_.map(users, sanitizeUser));
 	});
 }
-
-userAPI.route('/users')
-  .get(listUsers)
 
 
 // Create user
@@ -74,14 +69,12 @@ var createUser = function(req, res, next) {
 
   if(!validateEmail(email)) {
     res.status(400).json({
-      success: false,
       message: 'This is not email. Please provide real email address.'
     });
   }
 
   if(password.length <= 5) {
     res.status(400).json({
-      success: false,
       message: 'Password is not strong enough. Please use at least 6 characters.'
     });
   }
@@ -90,7 +83,8 @@ var createUser = function(req, res, next) {
 }
 
 userAPI.route('/users')
-  .post(createUser);
+  .post(createUser)
+  .get(util.checkToken, listUsers);
 
 
 // Authenticate user
@@ -121,10 +115,9 @@ var authenticate = function(req, res, next) {
   console.log('/api/authenticate called');
   var email = req.body.email;
   var password = req.body.password;
-  var secret = req.app.get('tokenSecret');
 
   // checks if given email is valid  
-  User.authenticate(email, password, secret, util.out(res, next));
+  User.authenticate(email, password, util.out(res, next));
 };
 
 userAPI.route('/authenticate')

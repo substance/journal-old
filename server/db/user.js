@@ -1,3 +1,4 @@
+var config = require('config');
 var knex = require('./connect');
 var bcrypt = require('bcrypt');
 var _ = require('lodash');
@@ -79,13 +80,11 @@ User.create = function(email, password, data, cb) {
       updated_at: new Date()
     }).then(function(user) {
         if (_.isEmpty(user)) {
-          cb(null, {
-            success: false,
+          cb(null, 400, {
             message: 'Something went wrong. Please try again.'
           });
         } else if (user) {
-          cb(null, {
-            success: true,
+          cb(null, 200, {
             message: 'New user has been registered. Welcome!'
           });
         }
@@ -116,7 +115,7 @@ User.findAll = function(cb) {
 
 User.get = function(email, cb) {
   knex('users').where('email', email)
-    .then(function(result) { cb(null, result)})
+    .then(function(result) { cb(null, 200, result)})
     .catch(cb);
 };
 
@@ -125,7 +124,7 @@ User.get = function(email, cb) {
 // ------------
 // 
 
-User.authenticate = function(email, password, secret, cb) {
+User.authenticate = function(email, password, cb) {
   var self = this;
 
   knex('users').where('email', email)
@@ -133,8 +132,7 @@ User.authenticate = function(email, password, secret, cb) {
 
       // check if user exists
       if (_.isEmpty(user)) {
-        cb(null, {
-          success: false,
+        cb(null, 401, {
           message: 'Authentication failed. User not found.'
         })
       } else if (user) {
@@ -142,23 +140,23 @@ User.authenticate = function(email, password, secret, cb) {
         // check if password matches
         self.comparePasswords(password, user[0].password, function(err, isMatch){
           if (!isMatch) {
-            cb(null, {
-              success: false,
+            cb(null, 401, {
               message: 'Authentication failed. Password is wrong.'
             })
           } else {
+
+            // Michael, this is what will go out to req.user with some additional stuff
             var profile = {
               email: user[0].email,
               created_at: user[0].created_at,
               updated_at: user[0].updated_at,
               data: user[0].data
             };
-            var token = jwt.sign(profile, secret, {
+            var token = jwt.sign(profile, config.secret, {
               issuer: user[0].email,
               expiresInMinutes: 60*24 // expires in 24 hours
             });
-            cb(null, {
-              success: true,
+            cb(null, 200, {
               message: 'Enjoy your token!',
               token: token
             });

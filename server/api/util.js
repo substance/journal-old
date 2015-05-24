@@ -1,8 +1,14 @@
+var config = require('config');
+var jwt = require('express-jwt');
 var util = module.exports = {};
 
 util.out = function (res, next) {
-  return function (err, data) {
+  return function (err, status, data) {
     if (err) next(err);
-    else res.json(data);
+    else res.status(status).json(data);
   };
-}
+};
+
+util.checkToken = jwt({
+  secret: config.secret
+});

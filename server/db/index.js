@@ -9,6 +9,7 @@ var EXAMPLE_DOC = {
   }
 };
 
+
 // Initialize knex connection
 // --------------
 // 
