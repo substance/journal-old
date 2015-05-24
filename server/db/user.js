@@ -165,7 +165,7 @@ User.authenticate = function(username, password, cb) {
         } else {
           // Michael, this is what will go out to req.user with some additional stuff
           var profile = {
-            username: user,
+            username: user.username,
             created_at: user.created_at,
             updated_at: user.updated_at
           };

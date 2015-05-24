@@ -26,10 +26,13 @@ Document.createSchema = function(cb) {
 // 
 
 Document.create = function(data, username, cb) {
+  var self = this;
   var jsonStr = JSON.stringify(data, null, "  ");
   knex.table('documents').insert({data: jsonStr})
-    .then(function() { cb(null, 200) })
-    .catch(cb);
+    .asCallback(function(err, id) {
+      if(err) return cb(err, 400);
+      return self.get(id[0], cb);
+    });
 };
 
 // Return all available docs
@@ -39,8 +42,10 @@ Document.create = function(data, username, cb) {
 
 Document.findAll = function(cb) {
   knex.select().table('documents')
-    .then(function(result) { cb(null, 200, result)})
-    .catch(cb);
+    .asCallback(function(err, items) {
+      if(err) return cb(err, 400);
+      return cb(null, 200, items)
+    });
 };
 
 // Return all available docs
@@ -49,18 +54,26 @@ Document.findAll = function(cb) {
 
 Document.get = function(id, cb) {
   knex('documents').where('id', id)
-    .then(function(result) { cb(null, 200, result)})
-    .catch(cb);
+    .asCallback(function(err, item) {
+      if(err) return cb(err, 400);
+      return cb(null, 200, item[0])
+    });
 };
 
 Document.update = function(id, data, user, cb) {
+  var self = this;
+
   knex('documents').where('id', id).update(data)
-    .then(function(result) { cb(null, 200, result)})
-    .catch(cb);
+    .asCallback(function(err, item) {
+      if(err) return cb(err, 400);
+      return self.get(id, cb);
+    })
 };
 
 Document.remove = function(id, user, cb) {
   knex('documents').where('id', id).del()
-    .then(function() { cb(null, 200)})
-    .catch(cb);
+    .asCallback(function(err) {
+      if(err) return cb(err, 400);
+      return cb(null, 200, {});
+    });
 };

@@ -106,8 +106,9 @@ var getDocument = function(req, res, next) {
 var updateDocument = function(req, res, next) {
   var user = req.user;
   var documentId = req.params.id;
+  var data = req.body;
   // TODO: In future check JSON if it conforms to a valid Substance document
-  Document.update(documentId, req.data, user.username, util.out(res, next));
+  Document.update(documentId, data, user.username, util.out(res, next));
 };
 
 
