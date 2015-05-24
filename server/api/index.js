@@ -1,9 +1,11 @@
 var user = require('./user'),
+	document = require('./document'),
 	_ = require('lodash'),
 	express = require('express'),
 	APIrouter = express.Router();
 
 var apis = [
+	document,
 	user
 ];
 

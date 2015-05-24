@@ -13,7 +13,7 @@ var port = process.env.PORT || 5000;
 
 var db = require("./server/db");
 var Document = db.models.Document;
-var api = require("./server/api/user");
+var api = require("./server/api");
 
 var browserify = require("browserify-middleware");
 

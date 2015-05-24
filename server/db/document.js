@@ -28,7 +28,7 @@ Document.createSchema = function(cb) {
 Document.create = function(data, username, cb) {
   var jsonStr = JSON.stringify(data, null, "  ");
   knex.table('documents').insert({data: jsonStr})
-    .then(function() { cb(null) })
+    .then(function() { cb(null, 200) })
     .catch(cb);
 };
 
@@ -39,7 +39,7 @@ Document.create = function(data, username, cb) {
 
 Document.findAll = function(cb) {
   knex.select().table('documents')
-    .then(function(result) { cb(null, result)})
+    .then(function(result) { cb(null, 200, result)})
     .catch(cb);
 };
 
@@ -49,6 +49,18 @@ Document.findAll = function(cb) {
 
 Document.get = function(id, cb) {
   knex('documents').where('id', id)
-    .then(function(result) { cb(null, result)})
+    .then(function(result) { cb(null, 200, result)})
+    .catch(cb);
+};
+
+Document.update = function(id, data, user, cb) {
+  knex('documents').where('id', id).update(data)
+    .then(function(result) { cb(null, 200, result)})
+    .catch(cb);
+};
+
+Document.remove = function(id, user, cb) {
+  knex('documents').where('id', id).del()
+    .then(function() { cb(null, 200)})
     .catch(cb);
 };

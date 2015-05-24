@@ -23,7 +23,7 @@ var EMPTY_DOC = {
 // Create an empty document
 // -----------
 // 
-// POST /documents
+// POST /api/documents
 // 
 // 
 // Response:
@@ -41,15 +41,26 @@ var EMPTY_DOC = {
 var createDocument = function(req, res, next) {
   var user = req.user;
   Document.create(EMPTY_DOC, user.username, util.out(res, next));
-});
+};
 
-documentAPI.route('/api/documents')
+// Reading documents collection
+// -----------
+
+var listDocuments = function(req, res, next) {
+  // TODO: list documents related to current user, pagination
+  var user = req.user;
+  Document.findAll(util.out(res, next));
+};
+
+
+documentAPI.route('/documents')
   .post(util.checkToken, createDocument)
+  .get(util.checkToken, listDocuments);
 
 // Reading an existing document
 // -----------
 // 
-// GET /documents/:id
+// GET /api/documents/:id
 // 
 // 
 // Response:
@@ -67,12 +78,12 @@ documentAPI.route('/api/documents')
 var getDocument = function(req, res, next) {
   var documentId = req.params.id;
   Document.get(id, util.out(res, next));
-});
+};
 
 // Update an existing document
 // -----------
 // 
-// PUT /documents/:id
+// PUT /api/documents/:id
 // 
 // Input:
 // 
@@ -97,7 +108,7 @@ var updateDocument = function(req, res, next) {
   var documentId = req.params.id;
   // TODO: In future check JSON if it conforms to a valid Substance document
   Document.update(documentId, req.data, user.username, util.out(res, next));
-});
+};
 
 
 // Delete document
@@ -110,11 +121,11 @@ var updateDocument = function(req, res, next) {
 var removeDocument = function(req, res, next) {
   var user = req.user;
   var documentId = req.params.id;
-  Document.delete(documentId, user.username, util.out(res,next));
-});
+  Document.remove(documentId, user.username, util.out(res,next));
+};
 
 
-documentAPI.route('/api/documents/:id')
+documentAPI.route('/documents/:id')
   .get(util.checkToken, getDocument)
   .put(util.checkToken, updateDocument)
   .delete(util.checkToken, removeDocument);
