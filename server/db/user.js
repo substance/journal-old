@@ -89,18 +89,19 @@ User.create = function(userSpec, cb) {
       password: bcryptedPassword,
       created_at: new Date(),
       updated_at: new Date()
-    }).then(function(user) {
-        if (_.isEmpty(user)) {
-          cb(null, 400, {
-            message: 'Something went wrong. Please try again.'
-          });
-        } else if (user) {
-          cb(null, 200, {
-            message: 'New user has been registered. Welcome!'
-          });
-        }
-      })
-      .catch(cb);
+    })
+    .asCallback(function(err, user) {
+      if(err) return cb(err, 400, {});
+      if (_.isEmpty(user)) {
+        return cb(null, 400, {
+          message: 'Something went wrong. Please try again.'
+        });
+      } else if (user) {
+        return cb(null, 200, {
+          message: 'New user has been registered. Welcome!'
+        });
+      }
+    });
   })
 };
 
@@ -110,24 +111,26 @@ User.create = function(userSpec, cb) {
 
 User.findAll = function(cb) {
   knex.select().table('users')
-    .then(function(users) { 
+    .asCallback(function(err, users) {
+      if(err) return cb(err);
       _.each(users, function(user) {
         user.created_at = new Date(user.created_at);
         user.updated_at = new Date(user.updated_at);
       });
-      cb(null, users);
-    })
-    .catch(cb);
+      return cb(null, users);
+    });
 };
 
 // Return all available docs
 // ------------
 // 
 
-User.get = function(email, cb) {
-  knex('users').where('email', email)
-    .then(function(result) { cb(null, 200, result)})
-    .catch(cb);
+User.get = function(username, cb) {
+  knex('users').where('username', username)
+    .asCallback(function(err, item) {
+      if(err) return cb(err, 400, {});
+      return cb(null, 200, item[0])
+    });
 };
 
 // Authenticate user based on email and password
@@ -140,10 +143,10 @@ User.authenticate = function(username, password, cb) {
   knex('users')
     .where('username', username)
     // .orWhere('email', email)
-    .then(function(users) {
-      user = users[0];
-
-      console.log('JEY');
+    .asCallback(function(err, users) {
+      if(err) return cb(err, 400, {});
+      
+      var user = users[0];
 
       // check if user exists
       if (!user) {
@@ -155,7 +158,7 @@ User.authenticate = function(username, password, cb) {
       // check if password matches
       self.comparePasswords(password, user.password, function(err, isMatch) {
         if (err) {
-          return cb(null, 401, {
+          return cb(err, 401, {
             message: err // an error occured
           });
         } else if (!isMatch) {
@@ -187,6 +190,5 @@ User.authenticate = function(username, password, cb) {
           });
         }
       })
-    })
-    .catch(cb);
+    });
 };
