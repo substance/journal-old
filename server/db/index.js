@@ -1,13 +1,7 @@
 var knex = require('./connect');
 var async = require("async");
 
-var EXAMPLE_DOC = {
-  "nodes": {
-    "document": {
-      "title": "Hello World"
-    }
-  }
-};
+var SAMPLE_DOC = require("../../data/sample_doc");
 
 // Initialize knex connection
 // --------------
@@ -38,7 +32,7 @@ var seed = function(cb) {
 
     async.series([
       function(cb) {
-        models.Document.create(EXAMPLE_DOC, "admin" ,cb);
+        models.Document.create(SAMPLE_DOC, "admin" ,cb);
       },
       function(cb) {
         models.Document.findAll(function(err, docs) {

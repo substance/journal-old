@@ -7,6 +7,7 @@ var DocumentNode = Substance.Document.Node.extend({
     "guid": "string",
     "creator": "string",
     "title": "string",
+    "published": "boolean",
     "abstract": "string",
     "abstract_en": "string",
     "created_at": "string",

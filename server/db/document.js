@@ -1,5 +1,6 @@
 var knex = require('./connect');
 var _ = require('lodash');
+
 var Document = exports;
 
 // Create document schema
@@ -56,7 +57,7 @@ Document.findAll = function(cb) {
           "username": doc.creator,
           // TODO: extract full name of creator and provide here
           "name": doc.creator
-        }
+        };
       });
 
       if(err) return cb(err);
@@ -69,10 +70,18 @@ Document.findAll = function(cb) {
 // 
 
 Document.get = function(id, cb) {
+  console.log('getting the doc', id);
   knex('documents').where('id', id)
-    .asCallback(function(err, item) {
+    .asCallback(function(err, documents) {
       if(err) return cb(err, 400, {});
-      return cb(null, 200, item[0])
+      
+      var rawDoc = documents[0];
+      var docData = JSON.parse(rawDoc.data);
+
+      docData.nodes.document.guid = rawDoc.id;
+      docData.id = rawDoc.id;
+      docData.published = rawDoc.published;
+      return cb(null, 200, docData);
     });
 };
 

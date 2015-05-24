@@ -19,9 +19,54 @@ Backend.Prototype = function() {
   // ------------------
 
   this.getDocument = function(documentId, cb) {
-    var doc = new Article(EXAMPLE_DOC);
-    window.doc = doc;
-    cb(null, doc);
+    console.log('opening...', documentId);
+
+    $.ajax({
+      type: "GET",
+      url: "/api/documents/"+documentId,
+      dataType: "json",
+      beforeSend: function (xhr) {
+        var session = localStorage.getItem('session');
+        var token = JSON.parse(session).token;
+        xhr.setRequestHeader ("Authorization", "Bearer " + token);
+      },
+      success: function(rawDoc) {
+        var doc = new Article(rawDoc);
+        console.log('doc', rawDoc);
+        window.doc = doc;
+        cb(null, doc);
+      },
+      error: function(err) {
+        console.error(err);
+        cb(err.responseText);
+      }
+    });
+
+    // var doc = new Article(EXAMPLE_DOC);
+    // cb(null, doc);
+  };
+
+  this.createDocument = function(cb) {
+    // Talk to server to create a new doc
+    $.ajax({
+      type: "POST",
+      url: "/api/documents",
+      dataType: "json",
+      beforeSend: function (xhr) {
+        var session = localStorage.getItem('session');
+        var token = JSON.parse(session).token;
+
+        xhr.setRequestHeader ("Authorization", "Bearer " + token);
+      },
+      success: function(data) {
+        console.log(data);
+        cb(null, data);
+      },
+      error: function(err) {
+        console.error(err);
+        cb(err.responseText);
+      }
+    });
   };
 
   this.getDocuments = function(cb) {

@@ -7,6 +7,7 @@
   "unused": true,
   "sub": true,
   "predef": [
+    "localStorage",
     "React",
     "window",
     "document"

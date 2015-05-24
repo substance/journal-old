@@ -44,6 +44,21 @@ var Menu = React.createClass({
     });
   },
 
+  handleNewDocument: function(e) {
+    e.preventDefault();
+    var backend = this.context.backend;
+    var app = this.context.app;
+    console.log('creating a new doc');
+    backend.createDocument(function(err, documentRecord) {
+      console.log('documentrec', documentRecord);
+      // app.switchState({
+      //   context: "writer",
+      //   documentId: documentRecord.id
+      // });
+    });
+
+  },
+
   handleLogout: function(e) {
     e.preventDefault();
     var backend = this.context.backend;
@@ -75,6 +90,7 @@ var Menu = React.createClass({
         $$('a', {
           href: "#",
           className: "user-action",
+          onClick: this.handleNewDocument,
           dangerouslySetInnerHTML: {__html: '<i class="fa fa-file-text-o"></i> New document'}
         }),
         $$('a', {

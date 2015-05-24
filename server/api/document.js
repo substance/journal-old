@@ -5,14 +5,17 @@ var util = require("./util"),
     db = require("../db/index"),
     Document = db.models.Document;
 
+var SAMPLE_DOC = require("../../data/sample_doc");
 
-var EMPTY_DOC = {
-  "nodes": {
-    "document": {
-      "title": "New document"
-    }
-  }
-};
+
+// console.log('SAMPLE DOC', SAMPLE_DOC);
+// var EMPTY_DOC = {
+//   "nodes": {
+//     "document": {
+//       "title": "New document"
+//     }
+//   }
+// };
 
 // Document API
 // ===================
@@ -40,7 +43,7 @@ var EMPTY_DOC = {
 
 var createDocument = function(req, res, next) {
   var user = req.user;
-  Document.create(EMPTY_DOC, user.username, util.out(res, next));
+  Document.create(SAMPLE_DOC, user.username, util.out(res, next));
 };
 
 // Reading documents collection
@@ -85,8 +88,10 @@ documentAPI.route('/documents')
 // }
 
 var getDocument = function(req, res, next) {
+  console.log('getting document');
   var documentId = req.params.id;
-  Document.get(id, util.out(res, next));
+
+  Document.get(documentId, util.out(res, next));
 };
 
 // Update an existing document
