@@ -420,6 +420,7 @@
 
 .content-panel-component .container-node.content .nodes > .content-node.heading.level-1 {
   font-size: 20px;
+  line-height: 28px;
 }
 
 .content-panel-component .container-node.content .nodes > .content-node.heading.level-2 {

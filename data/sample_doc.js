@@ -58,8 +58,8 @@ var sampleDoc = {
       "container": "content",
       "startPath": ["paragraph_1", "content"],
       "startOffset": 20,
-      "endPath": ["paragraph_2", "content"],
-      "endOffset": 298,
+      "endPath": ["paragraph_1", "content"],
+      "endOffset": 50,
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis scelerisque ligula. Proin tristique ligula id magna finibus rhoncus. Quisque dictum viverra sapien, vel elementum metus condimentum nec. Donec ac tellus nunc. Nullam fermentum pharetra justo, accumsan tristique quam tempus a. Quisque vitae luctus velit."
     },
 
@@ -70,7 +70,7 @@ var sampleDoc = {
       "startPath": ["paragraph_2", "content"],
       "startOffset": 300,
       "endPath": ["paragraph_2", "content"],
-      "endOffset": 520,
+      "endOffset": 330,
       "content": "Pellentesque eget magna porta, rutrum odio et, commodo lacus. Sed vitae vehicula ante. Quisque suscipit iaculis est, vitae aliquet lacus dictum ut."
     },
 
