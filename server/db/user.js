@@ -155,11 +155,11 @@ User.authenticate = function(username, password, cb) {
       // check if password matches
       self.comparePasswords(password, user.password, function(err, isMatch) {
         if (err) {
-          cb(null, 401, {
+          return cb(null, 401, {
             message: err // an error occured
           });
         } else if (!isMatch) {
-          cb(null, 401, {
+          return cb(null, 401, {
             message: 'Authentication failed. Password is wrong.'
           });
         } else {
@@ -177,7 +177,7 @@ User.authenticate = function(username, password, cb) {
             issuer: user.username,
             expiresInMinutes: 60*24 // expires in 24 hours
           });
-          cb(null, 200, {
+          return cb(null, 200, {
             message: 'Enjoy your token!',
             token: token,
             user: {
