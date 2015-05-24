@@ -25,10 +25,12 @@ var sampleDoc = {
       "type": "container",
       "id": "content",
       "nodes": [
-        "paragraph_1",
         "heading_1",
+        "paragraph_1",
+        "heading_2",
         "paragraph_2",
         "paragraph_3",
+        "heading_3",
         "paragraph_4",
         "paragraph_5"
       ]
@@ -44,6 +46,20 @@ var sampleDoc = {
       "id": "heading_1",
       "level": 1,
       "content": 'Hello world'
+    },
+
+    "heading_2": {
+      "type": "heading",
+      "id": "heading_2",
+      "level": 2,
+      "content": 'Heading Level 2'
+    },
+
+    "heading_3": {
+      "type": "heading",
+      "id": "heading_3",
+      "level": 3,
+      "content": 'Heading Level 3'
     },
 
     "paragraph_2": {

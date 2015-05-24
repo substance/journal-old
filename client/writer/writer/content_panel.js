@@ -20,12 +20,13 @@ var ContentPanelMixin = _.extend({}, PanelMixin, {
 
     var doc = app.doc;
     doc.connect(this, {
-      'document:changed': this.onDocumentChange
+      'document:changed': this.onDocumentChange,
+      'app:toc-entry-selected': this.onTOCEntrySelected
     });
   },
 
   componentWillUnmount: function() {
-    var app = this.context.app
+    var app = this.context.app;
     var doc = app.doc;
     doc.disconnect(this);
     $(window).off('resize');
@@ -35,6 +36,10 @@ var ContentPanelMixin = _.extend({}, PanelMixin, {
     setTimeout(function() {
       this.updateScrollbar();
     }.bind(this), 0);
+  },
+
+  onTOCEntrySelected: function(nodeId) {
+    this.scrollToNode(nodeId);
   },
 
   componentDidUpdate: function() {
@@ -47,18 +52,55 @@ var ContentPanelMixin = _.extend({}, PanelMixin, {
 
     // We need to await next repaint, otherwise dimensions will be wrong
     Substance.delay(function() {
-      scrollbar.update(panelContentEl);  
-    },0);
+      scrollbar.update(panelContentEl, this);
+    }.bind(this),0);
 
     // (Re)-Bind scroll event on new panelContentEl
     $(panelContentEl).off('scroll');
     $(panelContentEl).on('scroll', this._onScroll);
   },
 
+
   _onScroll: function(e) {
     var panelContentEl = this.refs.panelContent.getDOMNode();
-    this.refs.scrollbar.update(panelContentEl);
+    this.refs.scrollbar.update(panelContentEl, this);
+    this.markActiveTOCEntry();
   },
+
+  markActiveTOCEntry: function() {
+    var panelContentEl = this.refs.panelContent.getDOMNode();
+
+    var contentHeight = this.getContentHeight();
+    var panelHeight = this.getPanelHeight();
+    var scrollTop = this.getScrollPosition();
+
+    var scrollBottom = scrollTop + panelHeight;
+
+    var regularScanline = scrollTop;
+    var smartScanline = 2 * scrollBottom - contentHeight;
+    var scanline = Math.max(regularScanline, smartScanline);
+
+    $('.scanline').css({
+      top: (scanline - scrollTop)+'px'
+    });
+
+    // TODO: this should be generic
+    var headings = $(panelContentEl).find('.content-node.heading');
+
+    if (headings.length === 0) return;
+
+    // Use first heading as default
+    var activeNode = _.first(headings).dataset.id;
+    headings.each(function() {
+      if (scanline >= $(this).position().top) {
+        activeNode = this.dataset.id;
+      }
+    });
+
+    var doc = this.getDocument();
+    doc.emit('app:toc-entry:changed', activeNode);
+  },
+
 
   // Rendering
   // -----------------
@@ -87,7 +129,7 @@ var ContentPanelMixin = _.extend({}, PanelMixin, {
         highlights: app.getHighlightedNodes.bind(app),
         ref: "scrollbar"
       }),
-
+      $$('div', {className: 'scanline'}),
       $$('div', {className: "panel-content", ref: "panelContent"}, // requires absolute positioning, overflow=auto
         this.getContentEditor()
       )

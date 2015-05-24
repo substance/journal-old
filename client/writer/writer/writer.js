@@ -39,7 +39,7 @@ var WriterMixin = _.extend({}, WriterController.prototype, Substance.EventEmitte
   },
 
   getInitialState: function() {
-    return {"contextId": "metadata"};
+    return {"contextId": "toc"};
   },
 
   // Internal methods

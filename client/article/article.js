@@ -1,7 +1,8 @@
 "use strict";
 
-var Substance = require('substance');
+var Substance = require("substance");
 var Document = Substance.Document;
+var _ = require("substance/helpers");
 
 // Nodes
 // --------------
@@ -32,7 +33,21 @@ var Article = function(data) {
   }));
 };
 
-Article.Prototype = function() {};
+Article.Prototype = function() {
+
+  this.getTOCNodes = function() {
+    var tocNodes = [];
+    var contentNodes = this.get('content').nodes;
+    _.each(contentNodes, function(nodeId) {
+      var node = this.get(nodeId);
+      if (node.type === "heading") {
+        tocNodes.push(node);
+      }
+    }, this);
+    return tocNodes;
+  };
+
+};
 
 Substance.inherit(Article, Document);
 Article.schema = schema;

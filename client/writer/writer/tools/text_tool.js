@@ -104,6 +104,7 @@ var TextTool = React.createClass({
   render: function() {
     var classNames = ['text-tool-component', 'tool'];
     if (this.state.active) classNames.push('active');
+    if (this.state.expanded) classNames.push('expanded');
 
     // var currentTextType = "None";
     var currentTextTypeEl;
@@ -131,7 +132,7 @@ var TextTool = React.createClass({
       availableTextTypes = _.map(TEXT_TYPES, function(textType, textTypeId) {
         return $$('a', {
           href: "#",
-          className: 'text-type',
+          className: 'text-type '+textTypeId,
           "data-type": textTypeId,
           onMouseDown: this.handleMouseDown,
           onClick: this.handleClick

@@ -1,6 +1,4 @@
 var $$ = React.createElement;
-var Substance = require("substance");
-var Surface = Substance.Surface;
 var _ = require("substance/helpers");
 var PanelMixin = require("../../writer").PanelMixin;
 
@@ -16,39 +14,64 @@ var TOCPanelMixin = _.extend({}, PanelMixin, {
     app: React.PropTypes.object.isRequired
   },
 
-  childContextTypes: {
-    surface: React.PropTypes.object
-  },
-
-  getChildContext: function() {
-    return {
-      surface: this.surface
-    };
-  },
-
-  componentWillMount: function() {
-    var app = this.context.app;
-    return {};
-  },
-
   componentDidMount: function() {
-    // var app = this.context.app;
-    // this.updateScroll();
-  },
-
-  componentDidUpdate: function() {
-    // this.updateScroll();
-  },
-
-  updateScroll: function() {
-    // var app = this.context.app;
-    // if (this.props.activeRemark && !app.state.noScroll) {
-    //   this.scrollToNode(this.props.activeRemark.id);
-    // }
+    var doc = this.getDocument();
+    doc.connect(this, {
+      'app:toc-entry:changed': this.setActiveTOCEntry,
+      'document:changed': this.handleDocumentChange
+    });
   },
 
   componentWillUnmount: function() {
+    var doc = this.getDocument();
+    doc.disconnect(this);
+  },
 
+  getInitialState: function() {
+    var doc = this.props.doc;
+    var tocNodes = doc.getTOCNodes();
+    return {
+      doc: doc,
+      tocNodes: tocNodes,
+      activeNode: tocNodes.length > 0 ? tocNodes[0].id : null
+    };
+  },
+
+  handleDocumentChange: function(change/*, info*/) {
+    var doc = this.getDocument();
+    var needsUpdate = false;
+
+    // Any headings updated? (also covers when new headings are arriving)
+    _.each(change.updated.root, function(update, nodeId) {
+      var node = doc.get(nodeId);
+      if (node.type === "heading") needsUpdate = true;
+    });
+
+    // Any headings delete?
+    _.each(change.deleted, function(node) {
+      if (node.type === "heading") needsUpdate = true;
+    });
+
+    if (needsUpdate) {
+      console.log('updating');
+      this.setState({
+        tocNodes: doc.getTOCNodes()
+      });
+    }
+  },
+
+  setActiveTOCEntry: function(nodeId) {
+    this.setState({
+      activeNode: nodeId
+    });
+  },
+
+  handleClick: function(e) {
+    var nodeId = e.currentTarget.dataset.id;
+    console.log('clicked', nodeId);
+    e.preventDefault();
+    var doc = this.getDocument();
+    doc.emit("app:toc-entry-selected", nodeId);
   },
 
   // Rendering
@@ -56,22 +79,38 @@ var TOCPanelMixin = _.extend({}, PanelMixin, {
 
   render: function() {
     var state = this.state;
-    var props = this.props;
-    var self = this;
-  
-    return $$("div", {className: "panel toc-panel-component"}, "TABLE OF CONTENT COMES HERE");
+
+    var tocEntries = _.map(state.tocNodes, function(node) {
+      var level = node.level;
+      var classNames = ["toc-entry", "level-"+level];
+
+      if (state.activeNode === node.id) {
+        classNames.push("active");
+      }
+      
+      return $$('a', {
+        className: classNames.join(" "),
+        href: "#",
+        "data-id": node.id,
+        onClick: this.handleClick
+      }, node.content);
+    }, this);
+
+    return $$("div", {className: "panel toc-panel-component"},
+      $$("div", {className: "toc-entries"}, tocEntries)
+    );
   }
 });
 
 var TOCPanel = React.createClass({
   mixins: [TOCPanelMixin],
-  displayName: "TOC",
+  displayName: "Contents",
 });
 
 // Panel Configuration
 // -----------------
 
 TOCPanel.contextId = "toc";
-TOCPanel.icon = "fa-comment";
+TOCPanel.icon = "fa-align-left";
 
 module.exports = TOCPanel;

@@ -66,53 +66,45 @@ var Scrollbar = React.createClass({
     }
   },
 
-  update: function(panelContentEl) {
+  update: function(panelContentEl, panel) {
     var self = this;
 
-     this.panelContentEl = panelContentEl;
-     // initialized lazily as this element is not accessible earlier (e.g. during construction)
-     // get the new dimensions
-     // TODO: use outerheight for contentheight determination?
-     var contentHeight = 0;
+    this.panelContentEl = panelContentEl;
 
-     $(panelContentEl).children().each(function() {
-      contentHeight += $(this).outerHeight();
-     });
+    var contentHeight = panel.getContentHeight();
+    var panelHeight = panel.getPanelHeight();
+    var scrollTop = panel.getScrollPosition();
 
-     var panelHeight = $(self.panelContentEl).height();
+    // Needed for scrollbar interaction
+    this.factor = (contentHeight / panelHeight);
 
-     // Needed for scrollbar interaction
-     this.factor = (contentHeight / panelHeight);
-     
-     var scrollTop = $(self.panelContentEl).scrollTop();
+    var highlights = [];
+    // Compute highlights
+    this.props.highlights().forEach(function(nodeId) {
+      var nodeEl = $(self.panelContentEl).find('*[data-id='+nodeId+']');
+      if (!nodeEl.length) return;
 
-     var highlights = [];
-     // Compute highlights
-     this.props.highlights().forEach(function(nodeId) {
-       var nodeEl = $(self.panelContentEl).find('*[data-id='+nodeId+']');
-       if (!nodeEl.length) return;
+      var top = nodeEl.position().top / self.factor;
+      var height = nodeEl.outerHeight(true) / self.factor;
 
-       var top = nodeEl.position().top / self.factor;
-       var height = nodeEl.outerHeight(true) / self.factor;
+      // HACK: make all highlights at least 3 pxls high, and centered around the desired top pos
+      if (height < Scrollbar.overlayMinHeight) {
+        height = Scrollbar.overlayMinHeight;
+        top = top - 0.5 * Scrollbar.overlayMinHeight;
+      }
 
-       // HACK: make all highlights at least 3 pxls high, and centered around the desired top pos
-       if (height < Scrollbar.overlayMinHeight) {
-         height = Scrollbar.overlayMinHeight;
-         top = top - 0.5 * Scrollbar.overlayMinHeight;
-       }
+      var data = {
+        id: nodeId,
+        top: top,
+        height: height
+      }
+      highlights.push(data);
+    });
 
-       var data = {
-         id: nodeId,
-         top: top,
-         height: height
-       }
-       highlights.push(data);
-     });
-
-     var thumbProps = {
-      top: scrollTop / this.factor,
-      height: panelHeight / this.factor
-     };
+    var thumbProps = {
+     top: scrollTop / this.factor,
+     height: panelHeight / this.factor
+    };
 
     this.setState({
       thumb: thumbProps,
