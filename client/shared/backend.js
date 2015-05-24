@@ -24,6 +24,27 @@ Backend.Prototype = function() {
     cb(null, doc);
   };
 
+  this.getDocuments = function(cb) {
+    $.ajax({
+      type: "GET",
+      url: "/api/documents",
+      dataType: "json",
+      beforeSend: function (xhr) {
+        var session = localStorage.getItem('session');
+        var token = JSON.parse(session).token;
+
+        xhr.setRequestHeader ("Authorization", "Bearer " + token);
+      },
+      success: function(data) {
+        cb(null, data);
+      },
+      error: function(err) {
+        console.error(err);
+        cb(err.responseText);
+      }
+    });
+  };
+
   this.saveDocument = function(doc, cb) {
     cb(new Error("Saving not supported in dev mode"));
   };
@@ -43,7 +64,7 @@ Backend.Prototype = function() {
         "password": password
       }),
       dataType: "json",
-      success: function(data, textStatus) {
+      success: function(data) {
         // NO longer needed to unpack the token
         // var userdata = atob(data.token.split('.')[1]);
         self.session = {
