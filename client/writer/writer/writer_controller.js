@@ -9,6 +9,7 @@ var ExtensionManager = require("./extension_manager");
 var coreTools = require("./tools");
 var coreComponents = require("./components");
 
+
 // Mixin with helpers to implement a WriterController
 // ----------------
 
@@ -87,6 +88,7 @@ WriterController.Prototype = function() {
   };
 
   this._onSelectionChanged = function(sel) {
+
     // var modules = this.getModules();
     this.extensionManager.handleSelectionChange(sel);
     // Notify all registered tools about the selection change (if enabled)
@@ -179,31 +181,6 @@ WriterController.Prototype = function() {
     return _.includes(enabledTools, toolName);
   };
 
-  // Extensions Related
-  // ----------------------
-  // 
-  // Should delegate most work to ExtensionManager
-  // Dead code!!
-  // 
-  // this.getNodeComponentClass = function(nodeType) {
-  //   console.log('get node component class', nodeType);
-  //   var extensions = this.getConfig().extensions;
-  //   var NodeClass;
-
-  //   var components = _.extend({}, coreComponents);
-
-  //   for (var i = 0; i < extensions.length; i++) {
-  //     var ext = extensions[i];
-  //     if (ext.components && ext.components[nodeType]) {
-  //       components[nodeType] = ext.components[nodeType];
-  //     }
-  //   }
-
-  //   NodeClass = components[nodeType];
-
-  //   if (!NodeClass) throw new Error("No component found for "+nodeType);
-  //   return NodeClass;
-  // };
 
   this.getPanels = function() {
     return this.extensionManager.getPanels();
@@ -254,7 +231,8 @@ WriterController.Prototype = function() {
   };
 
   // Document Specific stuff
-  // TODO: Move to DocumentController class
+  // TODO: Move to DocumentController class?
+
   this.deleteAnnotation = function(annotationId) {
     var anno = this.doc.get(annotationId);
     var tx = this.doc.startTransaction({ selection: this.getSelection() });
@@ -264,7 +242,6 @@ WriterController.Prototype = function() {
 
   this.annotate = function(annoSpec) {
     var sel = this.getSelection();
-
     var path = annoSpec.path;
     var startOffset = annoSpec.startOffset;
     var endOffset = annoSpec.endOffset;
@@ -284,7 +261,7 @@ WriterController.Prototype = function() {
     annotation.startOffset = startOffset;
     annotation.endOffset = endOffset;
 
-    // start the transaction with an initial selection
+    // Start the transaction with an initial selection
     var tx = this.doc.startTransaction({ selection: this.getSelection() });
     annotation = tx.create(annotation);
     tx.save({ selection: sel });

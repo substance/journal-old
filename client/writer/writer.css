@@ -337,7 +337,6 @@
   background: #666;
 }
 
-
 /* Text Tool has individual styles */
 
 .content-tools-component .tools .text-tool-component {
@@ -352,6 +351,20 @@
   width: 140px;
 }
 
+.content-tools-component .tools .text-tool-component .current-text-type {
+  display: block;
+  background: none;
+  color: #aaa;
+}
+
+.content-tools-component .tools .text-tool-component.active .current-text-type {
+  color: #666;
+}
+
+.content-tools-component .tools .text-tool-component.active .current-text-type:hover {
+  color: #444;
+}
+
 .content-tools-component .tools .text-tool-component .available-text-types {
   position: absolute;
   top: 30px;
@@ -363,6 +376,11 @@
   display: block;
   padding: 5px;
   background: white;
+  color: #666;
+}
+
+.content-tools-component .tools .text-tool-component .available-text-types .text-type:hover {
+  color: #444;
 }
 
 
@@ -398,6 +416,14 @@
 .content-panel-component .container-node.content .nodes > .content-node.heading {
   padding-bottom: 20px;
   font-weight: 600;
+}
+
+.content-panel-component .container-node.content .nodes > .content-node.heading.level-1 {
+  font-size: 20px;
+}
+
+.content-panel-component .container-node.content .nodes > .content-node.heading.level-2 {
+  font-size: 16px;
 }
 
 
@@ -551,11 +577,12 @@
 }
 
 .container-annotation.remark.annotation-fragment {
-  background: rgba(255, 254, 99, 0.3);
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .container-annotation.remark.annotation-fragment.active {
-  background: rgba(255, 254, 99, 0.8);
+  background: #444;
+  color: rgba(255,255,255,0.9);
 }
 
 /* Brackets for subject annotations
@@ -733,12 +760,12 @@
 }
 
 .resource-container .remark:hover {
-  border-left: 2px solid rgba(255, 254, 99, 0.5);
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .resource-container .remark.active {
   background: white;
-  border-left: 2px solid rgba(255, 254, 99, 1);
+  border-left: 2px solid #444;
 }
 
 .resource-container .remark .remark-header {
@@ -752,19 +779,26 @@
 .resource-container .remark .remark-header .delete-remark {
   display: block;
   position: absolute;
+  color: #aaa;
+
   right: 10px;
   top: 10px;
 }
 
+.resource-container .remark .remark-header .delete-remark:hover {
+  color: #444;
+}
+
 .resource-container .remark .remark-title {
-  color: #777;
   font-size: 12px;
-  background: rgba(255, 254, 99, 0.21);
+  background: rgba(0, 0, 0, 0.1);
+  color: #444;
   /*margin-right: 140px;*/
 }
 
 .resource-container .remark.active .remark-title {
-  background: rgba(255, 254, 99, 1);
+  background: #444;
+  color: rgba(255,255,255,0.9);
 }
 
 
@@ -833,12 +867,12 @@
 }
 
 /* Custom scrollbar styles */
-.scrollbar-component.entities .highlight {
+.scrollbar-component.web_resource .highlight {
   background-color: rgba(11, 157, 217, 1);
 }
 
 .scrollbar-component.remarks .highlight {
-  background: rgba(255, 254, 99, 1);
+  background: #444;
 }
 
 .scrollbar-component.showEntityReference .highlight,

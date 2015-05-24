@@ -70,8 +70,7 @@ var seed = function(cb) {
   });
 };
 
-
-// // export connection
+// export connection
 module.exports = {
   models: models,
   seed: seed,

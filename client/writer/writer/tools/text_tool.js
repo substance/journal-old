@@ -1,11 +1,6 @@
 var $$ = React.createElement;
 var _ = require("substance/helpers");
 
-// var LABELS = {
-//   "paragraph": "Paragraph",
-//   "heading": "Heading"
-// };
-
 
 var TEXT_TYPES = {
   "paragraph": {label: "Paragraph", data: {type: "paragraph"}},
@@ -31,10 +26,6 @@ var TextTool = React.createClass({
   },
 
   componentDidMount: function() {
-    // var doc = this.getDocument();
-    // doc.connect(this, {
-    //   'document:changed': this.handleDocumentChange
-    // });
   },
 
   componentWillMount: function() {
@@ -49,16 +40,15 @@ var TextTool = React.createClass({
 
   handleMouseDown: function(e) {
     e.preventDefault();
+    if (!this.state.active) return;
 
     var textType = TEXT_TYPES[e.currentTarget.dataset.type];
-    if (!this.state.active) {
-      console.log('NAAAAAY');
-      return;
-    }
-
     var surface = this.state.surface;
     var editor = surface.getEditor();
     editor.switchType(this.state.sel, textType.data);
+    this.setState({
+      expanded: false
+    });
   },
 
   getInitialState: function() {
@@ -69,7 +59,8 @@ var TextTool = React.createClass({
   },
 
   disableTool: function() {
-    this.setState({
+    console.log('tool gets disabled');
+    this.replaceState({
       active: false
     });
   },
@@ -114,22 +105,30 @@ var TextTool = React.createClass({
     var classNames = ['text-tool-component', 'tool'];
     if (this.state.active) classNames.push('active');
 
-    var currentTextType = "None";
+    // var currentTextType = "None";
+    var currentTextTypeEl;
     if (this.state.currentTextType) {
-      currentTextType = TEXT_TYPES[this.state.currentTextType].label;
-    }
-    
-    var currentTextTypeEl = $$('a', {
-      href: "#",
-      className: "current-text-type",
-      dangerouslySetInnerHTML: {__html: currentTextType + ' <i class="fa fa-sort-down"></i>'},
-      onMouseDown: this.toggleAvailableTextTypes,
-      onClick: this.handleClick
-    });
+      var currentTextType = TEXT_TYPES[this.state.currentTextType].label;
 
-    var availableTextTypes = $$('div');
+      currentTextTypeEl = $$('a', {
+        href: "#",
+        className: "current-text-type",
+        dangerouslySetInnerHTML: {__html: currentTextType + '&nbsp;&nbsp;<i class="fa fa-sort-down"></i>'},
+        onMouseDown: this.toggleAvailableTextTypes,
+        onClick: this.handleClick
+      });
+    } else {
+      currentTextTypeEl = $$('a', {
+        href: "#",
+        className: "current-text-type",
+        onMouseDown: this.toggleAvailableTextTypes,
+        onClick: this.handleClick
+      }, "No selection");
+    }
+      
+    var availableTextTypes = [];
     if (this.state.expanded) {
-       availableTextTypes = _.map(TEXT_TYPES, function(textType, textTypeId) {
+      availableTextTypes = _.map(TEXT_TYPES, function(textType, textTypeId) {
         return $$('a', {
           href: "#",
           className: 'text-type',
@@ -142,9 +141,7 @@ var TextTool = React.createClass({
 
     return $$("div", { className: classNames.join(' ')},
       currentTextTypeEl,
-      $$('div', {className: "available-text-types"},
-        availableTextTypes
-      )
+      $$('div', {className: "available-text-types"}, availableTextTypes)
     );
   }
 });

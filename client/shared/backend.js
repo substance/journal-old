@@ -28,7 +28,6 @@ Backend.Prototype = function() {
     cb(new Error("Saving not supported in dev mode"));
   };
 
-
   // User Session
   // ------------------
 
@@ -45,14 +44,11 @@ Backend.Prototype = function() {
       }),
       dataType: "json",
       success: function(data, textStatus) {
-        var userdata = atob(data.token.split('.')[1]);
-        console.log('le data', data);
+        // NO longer needed to unpack the token
+        // var userdata = atob(data.token.split('.')[1]);
         self.session = {
           token: data.token,
-          user: {
-            email: userdata.email,
-            name: userdata.email
-          }
+          user: data.user
         };
 
         // Remember session next time
@@ -68,7 +64,7 @@ Backend.Prototype = function() {
 
   this.logout = function(cb) {
     this.session = null;
-    this.removeItem('session');
+    localStorage.removeItem('session');
     cb(null);
   };
 
