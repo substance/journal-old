@@ -581,8 +581,8 @@
 }
 
 .container-annotation.remark.annotation-fragment.active {
-  background: #444;
-  color: rgba(255,255,255,0.9);
+  background: #aaa;
+  /*color: rgba(255,255,255,0.9);*/
 }
 
 /* Brackets for subject annotations
@@ -765,7 +765,7 @@
 
 .resource-container .remark.active {
   background: white;
-  border-left: 2px solid #444;
+  border-left: 2px solid #aaa;
 }
 
 .resource-container .remark .remark-header {
@@ -797,8 +797,8 @@
 }
 
 .resource-container .remark.active .remark-title {
-  background: #444;
-  color: rgba(255,255,255,0.9);
+  background: #aaa;
+  /*color: rgba(255,255,255,0.9);*/
 }
 
 
@@ -872,7 +872,7 @@
 }
 
 .scrollbar-component.remarks .highlight {
-  background: #444;
+  background: #aaa;
 }
 
 .scrollbar-component.showEntityReference .highlight,
