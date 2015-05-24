@@ -18,7 +18,7 @@ var EXAMPLE_DOC = {
 // --------------
 
 var models = {
-  Document: require("./document")(knex),
+  Document: require("./document"),
   User: require("./user")
 };
 
