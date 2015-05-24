@@ -49,7 +49,16 @@ var createDocument = function(req, res, next) {
 var listDocuments = function(req, res, next) {
   // TODO: list documents related to current user, pagination
   var user = req.user;
-  Document.findAll(util.out(res, next));
+  // TODO: enable util.out again so we have it shorter
+  // Document.findAll(util.out(res, next));
+
+  Document.findAll(function(err, documents) {
+    if (err) {
+      return res.status(400).json({message: err.message});
+    }
+
+    res.status(200).json(documents);
+  });
 };
 
 

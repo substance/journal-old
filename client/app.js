@@ -68,7 +68,7 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      context: "writer"
+      context: "dashboard"
     };
   },
 

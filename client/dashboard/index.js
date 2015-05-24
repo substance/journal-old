@@ -42,7 +42,6 @@ var DocumentRecord = React.createClass({
     } else {
       return "";
     }
-    
   },
 
   render: function() {
@@ -53,7 +52,7 @@ var DocumentRecord = React.createClass({
         $$('a', {href: "#"}, this.props.title)
       ),
       $$('div', {className: "abstract"}, this.props.abstract),
-      $$('div', {className: "author"}, this.props.user.name)
+      $$('div', {className: "author"}, this.props.creator.name)
     );
   }
 });
@@ -64,18 +63,37 @@ var DocumentRecord = React.createClass({
 
 var Dashboard = React.createClass({
   contextTypes: {
-    notifications: React.PropTypes.object.isRequired
+    notifications: React.PropTypes.object.isRequired,
+    backend: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function() {
+    return {
+      documents: []
+    };
+  },
+
+  componentDidMount: function() {
+    var backend = this.context.backend;
+    backend.getDocuments(function(err, documents) {
+      console.log('docs', documents);
+      this.setState({
+        documents: documents
+      });
+    }.bind(this));
   },
 
   displayName: "Dashboard",
 
   render: function() {
+    var state = this.state;
+
     return $$("div", {className: "dashboard-component"},
       $$("div", {className: "header"},
-        FAKE_DATA.length + " articles"
+        state.documents.length + " articles"
       ),
       $$("div", {className: "documents"},
-        _.map(FAKE_DATA, function(doc) {
+        _.map(state.documents, function(doc) {
           return $$(DocumentRecord, doc);
         })
       )
