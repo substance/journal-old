@@ -3,12 +3,14 @@ var Article = require('../article');
 var EXAMPLE_DOC = require("../../data/sample_doc");
 var _ = require("substance/helpers");
 
-// TODO: persist session, so we don't need to reauthenticate each time
-
 var Backend = function(opts) {
   this.session = null;
 
-  // this.authenticate(null, null, function() {});
+  // Restore last session
+  var lastSession = localStorage.getItem('session');
+  if (lastSession) {
+    this.session = JSON.parse(lastSession);
+  }
 };
 
 Backend.Prototype = function() {
@@ -26,6 +28,10 @@ Backend.Prototype = function() {
     cb(new Error("Saving not supported in dev mode"));
   };
 
+
+  // User Session
+  // ------------------
+
   this.authenticate = function(username, password, cb) {
     var self = this;
 
@@ -34,21 +40,23 @@ Backend.Prototype = function() {
       url: "/api/authenticate",
       contentType: "application/json; charset=UTF-8",
       data: JSON.stringify({
-        "email": username,
+        "username": username,
         "password": password
       }),
       dataType: "json",
       success: function(data, textStatus) {
+        var userdata = atob(data.token.split('.')[1]);
+        console.log('le data', data);
         self.session = {
           token: data.token,
-
-          // Michael, you can do atob(data.split('.')[1]) to get real user data from server
           user: {
-            email: "x@y.com",
-            name: "Michael Aufreiter"
+            email: userdata.email,
+            name: userdata.email
           }
         };
 
+        // Remember session next time
+        localStorage.setItem('session', JSON.stringify(self.session));
         cb(null, self.session);
       },
       error: function(err) {
@@ -60,6 +68,7 @@ Backend.Prototype = function() {
 
   this.logout = function(cb) {
     this.session = null;
+    this.removeItem('session');
     cb(null);
   };
 

@@ -5,6 +5,7 @@ var util = require("./util"),
     db = require("../db/index"),
     User = db.models.User;
 
+
 // Helpers functions
 // ------------
 // 
@@ -15,9 +16,7 @@ var validateEmail = function(email) {
   return re.test(email);
 }
 
-
 // removes password from user object
-
 var sanitizeUser = function(user) {
   return _.omit(user, 'password');
 }
@@ -42,7 +41,6 @@ var listUsers = function(req, res, next) {
 // -----------
 // 
 // Takes user data 
-// That token must be sent to the API along with each future request
 // 
 // 
 // POST /api/users
@@ -50,36 +48,28 @@ var listUsers = function(req, res, next) {
 // Input:
 // 
 // {
+//   "username": 
 //   "email": "x@y.com",
 //   "password": "abcd"
 // }
 // 
-// Response:
-// 
-// Status: 200 OK
-// 
-// {
-//   "token": "mysessiontoken"
-// }
 
 var createUser = function(req, res, next) {
-	var email = req.body.email;
-	var password = req.body.password;
-	var data = req.body.data;
+  var userSpec = req.body;
 
-  if(!validateEmail(email)) {
+  if(!validateEmail(userSpec.email)) {
     res.status(400).json({
       message: 'This is not email. Please provide real email address.'
     });
   }
 
-  if(password.length <= 5) {
+  if(userSpec.password.length <= 5) {
     res.status(400).json({
       message: 'Password is not strong enough. Please use at least 6 characters.'
     });
   }
 
-	User.create(email, password, data, util.out(res, next));
+	User.create(userSpec, util.out(res, next));
 }
 
 userAPI.route('/users')
@@ -93,13 +83,15 @@ userAPI.route('/users')
 // Takes email and password and returns a token if login was successful
 // That token must be sent to the API along with each future request
 // 
+// header: Authorization: Bearer YOUR_TOKEN_HERE)
+// 
 // 
 // POST /api/authenticate
 // 
 // Input:
 // 
 // {
-//   "email": "x@y.com",
+//   "username": "x@y.com",
 //   "password": "abcd"
 // }
 // 
@@ -108,16 +100,25 @@ userAPI.route('/users')
 // Status: 200 OK
 // 
 // {
-//   "token": "mysessiontoken"
+//   "token": "sessionToken",
+//   "user": {
+//     "username": "johndoe"
+//     "name": "John Doe"
+//   }
 // }
+//
+// TODO Daniel:
+//   - change API to use username instead or in addition to email
+//   - make token secure
+//   - return minimal user information in user property
 
 var authenticate = function(req, res, next) {
   console.log('/api/authenticate called');
-  var email = req.body.email;
+  var username = req.body.username;
   var password = req.body.password;
 
   // checks if given email is valid  
-  User.authenticate(email, password, util.out(res, next));
+  User.authenticate(username, password, util.out(res, next));
 };
 
 userAPI.route('/authenticate')

@@ -34,7 +34,10 @@ var Menu = React.createClass({
     console.log('handling login...', username, password);
 
     backend.authenticate(username, password, function(err, session) {
-      console.log('yay authenticated', session);
+      if (err) {
+        alert('Login failed. Please try again');
+        return;
+      }
       app.replaceState({
         context: "dashboard"
       });

@@ -9,7 +9,6 @@ var EXAMPLE_DOC = {
   }
 };
 
-
 // Initialize knex connection
 // --------------
 // 
@@ -48,20 +47,22 @@ var seed = function(cb) {
         });
       },
       function(cb) {
-        models.User.create("admin@substance.io", "1234", {}, cb);
+        models.User.create({
+          username: "admin",
+          password: "1234",
+          name: "Administrator",
+          email: "admin@substance.io",
+        }, cb);
       },
       function(cb) {
         models.User.findAll(function(err, users) {
           console.log('all users', users);
           cb(null);
         });
-      },
-
-      
+      }
     ], function(err, results) {
       if (err) {
         console.error(err);
-
         return cb(err);
       }
       cb(null);

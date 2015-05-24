@@ -16,14 +16,18 @@ var SALT_ROUNDS = 10;
 User.createSchema = function(cb) {
   knex.schema.dropTableIfExists('users')
     .createTable('users', function(t) {
-      t.string('email').primary();
+      t.string('username').primary();
+      t.string('email').unique();
+      t.string('name');
+      t.string('location');
       t.string('password');
-      t.string('token');
+      t.string('token'); // JSON Web Token goes here
       t.timestamps();
-      t.json('data');
 
-      // TODO: is this valid code? (column2)
-      // t.primary(['email', 'column2']);
+      // TODO: not sure if we want a generic data container
+      // e.g. the name property better sits on the record
+      // level so we can query for author names.
+      t.json('data');
     })
     .then(function() {
       console.log('done creating User schema.');
@@ -67,14 +71,21 @@ User.comparePasswords = function(candidatePassword, password, cb) {
 // Create a new user
 // ------------
 //
-//
+// Example params object:
+// 
+// {
+//   username: "johndoe",
+//   password: "plainpassword",
+//   email: "john@doe.com",
+//   name: "John Doe"
+// }
 
-User.create = function(email, password, data, cb) {
-  var jsonData = JSON.stringify(data, null, "  ");
-  this.bcryptPassword(password, function(err, bcryptedPassword) {
+User.create = function(userSpec, cb) {
+  this.bcryptPassword(userSpec.password, function(err, bcryptedPassword) {
     knex.table('users').insert({
-      data: jsonData,
-      email: email,
+      username: userSpec.username,
+      email: userSpec.email,
+      name: userSpec.name,
       password: bcryptedPassword,
       created_at: new Date(),
       updated_at: new Date()
@@ -119,50 +130,63 @@ User.get = function(email, cb) {
     .catch(cb);
 };
 
-
 // Authenticate user based on email and password
 // ------------
 // 
 
-User.authenticate = function(email, password, cb) {
+User.authenticate = function(username, password, cb) {
   var self = this;
 
-  knex('users').where('email', email)
-    .then(function(user) {
+  knex('users')
+    .where('username', username)
+    // .orWhere('email', email)
+    .then(function(users) {
+      user = users[0];
+
+      console.log('JEY');
 
       // check if user exists
-      if (_.isEmpty(user)) {
-        cb(null, 401, {
+      if (!user) {
+        return cb(null, 401, {
           message: 'Authentication failed. User not found.'
-        })
-      } else if (user) {
-
-        // check if password matches
-        self.comparePasswords(password, user[0].password, function(err, isMatch){
-          if (!isMatch) {
-            cb(null, 401, {
-              message: 'Authentication failed. Password is wrong.'
-            })
-          } else {
-
-            // Michael, this is what will go out to req.user with some additional stuff
-            var profile = {
-              email: user[0].email,
-              created_at: user[0].created_at,
-              updated_at: user[0].updated_at,
-              data: user[0].data
-            };
-            var token = jwt.sign(profile, config.secret, {
-              issuer: user[0].email,
-              expiresInMinutes: 60*24 // expires in 24 hours
-            });
-            cb(null, 200, {
-              message: 'Enjoy your token!',
-              token: token
-            });
-          }
-        })
+        });
       }
+
+      // check if password matches
+      self.comparePasswords(password, user.password, function(err, isMatch) {
+        if (err) {
+          cb(null, 401, {
+            message: err // an error occured
+          });
+        } else if (!isMatch) {
+          cb(null, 401, {
+            message: 'Authentication failed. Password is wrong.'
+          });
+        } else {
+          // Michael, this is what will go out to req.user with some additional stuff
+          var profile = {
+            username: user,
+            created_at: user.created_at,
+            updated_at: user.updated_at
+          };
+          // TODO: Daniel, will the expires column be updated
+          // while a user uses the system? that would be nice if we can push it
+          // back, so you are not automatically logged out if you use the system
+          // daily... however, maybe this could also be a security risk
+          var token = jwt.sign(profile, config.secret, {
+            issuer: user.username,
+            expiresInMinutes: 60*24 // expires in 24 hours
+          });
+          cb(null, 200, {
+            message: 'Enjoy your token!',
+            token: token,
+            user: {
+              username: user.username,
+              name: user.name
+            }
+          });
+        }
+      })
     })
     .catch(cb);
 };
