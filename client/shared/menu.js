@@ -3,8 +3,8 @@ var _ = require("substance/helpers");
 
 var menuItems = [
   {"name": "dashboard", "label": "Dashboard"},
-  {"name": "admin", "label": "Admin"},
-  {"name": "writer", "label": "Example Document"}
+  {"name": "admin", "label": "Admin"}
+  // {"name": "writer", "label": "Example Document"}
 ];
 
 // The Menu
@@ -20,6 +20,7 @@ var Menu = React.createClass({
   displayName: "Menu",
 
   handleMenuSelection: function(e) {
+    e.preventDefault();
     var context = e.currentTarget.dataset.id;
     this.props.handleContextSwitch(context);
   },

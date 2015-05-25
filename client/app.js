@@ -66,18 +66,50 @@ var App = React.createClass({
     }, appContext);
   },
 
+  getStateFromRoute: function(route) {
+    var parts = route.split(";");
+    var state = {};
+
+    if (route) {
+      _.each(parts, function(part) {
+        var keyVal = part.split("=");
+        state[keyVal[0]] = keyVal[1];
+      });      
+    } else {
+      state.context = "dashboard";
+    }
+    
+    return state;
+  },
+
+  getRouteFromState: function(state) {
+    var routeParts = [];
+    _.each(state, function(value, key) {
+      routeParts.push([key, value].join("="));
+    });
+
+    return routeParts.join(";");
+  },
+
   getInitialState: function() {
-    return {
-      context: "dashboard"
-    };
+    var initState = this.getStateFromRoute(this.props.route);
+    return initState;
+  },
+
+  componentWillUpdate: function(nextProps, nextState) {
+    var route = this.getRouteFromState(nextState);
+    history.replaceState({} , '', '#'+route);
   },
 
   handleContextSwitch: function(context) {
-    this.replaceState({
-      context: context,
-      // HACK: this should only be set in the writer context
-      documentId: this.props.documentId
-    });
+    var newState = {
+      context: context
+    };
+
+    if (this.props.documentId) {
+      newState.documentId = this.props.documentId;
+    }
+    this.replaceState(newState);
   },
 
   // Extract props from the app state to parametrize the active child view
@@ -109,10 +141,12 @@ var App = React.createClass({
 // Start the app
 
 $(function() {
+
   React.render(
     $$(App, {
-      documentId: window.location.hash.slice(1)
+      route: window.location.hash.slice(1)
     }),
     document.getElementById('container')
   );
 });
+
