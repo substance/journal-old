@@ -58,13 +58,13 @@ var createUser = function(req, res, next) {
   var userSpec = req.body;
 
   if(!validateEmail(userSpec.email)) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'This is not email. Please provide real email address.'
     });
   }
 
   if(userSpec.password.length <= 5) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'Password is not strong enough. Please use at least 6 characters.'
     });
   }
@@ -118,7 +118,10 @@ var authenticate = function(req, res, next) {
   var password = req.body.password;
 
   // checks if given email is valid  
-  User.authenticate(username, password, util.out(res, next));
+  User.authenticate(username, password, function(err, data) {
+    if(err) return res.status(401).json({message: err.message});
+    res.status(200).json(data);
+  });
 };
 
 userAPI.route('/authenticate')

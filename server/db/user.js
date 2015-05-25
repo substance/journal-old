@@ -93,11 +93,9 @@ User.create = function(userSpec, cb) {
     .asCallback(function(err, user) {
       if(err) return cb(err, 400, {});
       if (_.isEmpty(user)) {
-        return cb(null, 400, {
-          message: 'Something went wrong. Please try again.'
-        });
+        return cb(new Error('Something went wrong. Please try again.'));
       } else if (user) {
-        return cb(null, 200, {
+        cb(null, {
           message: 'New user has been registered. Welcome!'
         });
       }
@@ -128,8 +126,8 @@ User.findAll = function(cb) {
 User.get = function(username, cb) {
   knex('users').where('username', username)
     .asCallback(function(err, item) {
-      if(err) return cb(err, 400, {});
-      return cb(null, 200, item[0])
+      if(err) return cb(err);
+      return cb(null, item[0])
     });
 };
 
@@ -144,27 +142,21 @@ User.authenticate = function(username, password, cb) {
     .where('username', username)
     // .orWhere('email', email)
     .asCallback(function(err, users) {
-      if(err) return cb(err, 400, {});
+      if(err) return cb(err);
       
       var user = users[0];
 
       // check if user exists
       if (!user) {
-        return cb(null, 401, {
-          message: 'Authentication failed. User not found.'
-        });
+        return cb(new Error('Authentication failed. User not found.'));
       }
 
       // check if password matches
       self.comparePasswords(password, user.password, function(err, isMatch) {
         if (err) {
-          return cb(err, 401, {
-            message: err // an error occured
-          });
+          return cb(err);
         } else if (!isMatch) {
-          return cb(null, 401, {
-            message: 'Authentication failed. Password is wrong.'
-          });
+          return cb(new Error('Authentication failed. Password is wrong.'));
         } else {
           // Michael, this is what will go out to req.user with some additional stuff
           var profile = {
@@ -180,7 +172,7 @@ User.authenticate = function(username, password, cb) {
             issuer: user.username,
             expiresInMinutes: 60*24 // expires in 24 hours
           });
-          return cb(null, 200, {
+          return cb(null, {
             message: 'Enjoy your token!',
             token: token,
             user: {

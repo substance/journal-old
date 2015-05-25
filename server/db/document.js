@@ -148,7 +148,7 @@ Document.create = function(doc, creator, cb) {
   var docEntry = serializeDocument(doc, creator);
   knex.table('documents').insert(docEntry)
     .asCallback(function(err, ids) {
-      if(err) return cb(err, 400, {});
+      if(err) return cb(err);
       return self.get(ids[0], cb);
     });
 };
@@ -185,15 +185,15 @@ Document.findAll = function(cb) {
 Document.get = function(id, cb) {
   if (!id) {
     console.error('Document.get: no id provided');
-    cb(new Error('no id provided'), 400);
+    cb(new Error('no id provided'));
   }
   knex('documents').where('id', id)
     .asCallback(function(err, documents) {
-      if(err) return cb(err, 400, {});
+      if(err) return cb(err);
       
       var docEntry = documents[0];
       var doc = deserializeDocument(docEntry);
-      return cb(null, 200, doc);
+      return cb(null, doc);
     });
 };
 
@@ -203,7 +203,7 @@ Document.update = function(id, doc, username, cb) {
   var docEntry = serializeDocument(doc);
   knex('documents').where('id', id).update(docEntry)
     .asCallback(function(err, item) {
-      if(err) return cb(err, 400, {});
+      if(err) return cb(err);
       return self.get(id, cb);
     });
 };
@@ -211,7 +211,7 @@ Document.update = function(id, doc, username, cb) {
 Document.remove = function(id, user, cb) {
   knex('documents').where('id', id).del()
     .asCallback(function(err) {
-      if(err) return cb(err, 400, {});
-      return cb(null, 200, {});
+      if(err) return cb(err);
+      return cb(null);
     });
 };
