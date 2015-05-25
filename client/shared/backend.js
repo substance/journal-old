@@ -105,9 +105,8 @@ Backend.Prototype = function() {
 
         xhr.setRequestHeader ("Authorization", "Bearer " + token);
       },
-      success: function(data) {
-        console.log(data);
-        cb(null, data);
+      success: function() {
+        cb(null);
       },
       error: function(err) {
         console.error(err);

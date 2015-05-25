@@ -203,9 +203,9 @@ Document.update = function(id, doc, username, cb) {
   var self = this;
   var docEntry = serializeDocument(doc, username);
   knex('documents').where('id', id).update(docEntry)
-    .asCallback(function(err, item) {
+    .asCallback(function(err, id) {
       if(err) return cb(err);
-      return self.get(id, cb);
+      return cb(null, id);
     });
 };
 
