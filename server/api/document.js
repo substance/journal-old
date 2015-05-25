@@ -123,6 +123,7 @@ var updateDocument = function(req, res, next) {
 
   // TODO daniel: we must ensure we get the doc in JSON format here,
   // which should be the case when using application/json right?
+  // Daniel: I believe it will not pass data in other format
   var docData = req.body;
 
   Document.update(documentId, docData, user.username, util.out(res, next));

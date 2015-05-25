@@ -77,6 +77,35 @@ userAPI.route('/users')
   .get(util.checkToken, listUsers);
 
 
+
+var getUser = function(req, res, next) {
+  var userId = req.params.id;
+
+  User.get(userId, util.out(res, next));
+};
+
+
+var updateUser = function(req, res, next) {
+  var user = req.user;
+  var userId = req.params.id;
+
+  var userData = req.body;
+
+  User.update(userId, userData, user.username, util.out(res, next));
+};
+
+
+var removeUser = function(req, res, next) {
+  var user = req.user;
+  var userId = req.params.id;
+  User.remove(userId, user.username, util.out(res,next));
+};
+
+userAPI.route('/users/:id')
+  .get(util.checkToken, getUser)
+  .put(util.checkToken, updateUser)
+  .delete(util.checkToken, removeUser);
+
 // Authenticate user
 // -----------
 // 

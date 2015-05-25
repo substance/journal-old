@@ -131,6 +131,25 @@ User.get = function(username, cb) {
     });
 };
 
+
+User.update = function(id, data, username, cb) {
+  var self = this;
+  knex('documents').where('id', id).update(data)
+    .asCallback(function(err, user) {
+      if(err) return cb(err);
+      return self.get(id, cb);
+    });
+};
+
+
+User.remove = function(id, user, cb) {
+  knex('documents').where('id', id).del()
+    .asCallback(function(err) {
+      if(err) return cb(err);
+      return cb(null);
+    });
+};
+
 // Authenticate user based on email and password
 // ------------
 // 
