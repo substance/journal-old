@@ -192,7 +192,7 @@ var WriterMixin = _.extend({}, WriterController.prototype, Substance.EventEmitte
     }
     // Save: cmd+s
     else if (e.keyCode === 83 && (e.metaKey||e.ctrlKey)) {
-      this.requestAutoSave();
+      this.requestSave();
       handled = true;
     }
     if (handled) {

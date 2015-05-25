@@ -28,33 +28,7 @@ var SaveTool = React.createClass({
     var notifications = this.context.notifications;
     var app = this.context.app;
     var doc = app.doc;
-
-    if (this.state.active && !doc.__isSaving) {
-      doc.__isSaving = true;
-
-      notifications.addMessage({
-        type: "progress",
-        message: "Saving document ..."
-      });
-
-      backend.saveDocument(doc, function(err) {
-        doc.__isSaving = false;
-        if (err) {
-          notifications.addMessage({
-            type: "error",
-            message: err.message
-          });
-        } else {
-          notifications.addMessage({
-            type: "info",
-            message: "No changes"
-          });
-          this.setState({
-            active: false
-          });
-        }
-      }.bind(this));
-    }
+    app.requestSave();
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {

@@ -95,7 +95,7 @@ WriterController.Prototype = function() {
     this.toolManager.updateTools(sel, this.getSurface());
   };
 
-  this._requestAutoSave = function() {
+  this.requestSave = function() {
     var doc = this.props.doc;
     var backend = this.context.backend;
     var notifications = this.context.notifications;
@@ -103,7 +103,7 @@ WriterController.Prototype = function() {
     if (doc.__dirty && !doc.__isSaving) {
       notifications.addMessage({
         type: "info",
-        message: "Autosaving ..."
+        message: "Saving ..."
       });
 
       doc.__isSaving = true;
@@ -114,7 +114,6 @@ WriterController.Prototype = function() {
             type: "error",
             message: err.message || err.toString()
           });
-          console.error('saving of document failed');
         } else {
           doc.emit('document:saved');
           notifications.addMessage({
