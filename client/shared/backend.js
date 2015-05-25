@@ -92,7 +92,28 @@ Backend.Prototype = function() {
   };
 
   this.saveDocument = function(doc, cb) {
-    cb(new Error("Saving not supported in dev mode"));
+    //cb(new Error("Saving not supported in dev mode"));
+    $.ajax({
+      type: "PUT",
+      url: "/api/documents/" + doc.id,
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify(doc.toJSON()),
+      beforeSend: function (xhr) {
+        var session = localStorage.getItem('session');
+        var token = JSON.parse(session).token;
+
+        xhr.setRequestHeader ("Authorization", "Bearer " + token);
+      },
+      success: function(data) {
+        console.log(data);
+        cb(null, data);
+      },
+      error: function(err) {
+        console.error(err);
+        cb(err.responseText);
+      }
+    });
   };
 
   // User Session

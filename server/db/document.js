@@ -146,6 +146,7 @@ Document.createSchema = function(cb) {
 Document.create = function(doc, creator, cb) {
   var self = this;
   var docEntry = serializeDocument(doc, creator);
+  console.log(docEntry)
   knex.table('documents').insert(docEntry)
     .asCallback(function(err, ids) {
       if(err) return cb(err);
@@ -200,7 +201,7 @@ Document.get = function(id, cb) {
 // TODO: In future check JSON if it conforms to a valid Substance document
 Document.update = function(id, doc, username, cb) {
   var self = this;
-  var docEntry = serializeDocument(doc);
+  var docEntry = serializeDocument(doc, username);
   knex('documents').where('id', id).update(docEntry)
     .asCallback(function(err, item) {
       if(err) return cb(err);
