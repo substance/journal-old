@@ -51,20 +51,29 @@ app.use(function (err, req, res, next) {
 
 if (process.env.NODE_ENV !== "production") {
 
+  // Backend
+  // --------------------
+
   app.get('/app.js', browserify('./client/app.js', {cache: false}));
 
   app.get('/app.css', function(req, res) {
-    var cssFile = [
-      fs.readFileSync('./client/app.css', 'utf8'),
-      fs.readFileSync('./client/writer/writer.css', 'utf8')
-    ].join('\n');
-
     res.set('Content-Type', 'text/css');
-    res.send(cssFile);
+    res.send(fs.readFileSync('./client/app.css', 'utf8'));
   });
+
+  app.get('/writer.css', function(req, res) {
+    res.set('Content-Type', 'text/css');
+    res.send(fs.readFileSync('./client/writer/writer.css', 'utf8'));
+  });
+
+  // Frontend
+  // --------------------
+
+  app.get('/reader_app.js', browserify('./client/app.js', {cache: false}));
+
 }
 
-// Expose the writer
+// Expose the backend app
 // --------------
 
 // Render app start page
@@ -72,6 +81,14 @@ if (process.env.NODE_ENV !== "production") {
 app.route('/')
   .get(function(req, res, next) {
     res.render('app', {user: req.user});
+  });
+
+// Expose the reader interface
+// --------------
+
+app.route('/reader')
+  .get(function(req, res, next) {
+    res.render('reader_app', {user: req.user});
   });
 
 
