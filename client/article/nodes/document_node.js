@@ -3,47 +3,16 @@ var Substance = require('substance');
 var DocumentNode = Substance.Document.Node.extend({
   name: "document",
   properties: {
-    // General stuff
+    // globally unique document id (provided by system)
     "guid": "string",
     "creator": "string",
     "title": "string",
-    "published": "boolean",
     "abstract": "string",
-    "abstract_en": "string",
-    "created_at": "string",
-    "updated_at": "string",
-    "published_on": "string",
+    "created_at": "date",
+    "updated_at": "date",
 
-    // Project related
-    "project_name": "string",
-    "project_location": "string", // points to an entity id
-    "conductor": "string",
-    "operator": "string",
-    "sound_operator": "string",
-    "record_type": "string", // "video" or "audio"
-    "media_id": "string",
-    "interview_location": "string",
-    "interview_date": "string",
-    "persons_present": "string",
-    "interview_duration": "number",
-
-    // Subject related
-    "interviewee_bio": "string",
-    "interviewee_category": "string",
-    "interviewee_forced_labor_type": "string",
-    "interviewee_prisons": ["array", "string"],
-    "interviewee_waypoints": ["array", "waypoint"],
-
-    // Workflow
-    "transcripted": "boolean",
-    "verified": "boolean",
-    "finished": "boolean"
-  },
-
-  getWaypoints: function() {
-    return this.interviewee_waypoints.map(function(waypointId) {
-      return this.getDocument().get(waypointId);
-    }.bind(this));
+    // When not null, it means the doc is published
+    "published_on": "date",
   }
 });
 

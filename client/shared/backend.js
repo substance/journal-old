@@ -32,7 +32,8 @@ Backend.Prototype = function() {
       },
       success: function(rawDoc) {
         var doc = new Article(rawDoc);
-        console.log('doc', rawDoc);
+        console.log('rawDoc', rawDoc);
+        console.log('doc', doc);
         window.doc = doc;
         cb(null, doc);
       },

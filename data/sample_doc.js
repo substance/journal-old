@@ -1,5 +1,4 @@
 var sampleDoc = {
-  "id": "9cc2e4def8b39bc234bf5e186bafa743",
   "schema": [
     "substance-article",
     "0.1.0"
@@ -8,18 +7,11 @@ var sampleDoc = {
     "document": {
       "id": "document",
       "type": "document",
-      "containers": [
-        "content"
-      ],
-      // General stuff
-      "guid": "9cc2e4def8b39bc234bf5e186bafa743",
-      "creator": "",
       "title": "Test document",
-      "abstract": "Russian abstract",
-      "abstract_en": "Enter english abstract here",
+      "abstract": "I am an abstract. Yay!",
       "created_at": "2015-03-04T10:56:18.229Z",
       "updated_at": "2015-03-04T10:56:47.425Z",
-      "published_on": "2015-03-04"
+      "published_on": null
     },
     "content": {
       "type": "container",
