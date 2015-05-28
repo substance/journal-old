@@ -96,3 +96,7 @@ app.listen(port, function(){
   console.log("Lens running on port " + port);
   console.log("http://127.0.0.1:"+port+"/");
 });
+
+
+// Export app for requiring in test files
+module.exports = app;
