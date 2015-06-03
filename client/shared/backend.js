@@ -1,50 +1,92 @@
 var Substance = require("substance");
 var Article = require('../article');
-var EXAMPLE_DOC = require("../../data/sample_doc");
-var _ = require("substance/helpers");
+// var EXAMPLE_DOC = require("../../data/sample_doc");
+// var _ = require("substance/helpers");
 
-var Backend = function(opts) {
-  this.session = null;
-
-  // Restore last session
-  var lastSession = localStorage.getItem('session');
-  if (lastSession) {
-    this.session = JSON.parse(lastSession);
-  }
+var Backend = function() {
+  this.initialized = false;
 };
+
+// _request('POST', '/api/authenticate', {username: username, password: password});
 
 Backend.Prototype = function() {
 
-  // Document
-  // ------------------
+  // A generic request method
+  // -------------------
+  // 
+  // Deals with sending the authentication header, encoding etc.
 
-  this.getDocument = function(documentId, cb) {
-    console.log('opening...', documentId);
+  this._request = function(method, url, data, cb) {
 
-    $.ajax({
-      type: "GET",
-      url: "/api/documents/"+documentId,
+    var ajaxOpts = {
+      type: method,
+      url: url,
+      contentType: "application/json; charset=UTF-8",
+      // data: JSON.stringify(data),
       dataType: "json",
-      beforeSend: function (xhr) {
-        var session = localStorage.getItem('session');
-        var token = JSON.parse(session).token;
-        xhr.setRequestHeader ("Authorization", "Bearer " + token);
-      },
-      success: function(rawDoc) {
-        var doc = new Article(rawDoc);
-        console.log('rawDoc', rawDoc);
-        console.log('doc', doc);
-        window.doc = doc;
-        cb(null, doc);
+      success: function(data) {
+        cb(null, data);
       },
       error: function(err) {
         console.error(err);
         cb(err.responseText);
       }
-    });
+    };
 
-    // var doc = new Article(EXAMPLE_DOC);
-    // cb(null, doc);
+    if (data) {
+      ajaxOpts.data = JSON.stringify(data);
+    }
+
+    // Add Authorization header if there's an active session
+    var session = localStorage.getItem('session');
+    if (session) {
+      var token = JSON.parse(session).token;
+
+      ajaxOpts.beforeSend = function(xhr) {
+        xhr.setRequestHeader("Authorization", "Bearer " + token);
+      };
+    }
+
+    $.ajax(ajaxOpts);
+  };
+
+
+  // Initialize
+  // ------------------
+
+  this.initialize = function(cb) {
+
+    // Restore last session
+    var lastSession = localStorage.getItem('session');
+    var lastToken;
+    if (lastSession) {
+      lastToken = lastSession.token;
+    }
+
+    this.verifyToken(lastSession, function(err) {
+      this.initialized = true;
+      if (err) {
+        this.destroySession();
+        cb(null);
+      } else {
+        this.session = JSON.parse(lastSession);
+        cb(null);
+      }
+    }.bind(this));
+  };
+
+  // Document
+  // ------------------
+
+  this.getDocument = function(documentId, cb) {
+    console.log('opening document...', documentId);
+
+    this._request('GET', '/api/documents/'+documentId, null, function(err, rawDoc) {
+      if (err) return cb(err);
+      var doc = new Article(rawDoc);
+      window.doc = doc;
+      cb(null, doc);
+    });
   };
 
   this.createDocument = function(cb) {
@@ -71,88 +113,52 @@ Backend.Prototype = function() {
   };
 
   this.getDocuments = function(cb) {
-    $.ajax({
-      type: "GET",
-      url: "/api/documents",
-      dataType: "json",
-      beforeSend: function (xhr) {
-        var session = localStorage.getItem('session');
-        var token = JSON.parse(session).token;
-
-        xhr.setRequestHeader ("Authorization", "Bearer " + token);
-      },
-      success: function(data) {
-        cb(null, data);
-      },
-      error: function(err) {
-        console.error(err);
-        cb(err.responseText);
-      }
-    });
+    this._request('GET', '/api/documents', null, cb);    
   };
 
   this.saveDocument = function(doc, cb) {
-    //cb(new Error("Saving not supported in dev mode"));
-    $.ajax({
-      type: "PUT",
-      url: "/api/documents/" + doc.id,
-      contentType: "application/json",
-      dataType: "json",
-      data: JSON.stringify(doc.toJSON()),
-      beforeSend: function (xhr) {
-        var session = localStorage.getItem('session');
-        var token = JSON.parse(session).token;
-
-        xhr.setRequestHeader ("Authorization", "Bearer " + token);
-      },
-      success: function(data) {
-        console.log(data);
-        cb(null, data);
-      },
-      error: function(err) {
-        console.error(err);
-        cb(err.responseText);
-      }
-    });
+    this._request('PUT', '/api/documents/'+doc.id, doc.toJSON(), cb);
   };
+
 
   // User Session
   // ------------------
 
-  this.authenticate = function(username, password, cb) {
-    var self = this;
-
-    $.ajax({
-      type: "POST",
-      url: "/api/authenticate",
-      contentType: "application/json; charset=UTF-8",
-      data: JSON.stringify({
-        "username": username,
-        "password": password
-      }),
-      dataType: "json",
-      success: function(data) {
-        // NO longer needed to unpack the token
-        // var userdata = atob(data.token.split('.')[1]);
-        self.session = {
-          token: data.token,
-          user: data.user
-        };
-
-        // Remember session next time
-        localStorage.setItem('session', JSON.stringify(self.session));
-        cb(null, self.session);
-      },
-      error: function(err) {
-        console.error(err);
-        cb(err.responseText);
-      }
+  this.verifyToken = function(token, cb) {
+    this._request("GET", "/api/status", null, function(err, result) {
+      console.log('token verification', err, result);
+      cb(err);
     });
   };
 
-  this.logout = function(cb) {
+  this.authenticate = function(username, password, cb) {
+    var self = this;
+
+    var data = {
+      username: username,
+      password: password
+    };
+
+    this._request('POST', '/api/authenticate', data, function(err, data) {
+      if (err) return cb(err);
+      self.session = {
+        token: data.token,
+        user: data.user
+      };
+      localStorage.setItem('session', JSON.stringify(self.session));
+
+      console.log('YAY');
+      cb(null, self.session);
+    });
+  };
+
+  this.destroySession = function() {
     this.session = null;
     localStorage.removeItem('session');
+  };
+
+  this.logout = function(cb) {
+    this.destroySession();
     cb(null);
   };
 

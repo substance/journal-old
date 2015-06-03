@@ -46,7 +46,6 @@ var CONTEXTS = {
   "writer": Writer
 };
 
-
 // Top Level Application
 // ---------------
 // 
@@ -66,6 +65,13 @@ var App = React.createClass({
     }, appContext);
   },
 
+  // We need to wait for the backend to be initialized
+  componentDidMount: function() {
+    backend.initialize(function(err) {
+      this.forceUpdate();
+    }.bind(this));
+  },
+
   getStateFromRoute: function(route) {
     var parts = route.split(";");
     var state = {};
@@ -78,7 +84,6 @@ var App = React.createClass({
     } else {
       state.context = "dashboard";
     }
-    
     return state;
   },
 
@@ -128,13 +133,17 @@ var App = React.createClass({
   render: function() {
     var appContextEl;
 
-    return $$('div', {className: "app-component"},
-      $$(Menu, {
-        context: this.state.context,
-        handleContextSwitch: this.handleContextSwitch
-      }),
-      this.getContextElement()
-    );
+    if (backend.initialized) {
+      return $$('div', {className: "app-component"},
+        $$(Menu, {
+          context: this.state.context,
+          handleContextSwitch: this.handleContextSwitch
+        }),
+        this.getContextElement()
+      );      
+    } else {
+      return $$('div', {className: "app-component"}, "Initializing backend ...");
+    }
   }
 });
 

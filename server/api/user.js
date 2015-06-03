@@ -5,7 +5,6 @@ var util = require("./util"),
     db = require("../db/index"),
     User = db.models.User;
 
-
 // Helpers functions
 // ------------
 // 
@@ -21,10 +20,25 @@ var sanitizeUser = function(user) {
   return _.omit(user, 'password');
 }
 
+
 // User API
 // ===================
 //
 // REST API for creating, updating and deleting users
+
+
+// Get user status
+// -----------
+// 
+// This is used by the client to verify if it has a valid session
+
+var getUserStatus = function(req, res, next) {
+  res.status(200).json({validSession: true});
+};
+
+userAPI.route('/status')
+  .get(util.checkToken, getUserStatus);
+
 
 // List Users
 // -----------
@@ -34,7 +48,7 @@ var listUsers = function(req, res, next) {
 		if (err) next(err);
     res.json(_.map(users, sanitizeUser));
 	});
-}
+};
 
 
 // Create user

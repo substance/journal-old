@@ -19,6 +19,7 @@ var Menu = React.createClass({
 
   displayName: "Menu",
 
+
   handleMenuSelection: function(e) {
     e.preventDefault();
     var context = e.currentTarget.dataset.id;
@@ -35,6 +36,7 @@ var Menu = React.createClass({
     console.log('handling login...', username, password);
 
     backend.authenticate(username, password, function(err, session) {
+      console.log('AUTHENTICATED!!');
       if (err) {
         alert('Login failed. Please try again');
         return;

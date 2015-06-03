@@ -60,12 +60,16 @@ var Dashboard = React.createClass({
 
   componentDidMount: function() {
     var backend = this.context.backend;
-    backend.getDocuments(function(err, documents) {
-      console.log('docs', documents);
-      this.setState({
-        documents: documents
-      });
-    }.bind(this));
+    if (backend.isAuthenticated()) {
+      backend.getDocuments(function(err, documents) {
+        if (err) {
+          return console.error(err);
+        }
+        this.setState({
+          documents: documents
+        });
+      }.bind(this));      
+    }
   },
 
   displayName: "Dashboard",
