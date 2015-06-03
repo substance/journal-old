@@ -19,7 +19,9 @@
     "substance": "substance/substance#master"
   },
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "gulp": "^3.8.11",
+    "mocha": "^2.2.5",
+    "supertest": "^1.0.1"
   },
   "scripts": {
     "seed": "node scripts/seed_database.js"
