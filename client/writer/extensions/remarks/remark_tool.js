@@ -4,7 +4,7 @@ var Substance = require('substance');
 var _ = require('substance/helpers');
 var $$ = React.createElement;
 
-var AnnotationToolMixin = require("../../writer").AnnotationToolMixin;
+var AnnotationToolMixin = require("substance-ui/annotation_tool_mixin");
 
 var RemarkToolMixin = _.extend({}, AnnotationToolMixin, {
   getAnnotationData: function() {

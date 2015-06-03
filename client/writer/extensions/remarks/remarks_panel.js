@@ -2,7 +2,8 @@ var $$ = React.createElement;
 var Substance = require("substance");
 var Surface = Substance.Surface;
 var _ = require("substance/helpers");
-var PanelMixin = require("../../writer").PanelMixin;
+
+var PanelMixin = require("substance-ui/panel_mixin");
 
 // Sub component
 var Remark = require("./remark");

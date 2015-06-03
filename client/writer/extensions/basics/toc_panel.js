@@ -1,6 +1,6 @@
 var $$ = React.createElement;
 var _ = require("substance/helpers");
-var PanelMixin = require("../../writer").PanelMixin;
+var PanelMixin = require("substance-ui/panel_mixin");
 
 // TOC Panel extension
 // ----------------

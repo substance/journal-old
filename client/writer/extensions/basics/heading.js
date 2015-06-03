@@ -1,5 +1,5 @@
-var TextComponentMixin = require("./text_component_mixin");
-var TextProperty = require('./text_property');
+var TextComponentMixin = require("substance-ui/text_component_mixin");
+var TextProperty = require('substance-ui/text_property');
 var $$ = React.createElement;
 
 var HeadingComponent = React.createClass({

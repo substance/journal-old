@@ -142,7 +142,7 @@ var App = React.createClass({
         this.getContextElement()
       );      
     } else {
-      return $$('div', {className: "app-component"}, "Initializing backend ...");
+      return $$('div', {className: "app-component"});
     }
   }
 });

@@ -1,5 +1,5 @@
 var $$ = React.createElement;
-var TextProperty = require("../../writer").TextProperty;
+var TextProperty = require("substance-ui/text_property");
 var Substance = require("substance");
 
 // Remark

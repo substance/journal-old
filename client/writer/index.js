@@ -13,7 +13,7 @@ var $$ = React.createElement;
 // ---------------
 // 
 
-var SubstanceWriter = require("./writer");
+var SubstanceWriter = require("substance-ui/writer");
 
 // Article
 // ---------------
@@ -33,11 +33,11 @@ var writerExtensions = require("./extensions");
 
 var componentFactory = new Substance.Factory();
 
-var coreComponents = require("./writer/components");
+// var coreComponents = require("substance-components/writer/components");
 
-_.each(coreComponents, function(ComponentClass, name) {
-  componentFactory.add(name, ComponentClass);
-});
+// _.each(coreComponents, function(ComponentClass, name) {
+//   componentFactory.add(name, ComponentClass);
+// });
 
 _.each(writerExtensions, function(extension) {
   _.each(extension.components, function(ComponentClass, name) {

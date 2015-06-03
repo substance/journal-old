@@ -1,7 +1,7 @@
 var $$ = React.createElement;
 var Substance = require("substance");
 var Surface = Substance.Surface;
-var TextProperty = require("../..//writer").TextProperty;
+var TextProperty = require("substance-ui/text_property");
 
 
 var TitleEditor = React.createClass({

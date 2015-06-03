@@ -108,7 +108,6 @@ var updateUser = function(req, res, next) {
   User.update(userId, userData, user.username, util.out(res, next));
 };
 
-
 var removeUser = function(req, res, next) {
   var user = req.user;
   var userId = req.params.id;
@@ -119,6 +118,7 @@ userAPI.route('/users/:id')
   .get(util.checkToken, getUser)
   .put(util.checkToken, updateUser)
   .delete(util.checkToken, removeUser);
+
 
 // Authenticate user
 // -----------
@@ -150,13 +150,8 @@ userAPI.route('/users/:id')
 //   }
 // }
 //
-// TODO Daniel:
-//   - change API to use username instead or in addition to email
-//   - make token secure
-//   - return minimal user information in user property
 
 var authenticate = function(req, res, next) {
-  console.log('/api/authenticate called');
   var username = req.body.username;
   var password = req.body.password;
 
