@@ -20,28 +20,7 @@ var stateHandlers = {
         doc: app.doc // TODO pass headings in chronological order
       });
     }
-  },
-
-  // handleSelectionChange: function(app, sel) {
-  //   var surface = app.getSurface();
-  //   if (surface.name !== "content") return;
-
-  //   if (sel.isNull() || !sel.isCollapsed()) return;
-
-  //   var annotations = app.doc.annotationIndex.get(sel.getPath(), sel.getStartOffset(), sel.getEndOffset(), "reference");
-
-  //   console.log('annos');
-
-  //   // Switch to a neutral state if no annotation matches have been found
-  //   if (annotations.length === 0) {
-  //     var nextContextId = "toc";
-
-  //     app.replaceState({
-  //       contextId: nextContextId
-  //     });
-  //     return true;
-  //   }
-  // }
+  }
 };
 
 module.exports = stateHandlers;
