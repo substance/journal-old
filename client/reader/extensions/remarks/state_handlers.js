@@ -34,34 +34,26 @@ var stateHandlers = {
   },
 
   handleAnnotationToggle: function(app, annotationId) {
-    console.log('handling annotation toggle for remarks', annotationId);
+    var doc = app.doc;
+    var state = app.state;
+    var anno = doc.get(annotationId);
+
+    if (anno.type === "remark") {
+      if (app.state.remarkId === anno.id) {
+        app.replaceState({
+          contextId: RemarksPanel.contextId
+        });
+      } else {
+        app.replaceState({
+          contextId: RemarksPanel.contextId,
+          remarkId: anno.id
+        });
+
+      }
+    }
     return true;
   },
-
-  // handleSelectionChange: function(app, sel, annotations) {
-  //   if (sel.isNull() || !sel.isCollapsed()) return;
-    
-  //   var surface = app.getSurface();
-  //   if (surface.name !== "content") return false;
-
-  //   var doc = app.doc;
-  //   var contentContainer = surface.getContainer();
-
-  //   var annos = doc.getContainerAnnotationsForSelection(sel, contentContainer, {
-  //     type: "remark"
-  //   });
-
-  //   var activeRemark = annos[0];
-  //   if (activeRemark) {
-  //     app.replaceState({
-  //       contextId: RemarksPanel.contextId,
-  //       remarkId: activeRemark.id
-  //     });
-
-  //     return true;
-  //   }
-  // },
-
+  
   // Determine highlighted nodes
   // -----------------
   //
