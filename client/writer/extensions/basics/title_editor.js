@@ -48,7 +48,7 @@ var TitleEditor = React.createClass({
   render: function() {
     var app = this.context.app;
 
-    return $$("div", {className: "interview-title", contentEditable: true, "data-id": "title-editor"},
+    return $$("div", {className: "document-title", contentEditable: true, "data-id": "title-editor"},
       $$(TextProperty, {
         doc: app.doc,
         tagName: "div",

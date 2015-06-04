@@ -1,3 +1,98 @@
+/* Basics
+-----------------------------------------------------*/
+
+
+
+/* Text Annotations */
+
+.annotation.strong {
+  font-weight: bold;
+}
+
+.annotation.emphasis {
+  font-style: italic;
+}
+
+/* Remark component
+-----------------------------------------------------*/
+
+.resource-container .remark {
+  position: relative;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  border-left: 2px solid transparent;
+}
+
+.resource-container .remark:hover {
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.resource-container .remark.active {
+  background: white;
+  border-left: 2px solid #aaa;
+}
+
+.resource-container .remark .remark-header {
+  padding-bottom: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  padding-right: 40px;
+}
+
+.resource-container .remark .remark-header .delete-remark {
+  display: block;
+  position: absolute;
+  color: #aaa;
+  right: 10px;
+  top: 10px;
+}
+
+.resource-container .remark .remark-header .delete-remark:hover {
+  color: #444;
+}
+
+.resource-container .remark .remark-title {
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  color: #444;
+}
+
+.resource-container .remark.active .remark-title {
+  background: #aaa;
+}
+
+/* Scrollbar Highlighting */
+.scrollbar-component.remarks .highlight {
+  background: #aaa;
+}
+
+/* Custom tool styles */
+.content-tools-component .tools a.strong-tool-component {
+  float: right;
+}
+
+.content-tools-component .tools a.emphasis-tool-component {
+  float: right;
+}
+
+.content-tools-component .tools a.remark-tool-component {
+  float: right;
+}
+
+/* Annotations */
+
+.container-annotation.remark.annotation-fragment {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.container-annotation.remark.annotation-fragment.active {
+  background: #aaa;
+  /*color: rgba(255,255,255,0.9);*/
+}
+
+
+
 /* TOC Panel
 -----------------------------------------------------*/
 
@@ -36,23 +131,4 @@
   padding-left: 60px;
 }
 
-/* Entity Reference */
 
-.annotation.entity-reference {
-  background: rgba(11, 157, 217, 0.2);
-}
-
-.annotation.entity-reference.active {
-  background: rgba(11, 157, 217, 0.6);
-}
-
-/* Text Annotations
------------------------------------------------------*/
-
-.annotation.strong {
-  font-weight: bold;
-}
-
-.annotation.emphasis {
-  font-style: italic;
-}

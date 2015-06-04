@@ -3,9 +3,10 @@ var Substance = require("substance");
 var Surface = Substance.Surface;
 var TextProperty = require("substance-ui/text_property");
 
+// TODO: We don't really need this in the reader
 
-var TitleEditor = React.createClass({
-  displayName: "TitleEditor",
+var DocumentTitle = React.createClass({
+  displayName: "DocumentTitle",
 
   // State relevant things
   // ------------
@@ -32,7 +33,7 @@ var TitleEditor = React.createClass({
 
   componentDidMount: function() {
     var app = this.context.app;
-    app.registerSurface(this.surface, "title-editor");
+    app.registerSurface(this.surface, "document-title");
     this.surface.attach(this.getDOMNode());
   },
 
@@ -48,7 +49,7 @@ var TitleEditor = React.createClass({
   render: function() {
     var app = this.context.app;
 
-    return $$("div", {className: "interview-title", contentEditable: true, "data-id": "title-editor"},
+    return $$("div", {className: "document-title", "data-id": "document-title"},
       $$(TextProperty, {
         doc: app.doc,
         tagName: "div",
@@ -59,4 +60,4 @@ var TitleEditor = React.createClass({
   }
 });
 
-module.exports = TitleEditor;
+module.exports = DocumentTitle;

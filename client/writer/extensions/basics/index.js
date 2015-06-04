@@ -16,7 +16,7 @@ var TOCPanel = require("./toc_panel");
 
 module.exports = {
   components: {
-    "container": ContentEditor,
+    "content_container": ContentEditor,
     "heading": Heading,
     "paragraph": Paragraph
   },

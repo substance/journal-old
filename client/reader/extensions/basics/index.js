@@ -3,7 +3,7 @@
 var stateHandlers = require("./state_handlers");
 
 // Components
-var ContentEditor = require("./content_editor");
+var ContentContainer = require("./content_container");
 var Heading = require("./heading");
 var Paragraph = require("./paragraph");
 
@@ -12,7 +12,7 @@ var TOCPanel = require("./toc_panel");
 
 module.exports = {
   components: {
-    "container": ContentEditor,
+    "content": ContentContainer,
     "heading": Heading,
     "paragraph": Paragraph
   },
