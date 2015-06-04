@@ -12,7 +12,7 @@ var EmphasisTool = require("./tools/emphasis_tool");
 var StrongTool = require("./tools/strong_tool");
 
 // Panels
-var TOCPanel = require("./toc_panel");
+var TOCPanel = require("substance-ui/toc_panel");
 
 module.exports = {
   components: {

@@ -9,7 +9,7 @@ var Paragraph = require("./paragraph");
 
 
 // Panels
-var TOCPanel = require("./toc_panel");
+var TOCPanel = require("substance-ui/toc_panel");
 
 module.exports = {
   components: {

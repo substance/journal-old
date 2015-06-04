@@ -1,6 +1,6 @@
 var $$ = React.createElement;
 
-var TOCPanel = require("./toc_panel");
+var TOCPanel = require("substance-ui/toc_panel");
 
 var stateHandlers = {
 

@@ -84,10 +84,16 @@
 
 .container-annotation.remark.annotation-fragment {
   background: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.container-annotation.remark.annotation-fragment:hover {
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .container-annotation.remark.annotation-fragment.active {
   background: #aaa;
+
   /*color: rgba(255,255,255,0.9);*/
 }
 
