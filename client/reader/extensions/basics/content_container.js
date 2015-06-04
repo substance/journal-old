@@ -6,9 +6,6 @@ var _ = require("substance/helpers");
 var TextProperty = require("substance-ui/text_property");
 var DocumentTitle = require("./document_title");
 
-var ENABLED_TOOLS = ["strong", "emphasis", "remark", "text"];
-
-
 // Container Node
 // ----------------
 //
@@ -96,9 +93,8 @@ var ContentContainer = React.createClass({
     });
 
     app.registerSurface(surface, "content", {
-      enabledTools: ENABLED_TOOLS
     });
-    surface.attach(this.refs.interviewContent.getDOMNode());
+    surface.attach(this.refs.documentContent.getDOMNode());
 
     doc.connect(this, {
       'container-annotation-update': this.handleContainerAnnotationUpdate

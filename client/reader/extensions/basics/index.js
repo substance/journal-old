@@ -7,12 +7,13 @@ var ContentContainer = require("./content_container");
 var Heading = require("./heading");
 var Paragraph = require("./paragraph");
 
+
 // Panels
 var TOCPanel = require("./toc_panel");
 
 module.exports = {
   components: {
-    "content": ContentContainer,
+    "content_container": ContentContainer,
     "heading": Heading,
     "paragraph": Paragraph
   },
