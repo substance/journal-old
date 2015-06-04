@@ -145,7 +145,10 @@ var removeDocument = function(req, res, next) {
 
 
 documentAPI.route('/documents/:id')
-  .get(util.checkToken, getDocument)
+  // Disabled checkToken just for the moment. We need to do
+  // some checking here if the doc has been published (everybody has access)
+  // vs. draft docs (only logged in users get the result)
+  .get(/*util.checkToken,*/ getDocument)
   .put(util.checkToken, updateDocument)
   .delete(util.checkToken, removeDocument);
 
