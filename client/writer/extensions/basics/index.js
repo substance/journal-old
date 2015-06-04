@@ -25,5 +25,8 @@ module.exports = {
     TOCPanel
   ],
   stateHandlers: stateHandlers,
-  tools: []
+  tools: [
+    EmphasisTool,
+    StrongTool
+  ]
 };
