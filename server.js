@@ -63,13 +63,29 @@ if (process.env.NODE_ENV !== "production") {
 
   app.get('/writer.css', function(req, res) {
     res.set('Content-Type', 'text/css');
-    res.send(fs.readFileSync('./client/writer/writer.css', 'utf8'));
+    res.send(fs.readFileSync('./node_modules/substance-ui/writer/writer.css', 'utf8'));
+  });
+
+  app.get('/writer_extensions.css', function(req, res) {
+    res.set('Content-Type', 'text/css');
+    res.send(fs.readFileSync('./client/writer/writer_extensions.css', 'utf8'));
   });
 
   // Frontend
   // --------------------
 
-  app.get('/reader_app.js', browserify('./client/app.js', {cache: false}));
+  app.get('/reader_app.js', browserify('./client/reader_app.js', {cache: false}));
+
+
+  app.get('/reader.css', function(req, res) {
+    res.set('Content-Type', 'text/css');
+    res.send(fs.readFileSync('./node_modules/substance-ui/reader/reader.css', 'utf8'));
+  });
+
+  app.get('/reader_extensions.css', function(req, res) {
+    res.set('Content-Type', 'text/css');
+    res.send(fs.readFileSync('./client/reader/reader_extensions.css', 'utf8'));
+  });
 
 }
 

@@ -1,0 +1,58 @@
+/* TOC Panel
+-----------------------------------------------------*/
+
+.toc-panel-component .toc-entries {
+  padding: 20px 0px;
+}
+
+.toc-panel-component .toc-entry {
+  color: #777;
+  font-weight: 600;
+  display: block;
+  padding: 5px 0px;
+}
+
+.toc-panel-component .toc-entry.active {
+  background: #fff;
+  color: #444;
+}
+
+.toc-panel-component .toc-entry:hover {
+  color: #444;
+}
+
+.toc-panel-component .toc-entry.level-1 {
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.toc-panel-component .toc-entry.level-2 {
+  font-size: 18px;
+  padding-left: 40px;
+}
+
+.toc-panel-component .toc-entry.level-3 {
+  font-size: 16px;
+  padding-left: 60px;
+}
+
+/* Entity Reference */
+
+.annotation.entity-reference {
+  background: rgba(11, 157, 217, 0.2);
+}
+
+.annotation.entity-reference.active {
+  background: rgba(11, 157, 217, 0.6);
+}
+
+/* Text Annotations
+-----------------------------------------------------*/
+
+.annotation.strong {
+  font-weight: bold;
+}
+
+.annotation.emphasis {
+  font-style: italic;
+}

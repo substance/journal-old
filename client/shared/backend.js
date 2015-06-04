@@ -1,13 +1,9 @@
 var Substance = require("substance");
 var Article = require('../article');
-// var EXAMPLE_DOC = require("../../data/sample_doc");
-// var _ = require("substance/helpers");
 
 var Backend = function() {
   this.initialized = false;
 };
-
-// _request('POST', '/api/authenticate', {username: username, password: password});
 
 Backend.Prototype = function() {
 
@@ -17,12 +13,10 @@ Backend.Prototype = function() {
   // Deals with sending the authentication header, encoding etc.
 
   this._request = function(method, url, data, cb) {
-
     var ajaxOpts = {
       type: method,
       url: url,
       contentType: "application/json; charset=UTF-8",
-      // data: JSON.stringify(data),
       dataType: "json",
       success: function(data) {
         cb(null, data);
@@ -79,8 +73,6 @@ Backend.Prototype = function() {
   // ------------------
 
   this.getDocument = function(documentId, cb) {
-    console.log('opening document...', documentId);
-
     this._request('GET', '/api/documents/'+documentId, null, function(err, rawDoc) {
       if (err) return cb(err);
       var doc = new Article(rawDoc);
@@ -120,13 +112,11 @@ Backend.Prototype = function() {
     this._request('PUT', '/api/documents/'+doc.id, doc.toJSON(), cb);
   };
 
-
   // User Session
   // ------------------
 
   this.verifyToken = function(token, cb) {
     this._request("GET", "/api/status", null, function(err, result) {
-      console.log('token verification', err, result);
       cb(err);
     });
   };
@@ -146,8 +136,6 @@ Backend.Prototype = function() {
         user: data.user
       };
       localStorage.setItem('session', JSON.stringify(self.session));
-
-      console.log('YAY');
       cb(null, self.session);
     });
   };

@@ -1,0 +1,128 @@
+/* Remark component
+-----------------------------------------------------*/
+
+.resource-container .remark {
+  position: relative;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  border-left: 2px solid transparent;
+}
+
+.resource-container .remark:hover {
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.resource-container .remark.active {
+  background: white;
+  border-left: 2px solid #aaa;
+}
+
+.resource-container .remark .remark-header {
+  padding-bottom: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  padding-right: 40px;
+}
+
+.resource-container .remark .remark-header .delete-remark {
+  display: block;
+  position: absolute;
+  color: #aaa;
+  right: 10px;
+  top: 10px;
+}
+
+.resource-container .remark .remark-header .delete-remark:hover {
+  color: #444;
+}
+
+.resource-container .remark .remark-title {
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  color: #444;
+}
+
+.resource-container .remark.active .remark-title {
+  background: #aaa;
+}
+
+/* Scrollbar Highlighting */
+.scrollbar-component.remarks .highlight {
+  background: #aaa;
+}
+
+/* Custom tool styles */
+.content-tools-component .tools a.strong-tool-component {
+  float: right;
+}
+
+.content-tools-component .tools a.emphasis-tool-component {
+  float: right;
+}
+
+.content-tools-component .tools a.remark-tool-component {
+  float: right;
+}
+
+/* Annotations */
+
+.container-annotation.remark.annotation-fragment {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.container-annotation.remark.annotation-fragment.active {
+  background: #aaa;
+  /*color: rgba(255,255,255,0.9);*/
+}
+
+/* TOC Panel
+-----------------------------------------------------*/
+
+.toc-panel-component .toc-entries {
+  padding: 20px 0px;
+}
+
+.toc-panel-component .toc-entry {
+  color: #777;
+  font-weight: 600;
+  display: block;
+  padding: 5px 0px;
+}
+
+.toc-panel-component .toc-entry.active {
+  background: #fff;
+  color: #444;
+}
+
+.toc-panel-component .toc-entry:hover {
+  color: #444;
+}
+
+.toc-panel-component .toc-entry.level-1 {
+  font-size: 20px;
+  padding-left: 20px;
+}
+
+.toc-panel-component .toc-entry.level-2 {
+  font-size: 18px;
+  padding-left: 40px;
+}
+
+.toc-panel-component .toc-entry.level-3 {
+  font-size: 16px;
+  padding-left: 60px;
+}
+
+
+/* Text Annotations
+-----------------------------------------------------*/
+
+
+.annotation.strong {
+  font-weight: bold;
+}
+
+.annotation.emphasis {
+  font-style: italic;
+}
