@@ -10,7 +10,7 @@ var _ = require("substance/helpers");
 var $$ = React.createElement;
 
 
-// Core Writer Stuff lives in the writer folder
+// Core Reader from Substance UI
 // ---------------
 // 
 
@@ -40,42 +40,8 @@ _.each(readerExtensions, function(extension) {
   });
 });
 
-
-
-console.log('COMPONENT FACTORY', componentFactory);
-
-
-// HTML Importer Configuration
-// ---------------
-// 
-
-// var htmlImporter = new Substance.Document.HtmlImporter({
-//   schema: Article.schema,
-//   trimWhitespaces: true,
-//   REMOVE_INNER_WS: true,
-// });
-
-// default handling for elemens with are not in the model
-// htmlImporter.defaultConverter = function(el, converter) {
-//   return {
-//     type: 'text',
-//     content: el.textContent
-//   };
-// };
-
-// Specify a Notification service
-// ---------------
-// 
-// Adjust to your needs
-
-// var htmlExporter = new Substance.Document.HtmlExporter({
-//   // configuration
-// });
-
 var writerContext = {
   componentFactory: componentFactory//,
-  // htmlImporter: htmlImporter,
-  // htmlExporter: htmlExporter
 };
 
 // Top Level Application
@@ -88,7 +54,6 @@ var JournalReader = React.createClass({
 
   contextTypes: {
     backend: React.PropTypes.object.isRequired //,
-    // notifications: React.PropTypes.object.isRequired
   },
 
   childContextTypes: {

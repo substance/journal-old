@@ -71,10 +71,9 @@ var ContentContainer = React.createClass({
     return $$('div', {className: 'panel-content-inner'},
       $$(DocumentTitle),
       // The full fledged document (ContainerEditor)
-      $$("div", {ref: "documentContent", className: "document-content", contentEditable: true, "data-id": "content"},
+      $$("div", {ref: "documentContent", contentEditable: false, className: "document-content", "data-id": "content"},
         $$("div", {
             className: "container-node " + this.props.node.id,
-            spellCheck: false,
             "data-id": this.props.node.id
           },
           $$('div', {className: "nodes"}, components)

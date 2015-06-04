@@ -9,7 +9,7 @@ var Substance = require("substance");
 var _ = require("substance/helpers");
 var $$ = React.createElement;
 
-// Core Writer Stuff lives in the writer folder
+// Core Writer from Substance UI
 // ---------------
 // 
 
@@ -32,12 +32,6 @@ var writerExtensions = require("./extensions");
 // all registered extensions should 
 
 var componentFactory = new Substance.Factory();
-
-// var coreComponents = require("substance-components/writer/components");
-
-// _.each(coreComponents, function(ComponentClass, name) {
-//   componentFactory.add(name, ComponentClass);
-// });
 
 _.each(writerExtensions, function(extension) {
   _.each(extension.components, function(ComponentClass, name) {
