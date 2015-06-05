@@ -19,7 +19,6 @@ var Menu = React.createClass({
 
   displayName: "Menu",
 
-
   handleMenuSelection: function(e) {
     e.preventDefault();
     var context = e.currentTarget.dataset.id;
@@ -33,10 +32,7 @@ var Menu = React.createClass({
     var username = this.refs.username.getDOMNode().value;
     var password = this.refs.password.getDOMNode().value;
 
-    console.log('handling login...', username, password);
-
     backend.authenticate(username, password, function(err, session) {
-      console.log('AUTHENTICATED!!');
       if (err) {
         alert('Login failed. Please try again');
         return;
@@ -51,15 +47,12 @@ var Menu = React.createClass({
     e.preventDefault();
     var backend = this.context.backend;
     var app = this.context.app;
-    console.log('creating a new doc');
     backend.createDocument(function(err, documentRecord) {
-      console.log('documentrec', documentRecord);
-      // app.switchState({
-      //   context: "writer",
-      //   documentId: documentRecord.id
-      // });
+      app.replaceState({
+        context: "writer",
+        documentId: documentRecord.id
+      });
     });
-
   },
 
   handleLogout: function(e) {
@@ -118,7 +111,6 @@ var Menu = React.createClass({
 
   render: function() {
     return $$("div", {className: "menu-component"},
-
       $$('div', {className: "app-contexts"},
         _.map(menuItems, function(menuItem) {
           return $$('a', {

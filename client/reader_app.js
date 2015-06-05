@@ -67,8 +67,7 @@ var App = React.createClass({
 $(function() {
   React.render(
     $$(App, {
-      documentId: "1",
-      // route: window.location.hash.slice(1)
+      documentId: window.documentId,
     }),
     document.getElementById('container')
   );

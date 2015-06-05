@@ -146,11 +146,13 @@ Document.createSchema = function(cb) {
 Document.create = function(doc, creator, cb) {
   var self = this;
   var docEntry = serializeDocument(doc, creator);
-  console.log(docEntry)
   knex.table('documents').insert(docEntry)
     .asCallback(function(err, ids) {
       if(err) return cb(err);
-      return self.get(ids[0], cb);
+      cb(null, {
+        id: ids[0],
+        status: "Successfully created a new document"
+      });
     });
 };
 
