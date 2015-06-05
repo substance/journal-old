@@ -8,6 +8,7 @@ var Heading = require("./heading");
 var Paragraph = require("./paragraph");
 
 // Tools
+var PublishTool = require("./tools/publish_tool");
 var EmphasisTool = require("./tools/emphasis_tool");
 var StrongTool = require("./tools/strong_tool");
 
@@ -26,6 +27,7 @@ module.exports = {
   ],
   stateHandlers: stateHandlers,
   tools: [
+    PublishTool,
     EmphasisTool,
     StrongTool
   ]

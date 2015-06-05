@@ -126,3 +126,9 @@
 .annotation.emphasis {
   font-style: italic;
 }
+
+
+
+.content-tools-component .tools a.publish-tool-component {
+  width: 120px;
+}

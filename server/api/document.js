@@ -7,7 +7,6 @@ var util = require("./util"),
 
 var SAMPLE_DOC = require("../../data/sample_doc");
 
-
 // console.log('SAMPLE DOC', SAMPLE_DOC);
 // var EMPTY_DOC = {
 //   "nodes": {
