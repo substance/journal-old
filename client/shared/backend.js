@@ -81,27 +81,12 @@ Backend.Prototype = function() {
     });
   };
 
-  this.createDocument = function(cb) {
-    // Talk to server to create a new doc
-    $.ajax({
-      type: "POST",
-      url: "/api/documents",
-      dataType: "json",
-      beforeSend: function (xhr) {
-        var session = localStorage.getItem('session');
-        var token = JSON.parse(session).token;
+  this.deleteDocument = function(documentId, cb) {
+    this._request('DELETE', '/api/documents/'+documentId, null, cb);
+  };
 
-        xhr.setRequestHeader ("Authorization", "Bearer " + token);
-      },
-      success: function(data) {
-        console.log(data);
-        cb(null, data);
-      },
-      error: function(err) {
-        console.error(err);
-        cb(err.responseText);
-      }
-    });
+  this.createDocument = function(cb) {
+    this._request('POST', '/api/documents', null, cb);
   };
 
   this.getDocuments = function(cb) {
