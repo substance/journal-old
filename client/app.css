@@ -91,6 +91,21 @@ a:hover {
 #container {
 }
 
+/* Journal home
+---------------------------------
+*/
+
+.journal-index {
+  padding: 20px;
+}
+
+.journal-index h1 {
+  font-size: 24px;
+  font-weight: 600;
+  padding-bottom: 20px;
+}
+
+
 /* Menu
 ---------------------------------
 */
@@ -160,11 +175,9 @@ a:hover {
   margin-right: 5px;
 }
 
-
 /* Dashboard
 ---------------------------------
 */
-
 
 .dashboard-component {
   position: absolute;
@@ -180,20 +193,20 @@ a:hover {
   padding-bottom: 30px;
 }
 
-.dashboard-component .documents .document {
+.documents .document {
   padding-bottom: 30px;
 }
 
-.dashboard-component .documents .document .title {
+.documents .document .title {
   padding: 10px 0;
   font-size: 18px;
 }
 
-.dashboard-component .documents .document .title a {
+.documents .document .title a {
   font-weight: 600;
 }
 
-.dashboard-component .documents .document .abstract {
+.documents .document .abstract {
   font-style: italic;
   color: rgba(0,0,0,0.6);
   padding-bottom: 10px;

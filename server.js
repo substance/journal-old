@@ -86,7 +86,6 @@ if (process.env.NODE_ENV !== "production") {
     res.set('Content-Type', 'text/css');
     res.send(fs.readFileSync('./client/reader/reader_extensions.css', 'utf8'));
   });
-
 }
 
 // Expose the backend app
@@ -94,17 +93,30 @@ if (process.env.NODE_ENV !== "production") {
 
 // Render app start page
 
-app.route('/')
+app.route('/substance')
   .get(function(req, res, next) {
     res.render('app', {user: req.user});
   });
 
-// Expose the reader interface
+
+// Expose the frontend
 // --------------
 
-app.route('/reader')
+app.route('/')
   .get(function(req, res, next) {
-    res.render('reader_app', {user: req.user});
+    Document.findAll(function(err, documents) {
+      res.render('index', {
+        documents: documents
+      });
+    });
+  });
+
+app.route('/:doc')
+  .get(function(req, res, next) {
+    res.render('reader_app', {
+      user: req.user,
+      documentId: "1" // req.params.doc
+    });
   });
 
 

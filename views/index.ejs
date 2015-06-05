@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Substance Journal</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic' rel='stylesheet' type='text/css'>
+    <meta charset="UTF-8">
+    <link href='app.css' rel='stylesheet' type='text/css'/>
+  </head>
+  <body>
+    <div id="container">
+      <div class="journal-index">
+        <h1>Substance Journal</h1>
+        <div class="documents">
+          <% documents.forEach(function(doc) { %>
+            <div class="document">
+              <div class="published_on"><%= doc.published_on %></div>
+              <div class="title">
+                <a href="/<%= doc.id %>" data-id="1"><%= doc.title %></a>
+              </div>
+              <!--<div class="abstract"></div>-->
+              <div class="author"><%= doc.creator.name %></div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

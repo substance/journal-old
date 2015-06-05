@@ -59,7 +59,6 @@ var listDocuments = function(req, res, next) {
     if (err) {
       return res.status(400).json({message: err.message});
     }
-
     res.status(200).json(documents);
   });
 };

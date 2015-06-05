@@ -34,6 +34,11 @@ Start your journal.
 $ npm run start
 ```
 
+Open `http://localhost:5000` in your browser to see the journa's front end.
+
+In order to edit and create articles navigate to `http://localhost:5000/substance`.
+
+Login with the user `admin` and password `1234`.
 
 # Features
 
