@@ -1,14 +1,14 @@
 var $$ = React.createElement;
 
-// Admin
+// JournalAdmin
 // ----------------
 
-var Admin = React.createClass({
+var JournalAdmin = React.createClass({
   contextTypes: {
     notifications: React.PropTypes.object.isRequired
   },
 
-  displayName: "Admin",
+  displayName: "JournalAdmin",
 
   getInitialState: function() {
     return {
@@ -17,10 +17,10 @@ var Admin = React.createClass({
   },
 
   render: function() {
-    return $$("div", {className: "admin-component"},
-      "I AM THE ADMIN PANEL!"
+    return $$("div", {className: "journal-admin-component"},
+      "I AM THE JOURNAL ADMIN!"
     );
   }
 });
 
-module.exports = Admin;
+module.exports = JournalAdmin;

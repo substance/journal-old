@@ -68,6 +68,7 @@ var App = React.createClass({
   // We need to wait for the backend to be initialized
   componentDidMount: function() {
     backend.initialize(function(err) {
+      if (err) console.error(err);
       this.forceUpdate();
     }.bind(this));
   },
@@ -103,7 +104,7 @@ var App = React.createClass({
 
   componentWillUpdate: function(nextProps, nextState) {
     var route = this.getRouteFromState(nextState);
-    history.replaceState({} , '', '#'+route);
+    window.history.replaceState({} , '', '#'+route);
   },
 
   handleContextSwitch: function(context) {
@@ -131,7 +132,6 @@ var App = React.createClass({
   },
 
   render: function() {
-    var appContextEl;
 
     if (backend.initialized) {
       return $$('div', {className: "app-component"},
@@ -139,7 +139,9 @@ var App = React.createClass({
           context: this.state.context,
           handleContextSwitch: this.handleContextSwitch
         }),
-        this.getContextElement()
+        $$('div', {className: "app-context-container"},
+          this.getContextElement()  
+        )
       );      
     } else {
       return $$('div', {className: "app-component"});
