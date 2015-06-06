@@ -266,7 +266,6 @@ a:hover {
 .admin-menu-component .admin-context.active {
   color: #444;
   background: #fff;
-
 }
 
 .admin-component .admin-context-container {
@@ -278,3 +277,18 @@ a:hover {
   overflow: auto;
 }
 
+/* User Admin
+---------------------------------
+*/
+
+.user-admin-component {
+  padding: 20px;
+}
+
+.user-admin-component .header {
+  color: #c0bfb6;
+}
+
+.user-admin-component .users .user {
+  border-bottom: 1px solid #ddd;
+}

@@ -97,8 +97,12 @@ Backend.Prototype = function() {
     this._request('PUT', '/api/documents/'+doc.id, doc.toJSON(), cb);
   };
 
-  // User Session
+  // User related
   // ------------------
+
+  this.getUsers = function(cb) {
+    this._request('GET', '/api/users', null, cb);    
+  };
 
   this.verifyToken = function(token, cb) {
     this._request("GET", "/api/status", null, function(err, result) {

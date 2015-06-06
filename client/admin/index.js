@@ -25,7 +25,7 @@ var Admin = React.createClass({
 
   getInitialState: function() {
     return {
-      contextId: "journal"
+      contextId: "user"
     };
   },
 
