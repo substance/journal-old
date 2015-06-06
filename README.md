@@ -47,6 +47,14 @@ Login with the user `admin` and password `1234`.
 - very easy to deploy (runs on every linux system)
 - no dependencies on external services (no facebook, twitter integration, yes you heard right)
 
+# A blog engine?
+
+No. Substance Journal is intended to create professional web-first publication rather than smaller timely pieces (blog). Here are some differences.
+
+- Table of contents during editing and for your readers
+- Collaborate during editing and make notes to point out problems and make suggestions
+- Reader comments
+
 ## Future Challenges
 
 - How can we combine individually owned instances but still can announce some articles to be globally available. 
