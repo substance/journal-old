@@ -77,7 +77,7 @@ var Menu = React.createClass({
   },
 
   getUserStatus: function() {
-    var user = this.context.backend.getUser();
+    var user = this.context.backend.getUserInfo();
     return $$('div', {className: "user-status-component"},
       $$('div', {className: "user-info"},
         $$('div', null, user.name || user.email)

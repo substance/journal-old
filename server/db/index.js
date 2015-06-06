@@ -45,6 +45,8 @@ var seed = function(cb) {
           username: "admin",
           password: "1234",
           name: "Administrator",
+          bio: "I'm the Substance Journal System administrator.",
+          location: "Linz",
           email: "admin@substance.io",
         }, cb);
       },

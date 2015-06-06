@@ -101,11 +101,10 @@ var getUser = function(req, res, next) {
 
 var updateUser = function(req, res, next) {
   var user = req.user;
-  var userId = req.params.id;
-
+  var username = req.params.id;
   var userData = req.body;
 
-  User.update(userId, userData, user.username, util.out(res, next));
+  User.update(username, userData, util.out(res, next));
 };
 
 var removeUser = function(req, res, next) {

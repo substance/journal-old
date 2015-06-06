@@ -7,10 +7,13 @@ var AdminMenu = require("./admin_menu");
 
 var JournalAdmin = require("./journal_admin");
 var UserAdmin = require("./user_admin");
+var EditUser = require("./edit_user");
+
 
 var CONTEXTS = {
   "journal": JournalAdmin,
-  "user": UserAdmin
+  "user": UserAdmin,
+  "editUser": EditUser
 };
 
 // Admin
@@ -25,29 +28,34 @@ var Admin = React.createClass({
 
   getInitialState: function() {
     return {
-      contextId: "user"
+      contextId: "editUser",
+      username: "admin"
     };
   },
 
-  handleContextSwitch: function(contextId) {
-    var newState = {
-      contextId: contextId
-    };
-
+  handleStateChange: function(newState) {
     this.replaceState(newState);
+  },
+
+  // Extract props from the app state to parametrize the active child view
+  extractProps: function() {
+    var props = JSON.parse(JSON.stringify(this.state));
+    props.handleStateChange = this.handleStateChange;
+    delete props.contextId;
+    return props;
   },
 
   getContextElement: function() {
     var ContextClass = CONTEXTS[this.state.contextId];
-    // var props = this.extractProps();
-    return $$(ContextClass);
+    var props = this.extractProps();
+    return $$(ContextClass, props);
   },
 
   render: function() {
     return $$("div", {className: "admin-component"},
       $$(AdminMenu, {
         context: this.state.contextId,
-        handleContextSwitch: this.handleContextSwitch
+        handleStateChange: this.handleStateChange
       }),
       $$("div", {className: "admin-context-container"},
         this.getContextElement()

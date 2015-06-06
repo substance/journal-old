@@ -1,51 +1,6 @@
 var $$ = React.createElement;
 var _ = require("substance/helpers");
 
-var UserRecord = React.createClass({
-  displayName: "UserRecord",
-
-  contextTypes: {
-    app: React.PropTypes.object.isRequired
-  },
-
-  handleEditUser: function(e) {
-    var app = this.context.app;
-    e.preventDefault();
-
-    var userId = e.currentTarget.dataset.id;
-    app.replaceState({
-      context: "editUser",
-      userId: userId
-    });
-  },
-
-  handleDeleteUser: function(e) {
-    e.preventDefault();
-    var userId = e.currentTarget.dataset.id;
-    this.props.handleDeleteUser(userId);
-  },
-
-  getPublishDate: function() {
-    if (this.props.doc.published_on) {
-      return new Date(this.props.doc.published_on).toDateString();  
-    } else {
-      return "";
-    }
-  },
-
-  render: function() {
-    return $$("div", {href: "#", className: "user"},
-      $$('div', {className: "info"},
-        $$('a', {href: "#", "data-id": this.props.user.id, className: "name", onClick: this.handleEditUser}, this.props.user.name),
-        $$('div', {className: "username"}, this.props.user.username)
-      ),
-      $$('div', {className: "user-actions"},
-        $$('a', {href: "#", "data-id": this.props.user.id, className: "delete-user", onClick: this.handleDeleteUser}, "Delete")
-      )
-    );
-  }
-});
-
 // UserAdmin
 // ----------------
 
@@ -71,6 +26,30 @@ var UserAdmin = React.createClass({
     }
   },
 
+  handleDeleteUser: function(e) {
+    e.preventDefault();
+    var username = e.currentTarget.dataset.id;
+    var backend = this.context.backend;
+    console.log('deleting user', username);
+
+    backend.deleteUser(documentId, function(err) {
+      this.props.handleStateChange({
+        contextId: "user"
+      })
+    }.bind(this));
+  },
+
+  handleEditUser: function(e) {
+    e.preventDefault();
+    var username = e.currentTarget.dataset.id;
+    // console.log('editing user', username);
+
+    this.props.handleStateChange({
+      contextId: 'editUser',
+      username: username
+    });
+  },
+
   getInitialState: function() {
     return {
       users: []
@@ -90,10 +69,15 @@ var UserAdmin = React.createClass({
 
       $$("div", {className: "users"},
         _.map(state.users, function(user) {
-          return $$(UserRecord, {
-            user: user,
-            handleDeleteUser: this.handleDeleteUser
-          });
+          return $$("div", {href: "#", className: "user"},
+            $$('div', {className: "info"},
+              $$('a', {href: "#", "data-id": user.username, className: "name", onClick: this.handleEditUser}, user.name),
+              $$('div', {className: "username"}, user.username)
+            ),
+            $$('div', {className: "user-actions"},
+              $$('a', {href: "#", "data-id": user.username, className: "delete-user", onClick: this.handleDeleteUser}, "Delete")
+            )
+          );
         }.bind(this))
       )
     );

@@ -20,8 +20,10 @@ var AdminMenu = React.createClass({
 
   handleMenuSelection: function(e) {
     e.preventDefault();
-    var context = e.currentTarget.dataset.id;
-    this.props.handleContextSwitch(context);
+    var contextId = e.currentTarget.dataset.id;
+    this.props.handleStateChange({
+      contextId: contextId
+    });
   },
 
   render: function() {

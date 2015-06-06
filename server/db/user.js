@@ -8,6 +8,7 @@ var User = exports;
 // How many rounds or iterations the key setup phase uses
 var SALT_ROUNDS = 10;
 
+
 // Create user schema
 // ------------
 // 
@@ -19,9 +20,11 @@ User.createSchema = function(cb) {
       t.string('username').primary();
       t.string('email').unique();
       t.string('name');
+      t.string('bio');
       t.string('location');
       t.string('password');
-      t.string('token'); // JSON Web Token goes here
+
+      t.string('token'); // do we actually need this?
       t.timestamps();
 
       // TODO: not sure if we want a generic data container
@@ -82,14 +85,12 @@ User.comparePasswords = function(candidatePassword, password, cb) {
 
 User.create = function(userSpec, cb) {
   this.bcryptPassword(userSpec.password, function(err, bcryptedPassword) {
-    knex.table('users').insert({
-      username: userSpec.username,
-      email: userSpec.email,
-      name: userSpec.name,
-      password: bcryptedPassword,
-      created_at: new Date(),
-      updated_at: new Date()
-    })
+
+    userSpec.password = bcryptedPassword;
+    userSpec.created_at = new Date();
+    userSpec.updated_at = new Date();
+
+    knex.table('users').insert(userSpec)
     .asCallback(function(err, user) {
       if(err) return cb(err, 400, {});
       if (_.isEmpty(user)) {
@@ -132,18 +133,27 @@ User.get = function(username, cb) {
 };
 
 
-User.update = function(id, data, username, cb) {
+User.update = function(username, userSpec, cb) {
   var self = this;
-  knex('documents').where('id', id).update(data)
-    .asCallback(function(err, user) {
-      if(err) return cb(err);
-      return self.get(id, cb);
-    });
+
+  this.bcryptPassword(userSpec.password, function(err, bcryptedPassword) {
+    if (userSpec.password) {
+      userSpec.password = bcryptedPassword;  
+    } else {
+      delete userSpec.password;
+    }
+    
+    knex('users').where('username', username).update(userSpec)
+      .asCallback(function(err, user) {
+        if(err) return cb(err);
+        return self.get(username, cb);
+      });
+  });
 };
 
 
 User.remove = function(id, user, cb) {
-  knex('documents').where('id', id).del()
+  knex('users').where('id', id).del()
     .asCallback(function(err) {
       if(err) return cb(err);
       return cb(null);
@@ -183,14 +193,12 @@ User.authenticate = function(username, password, cb) {
             created_at: user.created_at,
             updated_at: user.updated_at
           };
-          // TODO: Daniel, will the expires column be updated
-          // while a user uses the system? that would be nice if we can push it
-          // back, so you are not automatically logged out if you use the system
-          // daily... however, maybe this could also be a security risk
+          
           var token = jwt.sign(profile, config.secret, {
             issuer: user.username,
             expiresInMinutes: 60*24 // expires in 24 hours
           });
+
           return cb(null, {
             message: 'Enjoy your token!',
             token: token,

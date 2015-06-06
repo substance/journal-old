@@ -49,7 +49,6 @@ Backend.Prototype = function() {
   // ------------------
 
   this.initialize = function(cb) {
-
     // Restore last session
     var lastSession = localStorage.getItem('session');
     var lastToken;
@@ -97,11 +96,20 @@ Backend.Prototype = function() {
     this._request('PUT', '/api/documents/'+doc.id, doc.toJSON(), cb);
   };
 
+
   // User related
   // ------------------
 
   this.getUsers = function(cb) {
-    this._request('GET', '/api/users', null, cb);    
+    this._request('GET', '/api/users', null, cb);
+  };
+
+  this.getUser = function(username, cb) {
+    this._request('GET', '/api/users/'+username, null, cb);
+  };
+
+  this.updateUser = function(username, userData, cb) {
+    this._request('PUT', '/api/users/'+username, userData, cb);
   };
 
   this.verifyToken = function(token, cb) {
@@ -144,7 +152,7 @@ Backend.Prototype = function() {
   };
 
   // Get user information of currently logged in user
-  this.getUser = function() {
+  this.getUserInfo = function() {
     return this.session.user;
   };
 };

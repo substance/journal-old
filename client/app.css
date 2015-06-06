@@ -330,3 +330,63 @@ a:hover {
   font-size: 12px;
   font-weight: 600;
 }
+
+/* Edit user component
+--------------------------------- */
+
+.edit-user-component {
+  padding: 20px;
+}
+
+
+a.save-user-button {
+  display: block;
+  margin-top: 30px;
+  width: 200px;
+  text-align: center;
+  background: #ddd;
+  padding: 3px 30px;
+  color: #444;
+}
+
+a.save-user-button:hover {
+  background: #ccc;
+  color: #222;
+}
+
+
+/* Forms (used by admin panel)
+--------------------------------- */
+
+/*<div class="form-group">
+  <div class="label">
+    Journal name
+  </div>
+  <input type="text" name="foo"/>
+  <p>
+    The name of your journal. Will be displayed on the landing page
+  </p>
+</div>*/
+
+.form-group {
+  padding-bottom: 10px;
+}
+
+.form-group input {
+  font-family: 'Source Sans Pro';
+  font-size: 16px;
+  width: 400px;
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+}
+
+.form-group .label {
+  padding: 10px 0px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.form-group .description {
+  padding: 10px 0px;
+  color: #999;
+}
