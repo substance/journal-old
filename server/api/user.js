@@ -73,7 +73,7 @@ var createUser = function(req, res, next) {
 
   if(!validateEmail(userSpec.email)) {
     return res.status(400).json({
-      message: 'This is not email. Please provide real email address.'
+      message: 'This is not a valid email. Please provide real email address.'
     });
   }
 

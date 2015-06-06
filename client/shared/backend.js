@@ -108,6 +108,10 @@ Backend.Prototype = function() {
     this._request('GET', '/api/users/'+username, null, cb);
   };
 
+  this.createUser = function(userData, cb) {
+    this._request('POST', '/api/users', userData, cb);
+  };
+
   this.updateUser = function(username, userData, cb) {
     this._request('PUT', '/api/users/'+username, userData, cb);
   };

@@ -1,5 +1,4 @@
 var $$ = React.createElement;
-
 var AdminMenu = require("./admin_menu");
 
 // Contexts
@@ -8,12 +7,13 @@ var AdminMenu = require("./admin_menu");
 var JournalAdmin = require("./journal_admin");
 var UserAdmin = require("./user_admin");
 var EditUser = require("./edit_user");
-
+var AddUser = require("./add_user");
 
 var CONTEXTS = {
   "journal": JournalAdmin,
   "user": UserAdmin,
-  "editUser": EditUser
+  "editUser": EditUser,
+  "addUser": AddUser
 };
 
 // Admin
@@ -28,8 +28,8 @@ var Admin = React.createClass({
 
   getInitialState: function() {
     return {
-      contextId: "editUser",
-      username: "admin"
+      contextId: "addUser"
+      // username: "admin"
     };
   },
 

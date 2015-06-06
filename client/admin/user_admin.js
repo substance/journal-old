@@ -30,12 +30,11 @@ var UserAdmin = React.createClass({
     e.preventDefault();
     var username = e.currentTarget.dataset.id;
     var backend = this.context.backend;
-    console.log('deleting user', username);
 
-    backend.deleteUser(documentId, function(err) {
+    backend.deleteUser(username, function(err) {
       this.props.handleStateChange({
         contextId: "user"
-      })
+      });
     }.bind(this));
   },
 
@@ -47,6 +46,14 @@ var UserAdmin = React.createClass({
     this.props.handleStateChange({
       contextId: 'editUser',
       username: username
+    });
+  },
+
+  handleAddUser: function(e) {
+    e.preventDefault();
+
+    this.props.handleStateChange({
+      contextId: 'addUser'
     });
   },
 
@@ -63,7 +70,7 @@ var UserAdmin = React.createClass({
       $$("div", {className: "header"},
         (state.users.length + " users"),
         $$("div", {className: "actions"},
-          $$('a', {className: "add-user"}, "Add User")
+          $$('a', {href: '#', className: 'add-user', onClick: this.handleAddUser}, 'Add User')
         )
       ),
 
