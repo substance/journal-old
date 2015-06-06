@@ -34,14 +34,17 @@ var UserRecord = React.createClass({
   },
 
   render: function() {
-    return $$("a", {href: "#", className: "user", onClick: this.handleEditUser},
-      $$('div', {className: "username"}, this.props.user.username),
-      $$('div', {className: "name"}, this.props.user.name),
-      $$('div', {href: "#", "data-id": this.props.user.id, className: "delete-user", onClick: this.handleDeleteUser}, "Delete")
+    return $$("div", {href: "#", className: "user"},
+      $$('div', {className: "info"},
+        $$('a', {href: "#", "data-id": this.props.user.id, className: "name", onClick: this.handleEditUser}, this.props.user.name),
+        $$('div', {className: "username"}, this.props.user.username)
+      ),
+      $$('div', {className: "user-actions"},
+        $$('a', {href: "#", "data-id": this.props.user.id, className: "delete-user", onClick: this.handleDeleteUser}, "Delete")
+      )
     );
   }
 });
-
 
 // UserAdmin
 // ----------------
@@ -79,8 +82,12 @@ var UserAdmin = React.createClass({
 
     return $$("div", {className: "user-admin-component"},
       $$("div", {className: "header"},
-        state.users.length + " users"
+        (state.users.length + " users"),
+        $$("div", {className: "actions"},
+          $$('a', {className: "add-user"}, "Add User")
+        )
       ),
+
       $$("div", {className: "users"},
         _.map(state.users, function(user) {
           return $$(UserRecord, {

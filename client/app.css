@@ -278,8 +278,7 @@ a:hover {
 }
 
 /* User Admin
----------------------------------
-*/
+--------------------------------- */
 
 .user-admin-component {
   padding: 20px;
@@ -287,8 +286,47 @@ a:hover {
 
 .user-admin-component .header {
   color: #c0bfb6;
+  overflow: hidden;
+}
+
+.user-admin-component .actions {
+  float: right;
+  overflow: hidden;
+}
+
+.user-admin-component .actions .action {
+  display: block;
+  float: left;
+}
+
+.user-admin-component .users {
+  padding-top: 20px;
 }
 
 .user-admin-component .users .user {
-  border-bottom: 1px solid #ddd;
+  display: block;
+  border-top: 1px solid #ddd;
+  overflow: hidden;
+}
+
+.user-admin-component .users .user .name {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.user-admin-component .users .user .username {
+  color: #aaa;
+  font-style: italic;
+}
+
+.user-admin-component .user .info {
+  padding: 10px 0px;
+  float: left;
+}
+
+.user-admin-component .user .user-actions a {
+  padding: 10px;
+  float: right;
+  font-size: 12px;
+  font-weight: 600;
 }
