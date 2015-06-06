@@ -16,3 +16,8 @@ util.out = function (res, next) {
 util.checkToken = jwt({
   secret: config.secret
 });
+
+util.checkAuth = jwt({
+  secret: config.secret,
+  credentialsRequired: false
+});

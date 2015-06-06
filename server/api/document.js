@@ -49,23 +49,21 @@ var createDocument = function(req, res, next) {
 // -----------
 
 var listDocuments = function(req, res, next) {
-  // TODO: list documents related to current user, pagination
-  var user = req.user;
   // TODO: enable util.out again so we have it shorter
   // Document.findAll(util.out(res, next));
+  var options = {};
+  var user = req.user;
 
-  Document.findAll(function(err, documents) {
-    if (err) {
-      return res.status(400).json({message: err.message});
-    }
-    res.status(200).json(documents);
-  });
+  if(_.isUndefined(user)) {
+    options.publishedOnly = true;
+  }
+  Document.find(options, util.out(res, next));
 };
 
 
 documentAPI.route('/documents')
   .post(util.checkToken, createDocument)
-  .get(util.checkToken, listDocuments);
+  .get(util.checkAuth, listDocuments);
 
 // Reading an existing document
 // -----------
@@ -87,9 +85,16 @@ documentAPI.route('/documents')
 
 var getDocument = function(req, res, next) {
   console.log('getting document');
+
+  var options = {};
+  var user = req.user;
   var documentId = req.params.id;
 
-  Document.get(documentId, util.out(res, next));
+  if(_.isUndefined(user)) {
+    options.publishedOnly = true;
+  }
+
+  Document.get(documentId, options, util.out(res, next));
 };
 
 // Update an existing document
@@ -146,7 +151,7 @@ documentAPI.route('/documents/:id')
   // Disabled checkToken just for the moment. We need to do
   // some checking here if the doc has been published (everybody has access)
   // vs. draft docs (only logged in users get the result)
-  .get(/*util.checkToken,*/ getDocument)
+  .get(util.checkAuth, getDocument)
   .put(util.checkToken, updateDocument)
   .delete(util.checkToken, removeDocument);
 

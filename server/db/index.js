@@ -35,7 +35,7 @@ var seed = function(cb) {
         models.Document.create(SAMPLE_DOC, "admin" ,cb);
       },
       function(cb) {
-        models.Document.findAll(function(err, docs) {
+        models.Document.find({},function(err, docs) {
           console.log('alldocs', docs);
           cb(null);
         });

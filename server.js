@@ -7,6 +7,7 @@ var ejs = require('ejs');
 var path = require("path");
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var _ = require('lodash');
 
 var app = express();
 var port = process.env.PORT || 5000;
@@ -18,7 +19,6 @@ var api = require("./server/api");
 var browserify = require("browserify-middleware");
 
 app.set('view engine', 'ejs');
-app.set('db', db);
 
 // use body parser so we can get info from POST and/or URL parameters
 app.use(bodyParser.json({limit: '3mb'}));
@@ -103,8 +103,14 @@ app.route('/substance')
 // --------------
 
 app.route('/')
-  .get(function(req, res, next) {
-    Document.findAll(function(err, documents) {
+  .get(api.util.checkAuth, function(req, res, next) {
+    var options = {};
+    var user = req.user;
+
+    if(_.isUndefined(user)) {
+      options.publishedOnly = true;
+    }
+    Document.find(options, function(err, documents) {
       res.render('index', {
         documents: documents
       });

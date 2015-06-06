@@ -162,38 +162,55 @@ Document.create = function(doc, creator, cb) {
 // TODO: only return published docs (when logged out) but all docs (when logged in)
 // TODO Daniel: improve the creator object
 
-Document.findAll = function(cb) {
-  knex.select('id', 'title', 'abstract', 'creator', 'updated_at').table('documents')
-    .asCallback(function(err, documents) {
-      _.each(documents, function(doc) {
-        doc.title = doc.title;
-        doc.updated_at = doc.updated_at;
-        doc.abstract = doc.abstract;
-        doc.creator = {
-          "username": doc.creator,
-          // TODO: extract full name of creator and provide here
-          "name": doc.creator
-        };
-      });
+Document.find = function(options, cb) {
 
-      if(err) return cb(err);
-      return cb(null, documents);
+  var query = knex.select('id', 'title', 'abstract', 'creator', 'updated_at').table('documents');
+  
+  // Exclude all unpublished documents
+  if(options.publishedOnly) {
+    query.whereNotNull('published_on');
+  }
+
+  query.asCallback(function(err, documents) {
+    _.each(documents, function(doc) {
+      doc.title = doc.title;
+      doc.updated_at = doc.updated_at;
+      doc.abstract = doc.abstract;
+      doc.creator = {
+        "username": doc.creator,
+        // TODO: extract full name of creator and provide here
+        "name": doc.creator
+      };
     });
+
+    if(err) return cb(err);
+    return cb(null, documents);
+  });
 };
 
 // Return all available docs
 // ------------
 // 
 
-Document.get = function(id, cb) {
+Document.get = function(id, options, cb) {
   if (!id) {
     console.error('Document.get: no id provided');
     cb(new Error('no id provided'));
   }
-  knex('documents').where('id', id)
-    .asCallback(function(err, documents) {
+
+  var query = knex('documents').where('id', id);
+  
+  if(options.publishedOnly) {
+    query.whereNotNull('published_on');
+  }
+
+  query.asCallback(function(err, documents) {
       if(err) return cb(err);
-      
+
+      if(_.isEmpty(documents)){
+        return cb(new Error("Sorry, we didn't found anything interesting for you."));
+      }
+
       var docEntry = documents[0];
       var doc = deserializeDocument(docEntry);
       return cb(null, doc);
