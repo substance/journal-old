@@ -93,7 +93,10 @@ var deserializeDocument = function(docEntry) {
   doc.nodes.document.guid = docEntry.id;
 
   // Creator
-  doc.nodes.document.creator = docEntry.creator;
+  doc.nodes.document.creator = {
+    username: docEntry.creator,
+    name: docEntry.fullname
+  }
 
   // Doc Title
   doc.nodes.document.title = docEntry.title;
@@ -164,7 +167,9 @@ Document.create = function(doc, creator, cb) {
 
 Document.find = function(options, cb) {
 
-  var query = knex.select('id', 'title', 'abstract', 'creator', 'updated_at').table('documents');
+  var query = knex('documents')
+                .join('users', {'documents.creator': 'users.username'})
+                .select('documents.id', 'documents.title', 'documents.abstract', 'documents.creator', 'documents.updated_at', 'users.name as fullname');
   
   // Exclude all unpublished documents
   if(options.publishedOnly) {
@@ -173,14 +178,11 @@ Document.find = function(options, cb) {
 
   query.asCallback(function(err, documents) {
     _.each(documents, function(doc) {
-      doc.title = doc.title;
-      doc.updated_at = doc.updated_at;
-      doc.abstract = doc.abstract;
       doc.creator = {
         "username": doc.creator,
-        // TODO: extract full name of creator and provide here
-        "name": doc.creator
+        "name": doc.fullname
       };
+      delete doc.fullname;
     });
 
     if(err) return cb(err);
@@ -198,7 +200,10 @@ Document.get = function(id, options, cb) {
     cb(new Error('no id provided'));
   }
 
-  var query = knex('documents').where('id', id);
+  var query = knex('documents')
+                .join('users', {'documents.creator': 'users.username'})
+                .select('documents.id', 'documents.title', 'documents.abstract', 'documents.published_on', 'documents.created_at', 'documents.updated_at', 'documents.data', 'documents.creator', 'users.name as fullname')
+                .where('documents.id', id);
   
   if(options.publishedOnly) {
     query.whereNotNull('published_on');
@@ -212,6 +217,7 @@ Document.get = function(id, options, cb) {
       }
 
       var docEntry = documents[0];
+
       var doc = deserializeDocument(docEntry);
       return cb(null, doc);
     });
