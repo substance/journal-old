@@ -7,11 +7,7 @@ var sampleDoc = {
     "document": {
       "id": "document",
       "type": "document",
-      "title": "Test document",
-      "abstract": "I am an abstract. Yay!",
-      "created_at": "2015-03-04T10:56:18.229Z",
-      "updated_at": "2015-07-04T10:56:47.425Z",
-      "published_on": "2015-03-05T08:56:47.425Z"
+      "title": "Test document"
     },
     "content": {
       "type": "container",

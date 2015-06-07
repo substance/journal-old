@@ -1,9 +1,0 @@
-{
-  "database": {
-    "dialect": "sqlite3",
-    "connection": {
-      "filename": "./substance.sqlite"
-    }
-  },
-  "secret": "journal-secret"
-}
