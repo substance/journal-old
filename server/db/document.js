@@ -119,28 +119,29 @@ var deserializeDocument = function(docEntry) {
 };
 
 
+
 // Create document schema
 // ------------
 // 
 // Drops table if exists
 
-Document.createSchema = function(cb) {
-  knex.schema.dropTableIfExists('documents')
-    .createTable('documents', function(table) {
-      table.increments('id');
-      table.string('creator');
-      table.string('title');
-      table.string('abstract');
-      table.date('published_on');
-      table.timestamps();
-      table.json('data');
-    })
-    .then(function() {
-      console.log('done creating Document schema.');
-      cb(null);
-    })
-    .catch(cb);
-};
+// Document.createSchema = function(cb) {
+//   knex.schema.dropTableIfExists('documents')
+//     .createTable('documents', function(table) {
+//       table.increments('id');
+//       table.string('creator');
+//       table.string('title');
+//       table.string('abstract');
+//       table.date('published_on');
+//       table.timestamps();
+//       table.json('data');
+//     })
+//     .then(function() {
+//       console.log('done creating Document schema.');
+//       cb(null);
+//     })
+//     .catch(cb);
+// };
 
 // Create a new document
 // ------------
@@ -217,7 +218,6 @@ Document.get = function(id, options, cb) {
       }
 
       var docEntry = documents[0];
-
       var doc = deserializeDocument(docEntry);
       return cb(null, doc);
     });
@@ -232,6 +232,45 @@ Document.update = function(id, doc, username, cb) {
       if(err) return cb(err);
       return cb(null, id);
     });
+};
+
+
+// Update Comments
+// ------------
+// 
+// Uses Substance document change interface for describing updates
+// Here's an example for a comment creation
+
+// {
+//   "ops": [
+//     {
+//       "type": "create",
+//       "path": [
+//         "remark8cba793d331d085a3b0205ee1536c7ce"
+//       ],
+//       "val": {
+//         "id": "remark8cba793d331d085a3b0205ee1536c7ce",
+//         "type": "remark",
+//         "container": "content",
+//         "content": "",
+//         "startPath": [
+//           "paragraph_1",
+//           "content"
+//         ],
+//         "endPath": [
+//           "paragraph_1",
+//           "content"
+//         ],
+//         "startOffset": 286,
+//         "endOffset": 305
+//       }
+//     }
+//   ]
+// }
+
+
+Document.updateComments = function(id, doc, change, cb) {
+  // TODO: implement
 };
 
 Document.remove = function(id, user, cb) {
