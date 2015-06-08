@@ -1,23 +1,23 @@
-/* Remark component
+/* Comment component
 -----------------------------------------------------*/
 
-.resource-container .remark {
+.resource-container .comment {
   position: relative;
   padding: 20px;
   border-bottom: 1px solid #ddd;
   border-left: 2px solid transparent;
 }
 
-.resource-container .remark:hover {
+.resource-container .comment:hover {
   border-left: 2px solid rgba(0, 0, 0, 0.1);
 }
 
-.resource-container .remark.active {
+.resource-container .comment.active {
   background: white;
   border-left: 2px solid #aaa;
 }
 
-.resource-container .remark .remark-header {
+.resource-container .comment .comment-header {
   padding-bottom: 20px;
   cursor: pointer;
   overflow: hidden;
@@ -25,7 +25,7 @@
   padding-right: 40px;
 }
 
-.resource-container .remark .remark-header .delete-remark {
+.resource-container .comment .comment-header .delete-comment {
   display: block;
   position: absolute;
   color: #aaa;
@@ -33,22 +33,22 @@
   top: 10px;
 }
 
-.resource-container .remark .remark-header .delete-remark:hover {
+.resource-container .comment .comment-header .delete-comment:hover {
   color: #444;
 }
 
-.resource-container .remark .remark-title {
+.resource-container .comment .comment-title {
   font-size: 12px;
   background: rgba(0, 0, 0, 0.1);
   color: #444;
 }
 
-.resource-container .remark.active .remark-title {
+.resource-container .comment.active .comment-title {
   background: #aaa;
 }
 
 /* Scrollbar Highlighting */
-.scrollbar-component.remarks .highlight {
+.scrollbar-component.comments .highlight {
   background: #aaa;
 }
 
@@ -61,17 +61,17 @@
   float: right;
 }
 
-.content-tools-component .tools a.remark-tool-component {
+.content-tools-component .tools a.comment-tool-component {
   float: right;
 }
 
 /* Annotations */
 
-.container-annotation.remark.annotation-fragment {
+.container-annotation.comment.annotation-fragment {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.container-annotation.remark.annotation-fragment.active {
+.container-annotation.comment.annotation-fragment.active {
   background: #aaa;
   /*color: rgba(255,255,255,0.9);*/
 }
@@ -118,7 +118,6 @@
 /* Text Annotations
 -----------------------------------------------------*/
 
-
 .annotation.strong {
   font-weight: bold;
 }
@@ -126,8 +125,6 @@
 .annotation.emphasis {
   font-style: italic;
 }
-
-
 
 .content-tools-component .tools a.publish-tool-component {
   width: 120px;

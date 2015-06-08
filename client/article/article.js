@@ -29,8 +29,8 @@ schema.addNodes([
 var Article = function(data) {
   Document.call(this, schema, data);
 
-  this.remarksIndex = this.addIndex('remarksIndex', Substance.Data.Index.create({
-    type: "remark",
+  this.commentsIndex = this.addIndex('commentsIndex', Substance.Data.Index.create({
+    type: "comment",
     property: "id"
   }));
 };

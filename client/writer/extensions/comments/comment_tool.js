@@ -6,7 +6,7 @@ var $$ = React.createElement;
 
 var AnnotationToolMixin = require("substance-ui/annotation_tool_mixin");
 
-var RemarkToolMixin = _.extend({}, AnnotationToolMixin, {
+var CommentToolMixin = _.extend({}, AnnotationToolMixin, {
   getAnnotationData: function() {
     return {
       container: "content",
@@ -17,19 +17,19 @@ var RemarkToolMixin = _.extend({}, AnnotationToolMixin, {
   afterCreate: function(anno) {
     var app = this.context.app;
     app.replaceState({
-      contextId: "remarks",
-      remarkId: anno.id
+      contextId: "comments",
+      commentId: anno.id
     });
   }
 });
 
-var RemarkTool = React.createClass({
-  mixins: [RemarkToolMixin],
-  displayName: "RemarkTool",
-  title: "Remark",
-  annotationType: "remark",
+var CommentTool = React.createClass({
+  mixins: [CommentToolMixin],
+  displayName: "CommentTool",
+  title: "comment",
+  annotationType: "comment",
   toolIcon: "fa-comment",
 });
 
-module.exports = RemarkTool;
+module.exports = CommentTool;
 

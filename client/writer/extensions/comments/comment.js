@@ -2,19 +2,19 @@ var $$ = React.createElement;
 var TextProperty = require("substance-ui/text_property");
 var Substance = require("substance");
 
-// Remark
+// Comment
 // ----------------
 
-var Remark = React.createClass({
-  displayName: "Remark",
+var Comment = React.createClass({
+  displayName: "Comment",
 
   contextTypes: {
     app: React.PropTypes.object.isRequired
   },
   
   handleToggle: function(e) {
-    var app = this.context.app;;
-    var remarkId = this.props.remark.id;
+    var app = this.context.app;
+    var commentId = this.props.comment.id;
 
     e.preventDefault();
     e.stopPropagation();
@@ -24,14 +24,14 @@ var Remark = React.createClass({
       surface.setSelection(Substance.Document.Selection.nullSelection);  
     }
 
-    if (app.state.remarkId === remarkId) {
+    if (app.state.commentId === commentId) {
       app.replaceState({
-        contextId: "remarks"
+        contextId: "comments"
       });
     } else {
       app.replaceState({
-        contextId: "remarks",
-        remarkId: remarkId,
+        contextId: "comments",
+        commentId: commentId,
         noScroll: true
       });
     }
@@ -49,17 +49,17 @@ var Remark = React.createClass({
     app.doc.disconnect(this);
   },
 
-  handleDocumentChange: function(change, info) {
+  handleDocumentChange: function(change/*, info*/) {
     var app = this.context.app;
     var doc = app.doc;
-    var remark = doc.get(this.props.remark.id);
-    if (!remark) return;
+    var comment = doc.get(this.props.comment.id);
+    if (!comment) return;
 
-    // The following only reacts on changes to the remarks start and end
+    // The following only reacts on changes to the comments start and end
     // path, but not to changes to text in spanned nodes.
     // TODO: we need an event proxy here that better tells you that the covered
     // range has been affected (~ContainerAnnotation event proxy)
-    if (change.isAffected(remark.startPath) || change.isAffected(remark.endPath)) {
+    if (change.isAffected(comment.startPath) || change.isAffected(comment.endPath)) {
       this.forceUpdate();
     }
   },
@@ -71,11 +71,11 @@ var Remark = React.createClass({
     var tx = doc.startTransaction();
 
     try {
-      tx.delete(this.props.remark.id);
+      tx.delete(this.props.comment.id);
       tx.save();
       app.replaceState({
-        contextId: "remarks",
-        remarkId: null
+        contextId: "comments",
+        commentId: null
       });
     } finally {
       tx.cleanup();
@@ -83,19 +83,19 @@ var Remark = React.createClass({
   },
 
   render: function() {
-    var className = ["remark", this.props.type];
+    var className = ["comment", this.props.type];
     if (this.props.active) className.push("active");
     var app = this.context.app;
     var doc = app.doc;
-    // NOTE: having the remark as instance here is dangerous, as
+    // NOTE: having the comment as instance here is dangerous, as
     // it might have been removed from the document already.
     // TODO: don't store node instances in props
-    var remark = doc.get(this.props.remark.id);
+    var comment = doc.get(this.props.comment.id);
     var sourceText;
-    if (!remark) {
+    if (!comment) {
       sourceText = "N/A";
     } else {
-      sourceText = remark.getText();
+      sourceText = comment.getText();
     }
 
     // Shorten sourceText
@@ -103,12 +103,12 @@ var Remark = React.createClass({
       sourceText = sourceText.slice(0,130) + " ...";
     }
     
-    return $$("div", {className: className.join(" "), "data-id": remark.id},
-      $$('div', {contentEditable: false, className: 'remark-header', onMouseDown: this.handleToggle},
-        $$('a', {href: "#", className: 'remark-title'}, sourceText),
+    return $$("div", {className: className.join(" "), "data-id": comment.id},
+      $$('div', {contentEditable: false, className: 'comment-header', onMouseDown: this.handleToggle},
+        $$('a', {href: "#", className: 'comment-title'}, sourceText),
         $$('a', {
           href: "#",
-          className: 'delete-remark',
+          className: 'delete-comment',
           dangerouslySetInnerHTML: {__html: '<i class="fa fa-remove"></i>'},
           onClick: this.handleDelete
         })
@@ -117,11 +117,11 @@ var Remark = React.createClass({
       $$(TextProperty, {
         tagName: "div",
         doc: app.doc,
-        path: [this.props.remark.id, "content"]
+        path: [this.props.comment.id, "content"]
       })
     );
   }
 });
 
 
-module.exports = Remark;
+module.exports = Comment;

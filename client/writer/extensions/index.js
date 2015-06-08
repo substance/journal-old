@@ -1,8 +1,8 @@
 var BasicsExtension = require("./basics");
-var RemarksExtension = require("./remarks");
+var CommentsExtension = require("./comments");
 
 module.exports = [
   BasicsExtension,
-  RemarksExtension
+  CommentsExtension
 ];
 

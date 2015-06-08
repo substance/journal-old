@@ -56,9 +56,9 @@ var sampleDoc = {
       "content": 'Proin in luctus sapien, ultrices commodo augue. Phasellus ultrices commodo augue, in blandit nibh euismod nibh vitae erat luctus ac. Aliquam euismod nibh vitae erat pulvinar, at semper libero tincidunt. Nulla finibus est ac consequat consequat. Sed at condimentum purus. Aliquam vulputate ipsum ut justo posuere, quis varius risus finibus. Ut scelerisque laoreet vehicula. Nullam gravida fringilla justo, nec efficitur nunc sagittis et. Suspendisse nibh ligula, imperdiet id interdum et, sollicitudin non mauris. Suspendisse potenti. Suspendisse luctus iaculis nulla sed efficitur. Nullam sed viverra metus. Etiam dictum blandit enim tincidunt maximus. Nullam tempus nibh at varius interdum.'
     },
 
-    "remark_1": {
-      "id": "remark_1",
-      "type": "remark",
+    "comment_1": {
+      "id": "comment_1",
+      "type": "comment",
       "container": "content",
       "startPath": ["paragraph_1", "content"],
       "startOffset": 20,
@@ -67,9 +67,9 @@ var sampleDoc = {
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis scelerisque ligula. Proin tristique ligula id magna finibus rhoncus. Quisque dictum viverra sapien, vel elementum metus condimentum nec. Donec ac tellus nunc. Nullam fermentum pharetra justo, accumsan tristique quam tempus a. Quisque vitae luctus velit."
     },
 
-    "remark_2": {
-      "id": "remark_2",
-      "type": "remark",
+    "comment_2": {
+      "id": "comment_2",
+      "type": "comment",
       "container": "content",
       "startPath": ["paragraph_2", "content"],
       "startOffset": 300,

@@ -6,12 +6,12 @@ var _ = require("substance/helpers");
 var PanelMixin = require("substance-ui/panel_mixin");
 
 // Sub component
-var Remark = require("./remark");
+var Comment = require("./comment");
 
 // Subjects Panel extension
 // ----------------
 
-var RemarksPanelMixin = _.extend({}, PanelMixin, {
+var CommentsPanelMixin = _.extend({}, PanelMixin, {
 
   // State relevant things
   // ------------
@@ -36,17 +36,17 @@ var RemarksPanelMixin = _.extend({}, PanelMixin, {
 
     surface.connect(this, {
       'selection:changed': function(sel) {
-        var currentRemarkId;
-        if (this.props.activeRemark) {
-          currentRemarkId = this.props.activeRemark.id;
+        var currentCommentId;
+        if (this.props.activeComment) {
+          currentCommentId = this.props.activeComment.id;
         }
         
         if (!sel.getPath) return; // probably a null selection
-        var remarkId = sel.getPath()[0];
-        if (remarkId !== currentRemarkId) {
+        var commentId = sel.getPath()[0];
+        if (commentId !== currentCommentId) {
           app.replaceState({
-            contextId: "remarks",
-            remarkId: remarkId,
+            contextId: "comments",
+            commentId: commentId,
             noScroll: true
           });
           surface.rerenderDomSelection();          
@@ -55,13 +55,12 @@ var RemarksPanelMixin = _.extend({}, PanelMixin, {
     });
 
     this.surface = surface;
-
     return {};
   },
 
   componentDidMount: function() {
     var app = this.context.app;
-    app.registerSurface(this.surface, "remarks", {
+    app.registerSurface(this.surface, "comments", {
       enabledTools: ["strong", "emphasis"]
     });
     this.surface.attach(this.getDOMNode());
@@ -74,8 +73,8 @@ var RemarksPanelMixin = _.extend({}, PanelMixin, {
 
   updateScroll: function() {
     var app = this.context.app;
-    if (this.props.activeRemark && !app.state.noScroll) {
-      this.scrollToNode(this.props.activeRemark.id);
+    if (this.props.activeComment && !app.state.noScroll) {
+      this.scrollToNode(this.props.activeComment.id);
     }
   },
 
@@ -93,18 +92,18 @@ var RemarksPanelMixin = _.extend({}, PanelMixin, {
     var props = this.props;
     var self = this;
 
-    var remarkNodes = this.props.remarks.map(function(remark) {
-      return $$(Remark, {
-        remark: remark,
-        key: remark.id,
-        active: remark === props.activeRemark,
+    var commentNodes = this.props.comments.map(function(comment) {
+      return $$(Comment, {
+        comment: comment,
+        key: comment.id,
+        active: comment === props.activeComment,
       });
     });
 
-    return $$("div", {className: "panel remarks-panel-component", contentEditable: true, 'data-id': "remarks"},
+    return $$("div", {className: "panel comments-panel-component", contentEditable: true, 'data-id': "comments"},
       $$('div', {className: 'panel-content', ref: "panelContent"},
-        $$('div', {className: 'panel-content-inner remarks'},
-          remarkNodes
+        $$('div', {className: 'panel-content-inner comments'},
+          commentNodes
         )
       )
     );
@@ -112,15 +111,15 @@ var RemarksPanelMixin = _.extend({}, PanelMixin, {
 });
 
 
-var RemarksPanel = React.createClass({
-  mixins: [RemarksPanelMixin],
-  displayName: "Remarks",
+var CommentsPanel = React.createClass({
+  mixins: [CommentsPanelMixin],
+  displayName: "Comments",
 });
 
 // Panel Configuration
 // -----------------
 
-RemarksPanel.contextId = "remarks";
-RemarksPanel.icon = "fa-comment";
+CommentsPanel.contextId = "comments";
+CommentsPanel.icon = "fa-comment";
 
-module.exports = RemarksPanel;
+module.exports = CommentsPanel;

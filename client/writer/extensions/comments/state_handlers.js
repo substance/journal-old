@@ -1,4 +1,4 @@
-var RemarksPanel = require("./remarks_panel");
+var CommentsPanel = require("./comments_panel");
 var $$ = React.createElement;
 var Substance = require("substance");
 var _ = require("substance/helpers");
@@ -16,23 +16,46 @@ var stateHandlers = {
     var s = app.state;
     var doc = app.doc;
 
-    var remarks = _.map(doc.remarksIndex.get(), function(remark) {
-      return remark;
+    var comments = _.map(doc.commentsIndex.get(), function(comment) {
+      return comment;
     });
 
-    if (s.contextId === RemarksPanel.contextId) {
-      var activeRemark;
-      if (s.remarkId) {
-        activeRemark = doc.get(s.remarkId);
+    if (s.contextId === CommentsPanel.contextId) {
+      var activeComment;
+      if (s.commentId) {
+        activeComment = doc.get(s.commentId);
       }
 
-      return $$(RemarksPanel, {
-        remarks: remarks,
-        activeRemark: activeRemark
+      return $$(CommentsPanel, {
+        comments: comments,
+        activeComment: activeComment
       });
     }
   },
 
+  // Reader triggers this
+  handleAnnotationToggle: function(app, annotationId) {
+    var doc = app.doc;
+    var state = app.state;
+    var anno = doc.get(annotationId);
+
+    if (anno.type === "comment") {
+      if (app.state.commentId === anno.id) {
+        app.replaceState({
+          contextId: CommentsPanel.contextId
+        });
+      } else {
+        app.replaceState({
+          contextId: CommentsPanel.contextId,
+          commentId: anno.id
+        });
+
+      }
+    }
+    return true;
+  },
+
+  // Writer triggers this
   handleSelectionChange: function(app, sel, annotations) {
     if (sel.isNull() || !sel.isCollapsed()) return;
     
@@ -43,14 +66,14 @@ var stateHandlers = {
     var contentContainer = surface.getContainer();
 
     var annos = doc.getContainerAnnotationsForSelection(sel, contentContainer, {
-      type: "remark"
+      type: "comment"
     });
 
-    var activeRemark = annos[0];
-    if (activeRemark) {
+    var activeComment = annos[0];
+    if (activeComment) {
       app.replaceState({
-        contextId: RemarksPanel.contextId,
-        remarkId: activeRemark.id
+        contextId: CommentsPanel.contextId,
+        commentId: activeComment.id
       });
 
       return true;
@@ -70,8 +93,8 @@ var stateHandlers = {
     var state = app.state;
 
     // When a subject has been clicked in the subjects panel
-    if (state.contextId === "remarks" && state.remarkId) {
-      return [state.remarkId];
+    if (state.contextId === "comments" && state.commentId) {
+      return [state.commentId];
     }
   },
 
@@ -86,8 +109,8 @@ var stateHandlers = {
   getActiveContainerAnnotations: function(app) {
     var state = app.state;
     var doc = app.doc;
-    var remarks = Object.keys(doc.remarksIndex.get());      
-    return remarks;
+    var comments = Object.keys(doc.commentsIndex.get());      
+    return comments;
   }
 };
 

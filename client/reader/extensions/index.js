@@ -1,9 +1,9 @@
 var BasicsExtension = require("./basics");
-var RemarksExtension = require("./remarks");
+var CommentsExtension = require("../../writer/extensions/comments");
 
 module.exports = [
   BasicsExtension,
-  RemarksExtension
+  CommentsExtension
 ];
 
 
