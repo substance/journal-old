@@ -6,6 +6,8 @@ var _ = require("substance/helpers");
 var TextProperty = require("substance-ui/text_property");
 var DocumentTitle = require("./document_title");
 
+var ENABLED_TOOLS = ["comment"];
+
 // Container Node
 // ----------------
 //
@@ -92,6 +94,7 @@ var ContentContainer = React.createClass({
     });
 
     app.registerSurface(surface, "content", {
+      enabledTools: ENABLED_TOOLS
     });
     surface.attach(this.refs.documentContent.getDOMNode());
 

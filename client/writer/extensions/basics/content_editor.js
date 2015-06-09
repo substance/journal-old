@@ -6,7 +6,7 @@ var _ = require("substance/helpers");
 var TextProperty = require("substance-ui/text_property");
 var TitleEditor = require("./title_editor");
 
-var ENABLED_TOOLS = ["strong", "emphasis", "remark", "text"];
+var ENABLED_TOOLS = ["strong", "emphasis", "comment", "text"];
 
 
 // Container Node

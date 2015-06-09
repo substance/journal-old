@@ -87,6 +87,7 @@ var Comment = React.createClass({
     if (this.props.active) className.push("active");
     var app = this.context.app;
     var doc = app.doc;
+    
     // NOTE: having the comment as instance here is dangerous, as
     // it might have been removed from the document already.
     // TODO: don't store node instances in props
@@ -111,7 +112,11 @@ var Comment = React.createClass({
           className: 'delete-comment',
           dangerouslySetInnerHTML: {__html: '<i class="fa fa-remove"></i>'},
           onClick: this.handleDelete
-        })
+        }),
+        $$('div', {className: 'meta'}, 
+          $$('span', {className: 'creator'}, comment.creator_name),
+          $$('span', {className: 'created_at'}, new Date(comment.created_at).toString())
+        )
       ),
 
       $$(TextProperty, {

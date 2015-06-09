@@ -47,6 +47,13 @@ var App = React.createClass({
     app: React.PropTypes.object
   },
 
+  componentDidMount: function() {
+    backend.initialize(function(err) {
+      if (err) console.error(err);
+      this.forceUpdate();
+    }.bind(this));
+  },
+
   getChildContext: function() {
     return _.extend({
       app: this
@@ -54,11 +61,15 @@ var App = React.createClass({
   },
 
   render: function() {
-    return $$('div', {className: "app-component"},
-      $$(Reader, {
-        documentId: "1"
-      })
-    );
+    if (backend.initialized) {
+      return $$('div', {className: "app-component"},
+        $$(Reader, {
+          documentId: "1"
+        })
+      );
+    } else {
+      return $$('div', {className: "app-component"});
+    }
   }
 });
 
