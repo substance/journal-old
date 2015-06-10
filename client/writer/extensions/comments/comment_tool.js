@@ -37,7 +37,7 @@ var CommentToolMixin = _.extend({}, AnnotationToolMixin, {
 var CommentTool = React.createClass({
   mixins: [CommentToolMixin],
   displayName: "CommentTool",
-  title: "comment",
+  title: "Comment",
   annotationType: "comment",
   toolIcon: "fa-comment",
 });
