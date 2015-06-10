@@ -4,6 +4,7 @@
 .resource-container .comment {
   position: relative;
   padding: 20px;
+  font-size: 13px;
   border-bottom: 1px solid #ddd;
   border-left: 2px solid transparent;
 }
@@ -46,6 +47,15 @@
 .resource-container .comment.active .comment-title {
   background: #aaa;
 }
+
+
+/***********************/
+
+.resource-container .comment .reply {
+  margin-top: 20px;
+}
+
+/***********************/
 
 /* Scrollbar Highlighting */
 .scrollbar-component.comments .highlight {

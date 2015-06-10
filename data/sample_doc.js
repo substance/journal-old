@@ -68,7 +68,8 @@ var sampleDoc = {
       "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis scelerisque ligula. Proin tristique ligula id magna finibus rhoncus. Quisque dictum viverra sapien, vel elementum metus condimentum nec. Donec ac tellus nunc. Nullam fermentum pharetra justo, accumsan tristique quam tempus a. Quisque vitae luctus velit.",
       "creator": "michael",
       "creator_name": "Michael Aufreiter",
-      "created_at": "2015-06-07T15:15:18.407Z"
+      "created_at": "2015-06-07T15:15:18.407Z",
+      "replies": ["reply_1"]
     },
 
     "comment_2": {
@@ -82,6 +83,16 @@ var sampleDoc = {
       "content": "Pellentesque eget magna porta, rutrum odio et, commodo lacus. Sed vitae vehicula ante. Quisque suscipit iaculis est, vitae aliquet lacus dictum ut.",
       "creator": "oliver",
       "creator_name": "Oliver Buchtala",
+      "created_at": "2015-06-09T18:23:28.407Z",
+      "replies": []
+    },
+
+    "reply_1": {
+      "id": "reply_1",
+      "type": "reply",
+      "content": "You are absolutely right.",
+      "creator": "daniel",
+      "creator_name": "Daniel Beilinson",
       "created_at": "2015-06-09T18:23:28.407Z"
     },
 

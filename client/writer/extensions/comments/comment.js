@@ -1,6 +1,7 @@
 var $$ = React.createElement;
 var TextProperty = require("substance-ui/text_property");
 var Substance = require("substance");
+var _ = require("substance/helpers");
 
 // Comment
 // ----------------
@@ -103,6 +104,24 @@ var Comment = React.createClass({
     if (sourceText.length > 130) {
       sourceText = sourceText.slice(0,130) + " ...";
     }
+
+    // Collect replies
+    var replyEls = [];
+
+    _.each(comment.replies, function(replyId) {
+      var reply = doc.get(replyId);
+      replyEls.push($$('div', {className: 'reply', "data-id": reply.id},
+        $$('div', {className: 'reply-header', contentEditable: false},
+          $$('span', {className: 'creator'}, reply.creator_name),
+          $$('span', {className: 'created_at'}, new Date(reply.created_at).toString())
+        ),
+        $$(TextProperty, {
+          tagName: "div",
+          doc: doc,
+          path: [reply.id, "content"]
+        })
+      ));
+    }, this);
     
     return $$("div", {className: className.join(" "), "data-id": comment.id},
       $$('div', {contentEditable: false, className: 'comment-header', onMouseDown: this.handleToggle},
@@ -123,7 +142,10 @@ var Comment = React.createClass({
         tagName: "div",
         doc: app.doc,
         path: [this.props.comment.id, "content"]
-      })
+      }),
+
+      $$('div', {className: 'replies'}, replyEls)
+
     );
   }
 });

@@ -12,8 +12,8 @@ var Paragraph = require("./nodes/paragraph");
 var Heading = require("./nodes/heading");
 var Emphasis = require("./nodes/emphasis");
 var Strong = require("./nodes/strong");
-var Remark = require("./nodes/remark");
 var Comment = require("./nodes/comment");
+var Reply = require("./nodes/reply");
 
 var schema = new Document.Schema("substance-article", "1.0.0");
 schema.addNodes([
@@ -22,8 +22,8 @@ schema.addNodes([
   Heading,
   Emphasis,
   Strong,
-  Remark,
-  Comment
+  Comment,
+  Reply
 ]);
 
 var Article = function(data) {

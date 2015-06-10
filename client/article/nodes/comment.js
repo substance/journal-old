@@ -6,7 +6,12 @@ var Comment = ContainerAnnotation.extend({
     "content": "string",
     "creator": "string",
     "creator_name": "string",
-    "created_at": "date"
+    "created_at": "date",
+    "replies": []
+  },
+
+  getReplies: function() {
+    
   }
 });
 

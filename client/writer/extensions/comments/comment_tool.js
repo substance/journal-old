@@ -19,10 +19,11 @@ var CommentToolMixin = _.extend({}, AnnotationToolMixin, {
     return {
       container: "content",
       created_at: new Date().toJSON(),
-      creator: userInfo.username,
-      creator_name: userInfo.name,
-      content: ""
-    }
+      creator: userInfo ? userInfo.username : null,
+      creator_name: userInfo ? userInfo.name : "Anonymous",
+      content: "Enter comment",
+      replies: []
+    };
   },
   disabledModes: ["remove", "fusion"],
   afterCreate: function(anno) {
