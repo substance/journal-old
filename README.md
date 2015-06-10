@@ -38,7 +38,7 @@ Open `http://localhost:5000` in your browser to see the journa's front end.
 
 In order to edit and create articles navigate to `http://localhost:5000/substance`.
 
-Login with the user `admin` and password `1234`.
+Login with the user `admin` and password `123456`.
 
 # Features
 
@@ -64,10 +64,13 @@ For example: there are 20 different substance journals hosted by different peopl
 
 ## Roadmap
 
+This roadmap is not final, and may change.
+
 ### 0.1.0
 
 - Basic editing (text, headings)
-- Remarks (make Notes during editing)
+- Comments (for editors and readers)
+  - Readers authenticate via Twitter
 - User management
   - no public signup
   - new users are created from the control panel
@@ -80,14 +83,13 @@ For example: there are 20 different substance journals hosted by different peopl
 
 - Support for Images
 - Control about publishing changes (See Issue #2)
-
+- Invite collaborators via email
+- More fine grained permisison system
 
 ### 0.3.0
 
-- Reader comments (how do they authenticate? maybe it makes sense to user twitter/facebook auth here)
-- Full Text Search on text fragment level using Elastic Search or Lunr.js (https://github.com/olivernn/lunr.js)
+- Full Text Search on text fragment level using Elastic Search
 - Integration of [Lens Browser](https://medium.com/@_mql/self-host-a-scientific-journal-with-elife-lens-f420afb678aa) interface
-- Commenting requires additional user interface, and works best in a two-column mode, so we probably will show a collaborate button to switch from reading to collaborating mode.
 
 ### 0.4.0
 
