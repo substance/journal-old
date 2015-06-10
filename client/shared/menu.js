@@ -1,10 +1,10 @@
 var $$ = React.createElement;
 var _ = require("substance/helpers");
 
+
 var menuItems = [
-  {"name": "dashboard", "label": "Dashboard"},
-  {"name": "admin", "label": "Admin"}
-  // {"name": "writer", "label": "Example Document"}
+  {"name": "dashboard", "label": "Articles", "icon": "files-o"},
+  {"name": "admin", "label": "Admin", "icon": "cog"}
 ];
 
 // The Menu
@@ -32,7 +32,7 @@ var Menu = React.createClass({
     var username = this.refs.username.getDOMNode().value;
     var password = this.refs.password.getDOMNode().value;
 
-    backend.authenticate(username, password, function(err, session) {
+    backend.authenticate(username, password, function(err) {
       if (err) {
         alert('Login failed. Please try again');
         return;
@@ -50,7 +50,7 @@ var Menu = React.createClass({
     backend.createDocument(function(err, documentRecord) {
       app.replaceState({
         context: "writer",
-        documentId: documentRecord.id
+        documentId: documentRecord.id+""
       });
     });
   },
@@ -83,17 +83,13 @@ var Menu = React.createClass({
         $$('div', null, user.name || user.email)
       ),
       $$('div', {className: "user-actions"},
-        $$('a', {
-          href: "#",
-          className: "user-action",
-          onClick: this.handleNewDocument,
-          dangerouslySetInnerHTML: {__html: '<i class="fa fa-file-text-o"></i> New document'}
-        }),
+
         $$('a', {
           href: "#",
           className: "user-action",
           onClick: this.handleLogout,
-          dangerouslySetInnerHTML: {__html: '<i class="fa fa-power-off"></i> Logout'}
+          dangerouslySetInnerHTML: {__html: '<i class="fa fa-power-off"></i>'},
+          title: "Logout"
         })
       )
     );
@@ -110,17 +106,40 @@ var Menu = React.createClass({
   },
 
   render: function() {
+
+    var menuItemEls = [];
+
+    menuItemEls.push($$('a', {
+      className: "app-context",
+      key: "journal",
+      href: "/",
+      target: "_blank",
+      title: "Visit the journal",
+      dangerouslySetInnerHTML: {__html: '<i class="fa fa-align-left"></i>'}
+    }));
+
+    _.each(menuItems, function(menuItem) {
+      menuItemEls.push($$('a', {
+        className: "app-context"+(this.props.context === menuItem.name ? " active" : ""),
+        "data-id": menuItem.name,
+        key: menuItem.name,
+        href: "#",
+        onClick: this.handleMenuSelection,
+        dangerouslySetInnerHTML: {__html: '<i class="fa fa-'+menuItem.icon+'"></i> ' + menuItem.label}
+      }));
+    }, this);
+
+    menuItemEls.push($$('a', {
+      className: "app-context",
+      key: "new",
+      href: "#",
+      onClick: this.handleNewDocument,
+      dangerouslySetInnerHTML: {__html: '<i class="fa fa-plus"></i> New article'}
+    }));
+
     return $$("div", {className: "menu-component"},
       $$('div', {className: "app-contexts"},
-        _.map(menuItems, function(menuItem) {
-          return $$('a', {
-            className: "app-context"+(this.props.context === menuItem.name ? " active" : ""),
-            "data-id": menuItem.name,
-            key: menuItem.name,
-            href: "#",
-            onClick: this.handleMenuSelection
-          }, menuItem.label);
-        }, this)
+        menuItemEls
       ),
       this.getLoginInfo()
     );

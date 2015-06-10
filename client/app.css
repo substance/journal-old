@@ -105,7 +105,6 @@ a:hover {
   padding-bottom: 20px;
 }
 
-
 /* App Context
 ---------------------------------
 */
@@ -116,9 +115,8 @@ a:hover {
   right: 0px;
   overflow: hidden;
   bottom: 0px;
-  top: 30px;
+  top: 40px;
 }
-
 
 /* Menu
 ---------------------------------
@@ -126,13 +124,21 @@ a:hover {
 
 .menu-component {
   background: #333;
-  height: 30px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.menu-component .app-contexts {
+  overflow: auto;
+  float: left;
 }
 
 .menu-component .app-contexts .app-context {
   display: block;
   float: left;
-  line-height: 30px;
+  line-height: 40px;
+  font-size: 12px;
+  font-weight: 600;
   padding: 0px 10px;
   color: #aaa;
 }
@@ -153,14 +159,16 @@ a:hover {
 }
 
 .user-status-component .user-info {
-  line-height: 30px;
+  line-height: 40px;
   color: #999;
-  padding-right: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  padding-right: 0px;
   float: left;
 }
 
 .user-status-component .user-actions {
-  line-height: 30px;
+  line-height: 40px;
   float: left;
 }
 
@@ -169,7 +177,7 @@ a:hover {
   font-weight: 600;
   color: #aaa;
   display: block;
-  padding: 0 10px;
+  padding: 0 20px;
   float: left;
 }
 
