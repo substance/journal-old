@@ -34,7 +34,6 @@ app.use('/api', api);
 app.use(function (err, req, res, next) {
 
   // send 401 error if token is invalid
-
   if (err.name === 'UnauthorizedError') {
     res.status(401).json({
       message: 'Invalid token.'
@@ -121,10 +120,9 @@ app.route('/:doc')
   .get(function(req, res, next) {
     res.render('reader_app', {
       user: req.user,
-      documentId: "1" // req.params.doc
+      documentId: req.params.doc
     });
   });
-
 
 app.listen(port, function(){
   console.log("Lens running on port " + port);

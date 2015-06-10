@@ -64,7 +64,7 @@ var App = React.createClass({
     if (backend.initialized) {
       return $$('div', {className: "app-component"},
         $$(Reader, {
-          documentId: "1"
+          documentId: this.props.documentId
         })
       );
     } else {
