@@ -105,6 +105,20 @@ var JournalWriter = React.createClass({
     }.bind(this));
   },
 
+  componentWillReceiveProps: function() {
+    var backend = this.context.backend;
+
+    this.setState({
+      doc: null
+    });
+
+    backend.getDocument(this.props.documentId || "example_document", function(err, doc) {
+      this.setState({
+        doc: doc
+      });
+    }.bind(this));
+  },
+
   getInitialState: function() {
     return {
       doc: null
@@ -121,7 +135,7 @@ var JournalWriter = React.createClass({
         id: "writer"
       });
     } else {
-      return $$('div', null, 'Loading document...');
+      return $$('div', null, '');
     }
   }
 });
