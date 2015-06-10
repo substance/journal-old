@@ -6,7 +6,7 @@ var stateHandlers = require("./state_handlers");
 var ContentContainer = require("./content_container");
 var Heading = require("./heading");
 var Paragraph = require("./paragraph");
-
+var SaveTool = require("substance-ui/writer/tools/save_tool");
 
 // Panels
 var TOCPanel = require("substance-ui/toc_panel");
@@ -22,5 +22,7 @@ module.exports = {
     TOCPanel
   ],
   stateHandlers: stateHandlers,
-  tools: []
+  tools: [
+    SaveTool
+  ]
 };
