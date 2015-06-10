@@ -60,6 +60,9 @@ blockquote, q {
 ---------------------------------
 */
 
+/* Uncomment for layout troubleshooting */
+/** { box-shadow: 0 0 0 1px pink; }*/
+
 html {
   -webkit-font-smoothing: antialiased;
 }
@@ -143,7 +146,7 @@ a:hover {
   color: #aaa;
 }
 
-.menu-component .app-contexts .app-context.active:hover {
+.menu-component .app-contexts .app-context:hover {
   color: #fff;
 }
 
@@ -365,16 +368,6 @@ a.save-user-button:hover {
 
 /* Forms (used by admin panel)
 --------------------------------- */
-
-/*<div class="form-group">
-  <div class="label">
-    Journal name
-  </div>
-  <input type="text" name="foo"/>
-  <p>
-    The name of your journal. Will be displayed on the landing page
-  </p>
-</div>*/
 
 .form-group {
   padding-bottom: 10px;
