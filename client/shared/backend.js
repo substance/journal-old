@@ -73,12 +73,12 @@ Backend.Prototype = function() {
   // ------------------
 
   // Get journal settings
-  this.getSettings = function() {
+  this.getSettings = function(cb) {
     this._request('GET', '/api/settings', null, cb);
   };
 
-  this.updateSettings = function() {
-    this._request('PUT', '/api/settings', null, cb);
+  this.updateSettings = function(newSettings, cb) {
+    this._request('PUT', '/api/settings', newSettings, cb);
   };
 
 

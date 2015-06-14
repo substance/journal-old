@@ -16,6 +16,24 @@ var JournalAdmin = React.createClass({
     return {};
   },
 
+  componentDidMount: function() {
+    var backend = this.context.backend;
+
+    if (backend.isAuthenticated()) {
+      backend.getSettings(function(err, settings) {
+        if (err) {
+          return console.error(err);
+        }
+
+        console.log('Loaded (settings): ', settings);
+
+        this.setState({
+          settings: settings
+        });
+      }.bind(this));
+    }
+  },
+
   // handleCreateUser: function(e) {
   //   e.preventDefault();
   //   var backend = this.context.backend;
@@ -43,9 +61,9 @@ var JournalAdmin = React.createClass({
 
     return $$('div', {className: 'edit-user-component'},
       $$('div', {className: 'form-group'},
-        $$('div', {className: 'label'}, "Username"),
-        $$('input', {ref: 'username', type: 'text'}),
-        $$('p', {className: 'description'}, "System username")
+        $$('div', {className: 'label'}, "Journal Name"),
+        $$('input', {ref: 'journalName', type: 'text'}),
+        $$('p', {className: 'description'}, "Journal Name. Appears on the front page")
       ),
       $$('div', {className: 'form-group'},
         $$('div', {className: 'label'}, "Email"),
@@ -62,7 +80,7 @@ var JournalAdmin = React.createClass({
         $$('input', {type: 'password'})
       ),
       $$('div', {className: 'form-group'},
-        $$('a', {onClick: this.handleCreateUser, href: '#', className: 'create-user-button'}, "Create user")
+        $$('a', {onClick: this.handleUpdateSettings, href: '#', className: 'create-user-button'}, "Create user")
       )
     );
   }

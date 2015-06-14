@@ -28,8 +28,7 @@ var Admin = React.createClass({
 
   getInitialState: function() {
     return {
-      contextId: "addUser"
-      // username: "admin"
+      contextId: "journal"
     };
   },
 

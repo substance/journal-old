@@ -90,12 +90,16 @@ if (process.env.NODE_ENV !== "production") {
 // Expose the backend app
 // --------------
 
-// Render app start page
-
 app.route('/substance')
   .get(function(req, res, next) {
     res.render('app', {user: req.user});
   });
+
+app.route('/admin')
+  .get(function(req, res, next) {
+    res.redirect('/substance');    
+  });
+
 
 
 // Expose the frontend
