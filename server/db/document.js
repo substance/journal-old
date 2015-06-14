@@ -120,29 +120,6 @@ var deserializeDocument = function(docEntry) {
 
 
 
-// Create document schema
-// ------------
-// 
-// Drops table if exists
-
-// Document.createSchema = function(cb) {
-//   knex.schema.dropTableIfExists('documents')
-//     .createTable('documents', function(table) {
-//       table.increments('id');
-//       table.string('creator');
-//       table.string('title');
-//       table.string('abstract');
-//       table.date('published_on');
-//       table.timestamps();
-//       table.json('data');
-//     })
-//     .then(function() {
-//       console.log('done creating Document schema.');
-//       cb(null);
-//     })
-//     .catch(cb);
-// };
-
 // Create a new document
 // ------------
 // 
