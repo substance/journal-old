@@ -68,6 +68,20 @@ Backend.Prototype = function() {
     }.bind(this));
   };
 
+
+  // Settings
+  // ------------------
+
+  // Get journal settings
+  this.getSettings = function() {
+    this._request('GET', '/api/settings', null, cb);
+  };
+
+  this.updateSettings = function() {
+    this._request('PUT', '/api/settings', null, cb);
+  };
+
+
   // Document
   // ------------------
 

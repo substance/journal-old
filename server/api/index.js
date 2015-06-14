@@ -1,5 +1,6 @@
 var user = require('./user'),
 	document = require('./document'),
+  settings = require('./settings'),
 	util = require('./util'),
 	_ = require('lodash'),
 	express = require('express'),
@@ -7,7 +8,8 @@ var user = require('./user'),
 
 var apis = [
 	document,
-	user
+	user,
+  settings
 ];
 
 APIrouter.util = util;
