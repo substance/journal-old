@@ -1,14 +1,14 @@
-  {
+{
   "modules": [
     {
       "repository": "https://github.com/substance/substance.git",
       "folder": "node_modules/substance",
-      "branch": "master"
+      "branch": "3f5b979c2a19d15cccc85d3e2a17abe6431a6332"
     },
     {
       "repository": "https://github.com/substance/ui.git",
       "folder": "node_modules/substance-ui",
-      "branch": "master"
+      "branch": "5d24ab3371fea52ecb5e7adbfe6ae07ca05dadab"
     }
   ]
 }
